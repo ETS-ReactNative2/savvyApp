@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Feather'
 import CheckBox from 'react-native-check-box'
 import { theme } from '../../styles/ThemeColor'
 
-export class EnterPassword extends Component {
+export class CreatePassword extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -25,6 +25,9 @@ export class EnterPassword extends Component {
       showPassword: !this.state.showPassword,
     })
   }
+  gotoEnterName() {
+    this.props.navigation.navigate('enter-name')
+  }
   goBack() {
     this.props.navigation.goBack()
   }
@@ -36,7 +39,7 @@ export class EnterPassword extends Component {
           <TouchableOpacity onPress={() => this.goBack()}>
             <Icon name="arrow-left" size={24} />
           </TouchableOpacity>
-          <Text ml="10px">shafanaura48@gmail.com</Text>
+          <Text ml="10px">082254632185</Text>
         </Row>
         <Text bold size="24px">
           Enter Password
@@ -55,13 +58,13 @@ export class EnterPassword extends Component {
           isChecked={this.state.isChecked}
           rightText={'Show Password'}
         />
-        <TouchableOpacity>
-          <Text primary mt="10px">
-            Forgot password?
-          </Text>
-        </TouchableOpacity>
         <Row justify="flex-end" mt="40px">
-          <Button title="Sign in" textColor="white" ml="5px" />
+          <Button
+            title="Next"
+            textColor="white"
+            ml="5px"
+            onPress={() => this.gotoEnterName()}
+          />
         </Row>
       </Container>
     )
@@ -76,4 +79,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default EnterPassword
+export default CreatePassword

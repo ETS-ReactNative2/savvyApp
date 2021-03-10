@@ -6,6 +6,9 @@ import Login from '../screens/Login'
 import HeaderAuth from '../components/HeaderAuth'
 import Register from '../screens/Register'
 import EnterPassword from '../screens/Login/EnterPassword'
+import EnterEmail from '../screens/Register/EnterEmail'
+import CreatePassword from '../screens/Register/CreatePassword'
+import EnterName from '../screens/Register/EnterName'
 
 const Stack = createStackNavigator()
 
@@ -33,6 +36,27 @@ export class AppNavigator extends Component {
           <Stack.Screen
             name="register"
             component={Register}
+            options={{
+              header: () => <HeaderAuth />,
+            }}
+          />
+          <Stack.Screen
+            name="enter-email"
+            component={EnterEmail}
+            options={{
+              header: () => <HeaderAuth />,
+            }}
+          />
+          <Stack.Screen
+            name="create-password"
+            component={CreatePassword}
+            options={{
+              header: () => <HeaderAuth />,
+            }}
+          />
+          <Stack.Screen
+            name="enter-name"
+            component={EnterName}
             options={{
               header: () => <HeaderAuth />,
             }}

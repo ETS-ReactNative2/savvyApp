@@ -8,34 +8,43 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Container, Row } from '../../styles/ComponentStyle'
 import Logo from '../../assets/images/logos/microsoft-logo.png'
 
-export class Login extends Component {
-  gotoEnterPassword() {
-    this.props.navigation.navigate('enter-password')
+export class Register extends Component {
+  gotoCreatePassword() {
+    this.props.navigation.navigate('create-password')
   }
-  gotoRegister() {
-    this.props.navigation.navigate('register')
+  gotoEnterEmail() {
+    this.props.navigation.navigate('enter-email')
+  }
+  goBack() {
+    this.props.navigation.goBack()
   }
   render() {
     return (
       <Container>
         <Image source={Logo} style={styles.logo} />
         <Text bold size="24px">
-          Sign in
+          Create account
         </Text>
-        <Text body>to continue to Skype</Text>
-        <FormInput placeholder="Skype, phone, or email" mt="10px" mb="15px" />
-        <Row>
-          <Text>No Account?</Text>
-          <TouchableOpacity onPress={() => this.gotoRegister()}>
-            <Text primary> Create one!</Text>
-          </TouchableOpacity>
-        </Row>
+        <FormInput
+          placeholder="Phone number"
+          mt="10px"
+          mb="15px"
+          keyboardType="number-pad"
+        />
+        <TouchableOpacity onPress={() => this.gotoEnterEmail()}>
+          <Text primary>Use your email instead</Text>
+        </TouchableOpacity>
         <Row justify="flex-end" mt="40px">
+          <Button
+            title="Back"
+            variant="secondary"
+            onPress={() => this.goBack()}
+          />
           <Button
             title="Next"
             textColor="white"
             ml="5px"
-            onPress={() => this.gotoEnterPassword()}
+            onPress={() => this.gotoCreatePassword()}
           />
         </Row>
       </Container>
@@ -51,4 +60,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Login
+export default Register
