@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.View`
-  padding: 20px;
+  padding: ${(props) => props.p || '20px'};
   background-color: white;
   flex: 1;
 `

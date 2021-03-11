@@ -12,10 +12,7 @@ export class HomeScreen extends Component {
     return (
       <Container>
         <Row mb="10px">
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('profile-screen')}>
-            <Image source={avatar} style={styles.img} />
-          </TouchableOpacity>
+          <Image source={avatar} style={styles.img} />
           <RowChat>
             <View>
               <Text size="20px" mb="3px">

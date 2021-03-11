@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Login from '../screens/Login'
@@ -10,9 +9,7 @@ import CreatePassword from '../screens/Register/CreatePassword'
 import EnterName from '../screens/Register/EnterName'
 import TabNavigator from './TabNavigator'
 import ProfileScreen from '../screens/Profile'
-import HeaderHome from '../components/Header/HeaderHome'
-import HeaderAuth from '../components/Header/HeaderAuth'
-import HeaderProfile from '../components/Header/HeaderProfile'
+import { HeaderProfile, HeaderHome, HeaderAuth } from '../components/Header'
 
 const Stack = createStackNavigator()
 
@@ -66,19 +63,21 @@ export class AppNavigator extends Component {
             }}
           /> */}
           {/* Home Screen */}
-          <Stack.Screen
+          {/* <Stack.Screen
             name="tab-navigator"
             component={TabNavigator}
             options={{
               header: () => <HeaderHome />,
             }}
-          />
+          /> */}
           {/* Profile Screen */}
           <Stack.Screen
-            name="profile-screen"
+            name="profileScreen"
             component={ProfileScreen}
             options={{
-              header: () => <HeaderProfile />,
+              header: () => (
+                <HeaderProfile navigation={this.props.navigation} />
+              ),
             }}
           />
         </Stack.Navigator>

@@ -4,13 +4,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import styled from 'styled-components'
 import { Row } from '../styles/ComponentStyle'
 import { theme } from '../styles/ThemeColor'
+import { Text } from '../styles/Typography'
 
-const TextPlace = () => {
+const TextPlace = (props) => {
   return (
     <Container>
       <Row align="center" justify="space-between">
-        <Icon name={props.icon} size={25} />
-        <Text>{props.title}</Text>
+        <Icon name={props.icon} size={30} />
         {props.children}
       </Row>
     </Container>

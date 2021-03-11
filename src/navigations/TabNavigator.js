@@ -4,13 +4,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import HomeScreen from '../screens/Home'
 import ContactScreen from '../screens/Home/ContactScreen'
 import CallsScreen from '../screens/Home/CallsScreen'
-import { theme } from '../styles/ThemeColor'
-import ProfileScreen from '../screens/Profile'
-import HeaderHome from '../components/Header/HeaderHome'
 
 const Tab = createBottomTabNavigator()
 
-const AppNavigator = (props) => {
+const AppNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
