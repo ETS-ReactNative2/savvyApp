@@ -10,6 +10,7 @@ import EnterEmail from '../screens/Register/EnterEmail'
 import CreatePassword from '../screens/Register/CreatePassword'
 import EnterName from '../screens/Register/EnterName'
 import TabNavigator from './TabNavigator'
+import HeaderHome from '../components/HeaderHome'
 
 const Stack = createStackNavigator()
 
@@ -66,7 +67,9 @@ export class AppNavigator extends Component {
           <Stack.Screen
             name="tab-navigator"
             component={TabNavigator}
-            options={{ headerShown: false }}
+            options={{
+              header: () => <HeaderHome />,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
