@@ -28,6 +28,9 @@ export class EnterPassword extends Component {
   goBack() {
     this.props.navigation.goBack()
   }
+  gotoHome() {
+    this.props.navigation.navigate('tab-navigator')
+  }
   render() {
     return (
       <Container>
@@ -61,7 +64,12 @@ export class EnterPassword extends Component {
           </Text>
         </TouchableOpacity>
         <Row justify="flex-end" mt="40px">
-          <Button title="Sign in" textColor="white" ml="5px" />
+          <Button
+            title="Sign in"
+            textColor="white"
+            ml="5px"
+            onPress={() => this.gotoHome()}
+          />
         </Row>
       </Container>
     )

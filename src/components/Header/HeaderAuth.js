@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 import styled from 'styled-components'
-import Logo from '../assets/images/logos/skype-logo.png'
+import Logo from '../../assets/images/logos/skype-logo.png'
 
 const HeaderAuth = () => {
   return (

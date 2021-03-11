@@ -3,14 +3,16 @@ import { Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Login from '../screens/Login'
-import HeaderAuth from '../components/HeaderAuth'
 import Register from '../screens/Register'
 import EnterPassword from '../screens/Login/EnterPassword'
 import EnterEmail from '../screens/Register/EnterEmail'
 import CreatePassword from '../screens/Register/CreatePassword'
 import EnterName from '../screens/Register/EnterName'
 import TabNavigator from './TabNavigator'
-import HeaderHome from '../components/HeaderHome'
+import ProfileScreen from '../screens/Profile'
+import HeaderHome from '../components/Header/HeaderHome'
+import HeaderAuth from '../components/Header/HeaderAuth'
+import HeaderProfile from '../components/Header/HeaderProfile'
 
 const Stack = createStackNavigator()
 
@@ -69,6 +71,14 @@ export class AppNavigator extends Component {
             component={TabNavigator}
             options={{
               header: () => <HeaderHome />,
+            }}
+          />
+          {/* Profile Screen */}
+          <Stack.Screen
+            name="profile-screen"
+            component={ProfileScreen}
+            options={{
+              header: () => <HeaderProfile />,
             }}
           />
         </Stack.Navigator>

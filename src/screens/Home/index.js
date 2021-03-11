@@ -5,13 +5,17 @@ import { Text } from '../../styles/Typography'
 import styled from 'styled-components'
 import { theme } from '../../styles/ThemeColor'
 import { Row } from '../../styles/ComponentStyle'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export class HomeScreen extends Component {
   render() {
     return (
       <Container>
         <Row mb="10px">
-          <Image source={avatar} style={styles.img} />
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('profile-screen')}>
+            <Image source={avatar} style={styles.img} />
+          </TouchableOpacity>
           <RowChat>
             <View>
               <Text size="20px" mb="3px">
