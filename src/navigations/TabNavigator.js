@@ -17,7 +17,7 @@ const TabNavigator = () => {
       }}>
       <Tab.Screen
         name="home"
-        component={CallsScreen}
+        component={HomeScreen}
         options={{
           tabBarLabel: 'Chats',
           tabBarIcon: ({ color, size }) => (
@@ -27,7 +27,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="calls-screen"
-        component={HomeScreen}
+        component={CallsScreen}
         options={{
           tabBarLabel: 'Calls',
           tabBarIcon: ({ color, size }) => (

@@ -13,4 +13,5 @@ export const Row = styled.View`
   margin: ${(props) => props.m || '0'};
   margin-top: ${(props) => props.mt || '0'};
   margin-bottom: ${(props) => props.mb || '0'};
+  margin-left: ${(props) => props.ml || '0'};
 `

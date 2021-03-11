@@ -32,8 +32,8 @@ const Container = styled.View`
 `
 const styles = StyleSheet.create({
   img: {
-    height: 55,
-    width: 55,
+    height: 50,
+    width: 50,
     borderRadius: 100,
   },
   icon: {
