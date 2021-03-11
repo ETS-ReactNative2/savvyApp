@@ -9,6 +9,7 @@ import EnterPassword from '../screens/Login/EnterPassword'
 import EnterEmail from '../screens/Register/EnterEmail'
 import CreatePassword from '../screens/Register/CreatePassword'
 import EnterName from '../screens/Register/EnterName'
+import TabNavigator from './TabNavigator'
 
 const Stack = createStackNavigator()
 
@@ -18,7 +19,7 @@ export class AppNavigator extends Component {
       <NavigationContainer>
         <Stack.Navigator>
           {/* Login screen */}
-          <Stack.Screen
+          {/* <Stack.Screen
             name="login"
             component={Login}
             options={{
@@ -31,9 +32,9 @@ export class AppNavigator extends Component {
             options={{
               header: () => <HeaderAuth />,
             }}
-          />
+          /> */}
           {/* Register Screen */}
-          <Stack.Screen
+          {/* <Stack.Screen
             name="register"
             component={Register}
             options={{
@@ -60,6 +61,12 @@ export class AppNavigator extends Component {
             options={{
               header: () => <HeaderAuth />,
             }}
+          /> */}
+          {/* Home Screen */}
+          <Stack.Screen
+            name="tab-navigator"
+            component={TabNavigator}
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
