@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import IconMaterial from 'react-native-vector-icons/MaterialIcons'
 import IconFeather from 'react-native-vector-icons/Feather'
@@ -23,7 +23,10 @@ export const WrapperManage = (props) => {
               {props.title}
             </Text>
           </Row>
-          <Text label>{props.desc}</Text>
+          <TextInputProfile
+            placeholder={props.placeholder}
+            defaultValue={props.defaultValue}
+          />
         </Row>
       </Wrapper>
     </TouchableOpacity>
@@ -33,12 +36,11 @@ export const WrapperManage = (props) => {
 export class ManageProfile extends Component {
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <LinearGradient
-          style={styles.linearGradient}
-          colors={['#0279D5', '#02BBF3']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}>
+      <LinearGradient
+        colors={['#0279D5', '#02BBF3']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}>
+        <ScrollView style={{}}>
           <View style={{ padding: 10 }}>
             <TouchableOpacity>
               <IconMaterial name="west" color="white" size={30} />
@@ -49,7 +51,10 @@ export class ManageProfile extends Component {
           </Row>
           <Container p="10px" style={{ marginTop: -20 }}>
             <Row align="center" justify="center" mt="10px">
-              <TextInput placeholder="Your Name" defaultValue="Shafa Naura" />
+              <TextInputName
+                placeholder="Your Name"
+                defaultValue="Shafa Naura"
+              />
               <IconFeather name="edit-2" size={25} color={theme.placeholder} />
             </Row>
             <WrapperManage title="Share profile">
@@ -59,11 +64,19 @@ export class ManageProfile extends Component {
             <Text mt="20px" bold label size="12px">
               PROFILE
             </Text>
-            <WrapperManage title="Skype Name" desc="live:cid:6484894fawf48">
+            <WrapperManage
+              title="Skype Name"
+              defaultValue="live:cid:6484894fawf48">
               <IconAnt name="contacts" size={25} />
             </WrapperManage>
-            <WrapperManage title="Email" desc="shafanaiura48@gmail.com">
+            <WrapperManage
+              title="Email"
+              placeholder="Enter your e-mail"
+              defaultValue="shafanaura48@gmail.com">
               <IconFeather name="mail" size={25} />
+            </WrapperManage>
+            <WrapperManage title="Birthday" placeholder="Add birthday">
+              <IconFeather name="gift" size={25} />
             </WrapperManage>
             {/* Other */}
             <Text mt="20px" bold label size="12px">
@@ -76,8 +89,8 @@ export class ManageProfile extends Component {
               <IconFeather name="alert-circle" size={25} />
             </WrapperManage>
           </Container>
-        </LinearGradient>
-      </View>
+        </ScrollView>
+      </LinearGradient>
     )
   }
 }
@@ -85,20 +98,21 @@ export class ManageProfile extends Component {
 const Image = styled.Image`
   z-index: 1;
 `
-const TextInput = styled.TextInput`
+const TextInputName = styled.TextInput`
   font-family: 'OpenSans-Bold';
   font-size: 24px;
 `
+const TextInputProfile = styled.TextInput`
+  font-family: 'OpenSans-Regular';
+  color: ${theme.placeholder};
+`
 const Wrapper = styled.View`
-  padding-bottom: 15px;
+  padding-bottom: 5px;
   border-bottom-color: ${theme.line};
   border-bottom-width: 1px;
   margin-top: 20px;
 `
 const styles = StyleSheet.create({
-  linearGradient: {
-    height: 170,
-  },
   img: {
     height: 100,
     width: 100,
