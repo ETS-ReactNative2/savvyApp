@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.View`
+  margin-top: ${(props) => props.mt || '0'};
   padding: ${(props) => props.p || '20px'};
   background-color: ${(props) => props.bg || 'white'};
   flex: 1;

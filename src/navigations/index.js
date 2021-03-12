@@ -13,10 +13,8 @@ import {
   HeaderProfile,
   HeaderHome,
   HeaderAuth,
-  HeaderManageProfile,
   HeaderChat,
 } from '../components/Header'
-import { Text } from '../styles/Typography'
 import ManageProfile from '../screens/Profile/ManageProfile'
 import Chat from '../screens/Chat'
 
@@ -28,7 +26,7 @@ export class AppNavigator extends Component {
       <NavigationContainer>
         <Stack.Navigator>
           {/* Login screen */}
-          {/* <Stack.Screen
+          <Stack.Screen
             name="login"
             component={Login}
             options={{
@@ -41,9 +39,9 @@ export class AppNavigator extends Component {
             options={{
               header: () => <HeaderAuth />,
             }}
-          /> */}
+          />
           {/* Register Screen */}
-          {/* <Stack.Screen
+          <Stack.Screen
             name="register"
             component={Register}
             options={{
@@ -70,17 +68,17 @@ export class AppNavigator extends Component {
             options={{
               header: () => <HeaderAuth />,
             }}
-          /> */}
+          />
           {/* Home Screen */}
-          {/* <Stack.Screen
+          <Stack.Screen
             name="tab-navigator"
             component={TabNavigator}
             options={{
               header: () => <HeaderHome />,
             }}
-          /> */}
+          />
           {/* Profile Screen */}
-          {/* <Stack.Screen
+          <Stack.Screen
             name="profileScreen"
             component={ProfileScreen}
             options={{
@@ -93,7 +91,7 @@ export class AppNavigator extends Component {
             options={{
               headerShown: false,
             }}
-          /> */}
+          />
           {/* Chat screen */}
           <Stack.Screen
             name="chat-screen"

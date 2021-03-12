@@ -39,6 +39,7 @@ const TextInput = styled.TextInput`
   padding-bottom: 5px;
   margin-top: ${(props) => props.mt || '0'};
   margin-bottom: ${(props) => props.mb || '0'};
+  font-family: 'OpenSans-Regular';
 `
 
 export default FormInput

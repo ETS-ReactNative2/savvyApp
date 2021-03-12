@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Text } from '../../styles/Typography'
 import styled from 'styled-components'
 import Logo from '../../assets/images/logos/skype-logo.png'
-import { Row } from '../../styles/ComponentStyle'
+import { Container, Row } from '../../styles/ComponentStyle'
 import avatar from '../../assets/images/avatar.png'
 
 export const HeaderChat = () => {
@@ -52,16 +52,18 @@ export const HeaderProfile = () => {
 
 export const HeaderAuth = () => {
   return (
-    <Container>
-      <Image source={Logo} style={styles.img} />
-    </Container>
+    <ContainerAuth>
+      <Row align="center" justify="center">
+        <Image source={Logo} style={styles.img} />
+      </Row>
+    </ContainerAuth>
   )
 }
 
 export const HeaderHome = () => {
   const navigation = useNavigation()
   return (
-    <Container>
+    <ContainerColor>
       <Row align="center" justify="space-between">
         <IconFeather name="bell" size={24} />
         <Row align="center">
@@ -74,14 +76,18 @@ export const HeaderHome = () => {
           <IconFeather style={styles.icon} name="more-vertical" size={24} />
         </Row>
       </Row>
-    </Container>
+    </ContainerColor>
   )
 }
-const Container = styled.View`
+const ContainerColor = styled.View`
   background-color: #fff;
   padding: 10px;
   border-bottom-width: 1px;
   border-bottom-color: ${theme.line};
+`
+const ContainerAuth = styled.View`
+  background-color: #fff;
+  padding: 10px;
 `
 
 const styles = StyleSheet.create({

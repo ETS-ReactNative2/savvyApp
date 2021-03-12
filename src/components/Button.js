@@ -25,6 +25,7 @@ const ButtonCustom = styled.TouchableOpacity`
 
 const Text = styled.Text`
   color: ${(props) => props.textColor || 'black'};
+  font-family: 'OpenSans-Regular';
 `
 
 const handleSizeType = (padding) => {
