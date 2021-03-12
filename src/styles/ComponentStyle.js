@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.View`
   padding: ${(props) => props.p || '20px'};
   background-color: ${(props) => props.bg || 'white'};
+  flex: 1;
 `
 export const Row = styled.View`
   flex-direction: row;

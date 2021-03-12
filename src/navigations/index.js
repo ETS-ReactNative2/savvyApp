@@ -14,9 +14,11 @@ import {
   HeaderHome,
   HeaderAuth,
   HeaderManageProfile,
+  HeaderChat,
 } from '../components/Header'
 import { Text } from '../styles/Typography'
 import ManageProfile from '../screens/Profile/ManageProfile'
+import Chat from '../screens/Chat'
 
 const Stack = createStackNavigator()
 
@@ -84,12 +86,20 @@ export class AppNavigator extends Component {
             options={{
               header: () => <HeaderProfile />,
             }}
-          /> */}
+          />
           <Stack.Screen
             name="manage-profile"
             component={ManageProfile}
             options={{
               headerShown: false,
+            }}
+          /> */}
+          {/* Chat screen */}
+          <Stack.Screen
+            name="chat-screen"
+            component={Chat}
+            options={{
+              header: () => <HeaderChat />,
             }}
           />
         </Stack.Navigator>

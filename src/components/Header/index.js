@@ -12,6 +12,30 @@ import Logo from '../../assets/images/logos/skype-logo.png'
 import { Row } from '../../styles/ComponentStyle'
 import avatar from '../../assets/images/avatar.png'
 
+export const HeaderChat = () => {
+  const navigation = useNavigation()
+  return (
+    <HeaderWrapper>
+      <Row align="center">
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <IconMaterial name="west" size={30} />
+        </TouchableOpacity>
+        <Text bold ml="25px" size="18px">
+          Audi
+        </Text>
+      </Row>
+      <Row>
+        <TouchableOpacity>
+          <IconFeather style={styles.icon} name="video" size={24} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <IconFeather style={styles.icon} name="phone" size={24} />
+        </TouchableOpacity>
+      </Row>
+    </HeaderWrapper>
+  )
+}
+
 export const HeaderProfile = () => {
   const navigation = useNavigation()
   return (
