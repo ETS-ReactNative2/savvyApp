@@ -8,6 +8,7 @@ export const Text = styled.Text`
   margin-bottom: ${(props) => props.mb || '0'};
   margin-right: ${(props) => props.mr || '0'};
   margin-left: ${(props) => props.ml || '0'};
+  text-align: ${(props) => props.align || 'left'};
   font-family: 'OpenSans-Regular'
     ${({ light, semibold, bold }) => {
       switch (true) {

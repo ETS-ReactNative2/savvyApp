@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
-import { Image, StyleSheet, TextInput, View } from 'react-native'
+import {
+  Image,
+  StyleSheet,
+  TextInput,
+  View,
+  TouchableOpacity,
+} from 'react-native'
 import IconAwesome from 'react-native-vector-icons/FontAwesome'
 import IconFeather from 'react-native-vector-icons/Feather'
 import IconMaterial from 'react-native-vector-icons/MaterialIcons'
 import styled from 'styled-components'
-import TextPlace from '../../components/TextPlace'
 import { Row } from '../../styles/ComponentStyle'
 import { theme } from '../../styles/ThemeColor'
 import avatar from '../../assets/images/avatar.png'
@@ -12,14 +17,16 @@ import { Text } from '../../styles/Typography'
 
 export const WrapperManage = (props) => {
   return (
-    <WrapperForm>
-      <Row align="center">
-        <WrapperIcon>
-          <IconFeather style={styles.icon} name={props.leftIcon} size={18} />
-        </WrapperIcon>
-        <Text>{props.title}</Text>
-      </Row>
-    </WrapperForm>
+    <TouchableOpacity {...props}>
+      <WrapperForm>
+        <Row align="center">
+          <WrapperIcon>
+            <IconFeather style={styles.icon} name={props.leftIcon} size={18} />
+          </WrapperIcon>
+          <Text>{props.title}</Text>
+        </Row>
+      </WrapperForm>
+    </TouchableOpacity>
   )
 }
 
@@ -82,7 +89,7 @@ export class ProfileScreen extends Component {
             </Row>
             <WrapperProfile
               leftIcon="circle"
-              color="#00f269"
+              color="#00d95e"
               rightIcon="chevron-down">
               <Text>Active</Text>
             </WrapperProfile>
@@ -97,8 +104,11 @@ export class ProfileScreen extends Component {
             </Text>
           </WrapperSpace>
           <Container>
-            <WrapperManage leftIcon="user" title="Skype Profile" />
-            <WrapperManage leftIcon="settings" title="Settings" />
+            <WrapperManage
+              leftIcon="user"
+              title="Skype Profile"
+              onPress={() => this.props.navigation.navigate('manage-profile')}
+            />
             <WrapperManageCol
               leftIcon="phone"
               title="Skype to Phone"
@@ -109,6 +119,7 @@ export class ProfileScreen extends Component {
               title="Skype Number"
               desc="Get a second number"
             />
+            <WrapperManage leftIcon="settings" title="Settings" />
           </Container>
         </Layout>
       </>

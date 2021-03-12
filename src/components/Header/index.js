@@ -10,7 +10,7 @@ import { Text } from '../../styles/Typography'
 import styled from 'styled-components'
 import Logo from '../../assets/images/logos/skype-logo.png'
 import { Row } from '../../styles/ComponentStyle'
-import avatar from '../../assets/images/avatar2.jpg'
+import avatar from '../../assets/images/avatar.png'
 
 export const HeaderProfile = () => {
   const navigation = useNavigation()

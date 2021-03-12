@@ -2,8 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.View`
   padding: ${(props) => props.p || '20px'};
-  background-color: white;
-  flex: 1;
+  background-color: ${(props) => props.bg || 'white'};
 `
 export const Row = styled.View`
   flex-direction: row;

@@ -9,7 +9,14 @@ import CreatePassword from '../screens/Register/CreatePassword'
 import EnterName from '../screens/Register/EnterName'
 import TabNavigator from './TabNavigator'
 import ProfileScreen from '../screens/Profile'
-import { HeaderProfile, HeaderHome, HeaderAuth } from '../components/Header'
+import {
+  HeaderProfile,
+  HeaderHome,
+  HeaderAuth,
+  HeaderManageProfile,
+} from '../components/Header'
+import { Text } from '../styles/Typography'
+import ManageProfile from '../screens/Profile/ManageProfile'
 
 const Stack = createStackNavigator()
 
@@ -71,13 +78,18 @@ export class AppNavigator extends Component {
             }}
           /> */}
           {/* Profile Screen */}
-          <Stack.Screen
+          {/* <Stack.Screen
             name="profileScreen"
             component={ProfileScreen}
             options={{
-              header: () => (
-                <HeaderProfile navigation={this.props.navigation} />
-              ),
+              header: () => <HeaderProfile />,
+            }}
+          /> */}
+          <Stack.Screen
+            name="manage-profile"
+            component={ManageProfile}
+            options={{
+              headerShown: false,
             }}
           />
         </Stack.Navigator>
