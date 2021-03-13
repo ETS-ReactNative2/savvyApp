@@ -60,8 +60,10 @@ export class EnterPassword extends Component {
     } else {
       this.setState({ isLoading: false })
       showMessage({
-        message: this.props.auth.errorMsg,
+        message: 'Wrong Password',
         type: 'danger',
+        autoHide: true,
+        duration: 5000,
       })
     }
   }

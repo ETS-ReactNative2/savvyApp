@@ -7,7 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Container, Row } from '../../styles/ComponentStyle'
 import Logo from '../../assets/images/logos/microsoft-logo.png'
 import { connect } from 'react-redux'
-import { checkData } from '../../redux/actions/user.action'
+import { checkData, getUserData } from '../../redux/actions/user.action'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -35,7 +35,7 @@ export class EnterEmail extends Component {
     } else {
       showMessage({
         message: this.props.user.message,
-        type: 'success',
+        type: 'danger',
         autoHide: true,
         duration: 5000,
       })
@@ -120,6 +120,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-const mapDispatchToProps = { checkData }
+const mapDispatchToProps = { checkData, getUserData }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnterEmail)

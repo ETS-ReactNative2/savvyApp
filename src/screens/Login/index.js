@@ -26,15 +26,15 @@ export class Login extends Component {
   login = async (values) => {
     await this.props.checkData({ email: values.email })
     if (this.props.user.errorMsg !== '') {
+      await this.props.getUserData({ email: values.email })
+      this.props.navigation.navigate('enter-password')
+    } else {
       showMessage({
-        message: this.props.user.errorMsg,
+        message: 'Email is not registered',
         type: 'danger',
         autoHide: true,
         duration: 5000,
       })
-    } else {
-      await this.props.getUserData({ email: values.email })
-      this.props.navigation.navigate('enter-password')
     }
   }
   gotoRegister() {
