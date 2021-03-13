@@ -28,7 +28,7 @@ const IconButton = (props) => {
   )
 }
 
-export class Chat extends Component {
+export class RoomChat extends Component {
   render() {
     return (
       <Container p="0">
@@ -115,4 +115,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Chat
+export default RoomChat

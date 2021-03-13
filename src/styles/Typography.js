@@ -35,3 +35,8 @@ export const Text = styled.Text`
       }
     }};
 `
+export const ErrorText = styled.Text`
+  color: ${theme.error};
+  font-family: 'OpenSans-Regular';
+  margin-top: ${(props) => props.mt || '0'};
+`

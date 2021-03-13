@@ -14,13 +14,16 @@ export class HomeScreen extends Component {
         <Row mb="10px">
           <Image source={avatar} style={styles.img} />
           <RowChat>
-            <View>
-              <Text size="20px" mb="3px">
-                Audi
-              </Text>
-              <Text>Maybe Next time...</Text>
-            </View>
-            <TextDate>2/26/2021</TextDate>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('chat-screen')}>
+              <View>
+                <Text size="20px" mb="3px">
+                  Audi
+                </Text>
+                <Text>Maybe Next time...</Text>
+              </View>
+              <TextDate>2/26/2021</TextDate>
+            </TouchableOpacity>
           </RowChat>
         </Row>
       </Container>

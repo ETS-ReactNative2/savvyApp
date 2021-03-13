@@ -16,7 +16,7 @@ import {
   HeaderChat,
 } from '../components/Header'
 import ManageProfile from '../screens/Profile/ManageProfile'
-import Chat from '../screens/Chat'
+import RoomChat from '../screens/RoomChat'
 
 const Stack = createStackNavigator()
 
@@ -71,7 +71,7 @@ export class AppNavigator extends Component {
           />
           {/* Home Screen */}
           <Stack.Screen
-            name="tab-navigator"
+            name="home-screen"
             component={TabNavigator}
             options={{
               header: () => <HeaderHome />,
@@ -92,10 +92,10 @@ export class AppNavigator extends Component {
               headerShown: false,
             }}
           />
-          {/* Chat screen */}
+          {/* RoomChat screen */}
           <Stack.Screen
             name="chat-screen"
-            component={Chat}
+            component={RoomChat}
             options={{
               header: () => <HeaderChat />,
             }}
