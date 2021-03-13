@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { Text, ErrorText } from '../../styles/Typography'
 import FormInput from '../../components/FormInput'
-import styled from 'styled-components'
 import Button from '../../components/Button'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Container, Row } from '../../styles/ComponentStyle'
@@ -11,7 +10,8 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import { ActivityIndicator } from 'react-native'
 import { theme } from '../../styles/ThemeColor'
-import axios from 'axios'
+import { getUserData } from '../../redux/actions/user.action'
+import { connect } from 'react-redux'
 
 const Validation = yup.object().shape({
   email: yup
@@ -21,25 +21,15 @@ const Validation = yup.object().shape({
 })
 
 export class Login extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loggedAs: '',
-      isLoading: false,
-      chatList: [],
-    }
-    this.login = this.login.bind(this)
-    this.input = React.createRef()
+  state = {
+    message: '',
+    isLoading: false,
   }
-  login(values) {
-    const { value: loggedAs } = values.email
-    this.setState({ loggedAs })
-    if (this.state.loggedAs !== '') {
-      this.props.navigation.navigate('home-screen')
-    }
-  }
-  gotoEnterPassword() {
+  login = async (values) => {
+    this.setState({ isLoading: true })
+    await this.props.getUserData(values.email)
     this.props.navigation.navigate('enter-password')
+    this.setState({ isLoading: false })
   }
   gotoRegister() {
     this.props.navigation.navigate('register')
@@ -74,12 +64,13 @@ export class Login extends Component {
                 <ErrorText mt="10px">{errors.email}</ErrorText>
               )}
               <FormInput
+                name="email"
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
                 keyboardType="email-address"
                 placeholder="Skype, phone, or email"
                 mb="15px"
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                values={values.email}
               />
               <Row>
                 <Text>No Account?</Text>
@@ -115,4 +106,9 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Login
+const mapStateToProps = (state) => ({
+  user: state.user,
+})
+const mapDispatchToProps = { getUserData }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

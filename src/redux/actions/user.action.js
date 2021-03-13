@@ -23,3 +23,27 @@ export const getUserDetail = (token, id) => {
     }
   }
 }
+
+export const getUserData = (email) => {
+  return async (dispatch) => {
+    const params = new URLSearchParams()
+    params.append('email', email)
+    try {
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: '',
+      })
+      dispatch({
+        type: 'CREATE_DATA_USER',
+        payload: email,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}
