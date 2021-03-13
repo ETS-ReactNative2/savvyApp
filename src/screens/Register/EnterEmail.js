@@ -33,11 +33,9 @@ export class EnterEmail extends Component {
         duration: 5000,
       })
     } else {
-      showMessage({
-        message: this.props.user.message,
-        type: 'danger',
-        autoHide: true,
-        duration: 5000,
+      await this.props.getUserData({ email: values.email })
+      this.props.navigation.navigate('create-password', {
+        getItem: values.email,
       })
     }
   }
@@ -82,6 +80,7 @@ export class EnterEmail extends Component {
                 name="email"
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
+                value={values.email}
                 keyboardType="email-address"
               />
               <TouchableOpacity onPress={() => this.goBack()}>

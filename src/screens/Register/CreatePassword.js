@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Image, StyleSheet, Switch, View } from 'react-native'
-import { Text } from '../../styles/Typography'
+import { Image, StyleSheet } from 'react-native'
+import { Text, ErrorText } from '../../styles/Typography'
 import FormInput from '../../components/FormInput'
-import styled from 'styled-components'
 import Button from '../../components/Button'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Container, Row } from '../../styles/ComponentStyle'
@@ -11,15 +10,23 @@ import Icon from 'react-native-vector-icons/Feather'
 import CheckBox from 'react-native-check-box'
 import { theme } from '../../styles/ThemeColor'
 import { connect } from 'react-redux'
+import { register } from '../../redux/actions/auth.action'
 import { getUserData } from '../../redux/actions/user.action'
+import { Formik } from 'formik'
+import * as yup from 'yup'
+import { showMessage, hideMessage } from 'react-native-flash-message'
 
+const Validation = yup.object().shape({
+  password: yup
+    .string()
+    .min(6, ({ min }) => `Password must be at least ${min} characters`)
+    .required('Password is required'),
+})
 export class CreatePassword extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showPassword: true,
-      isChecked: false,
-    }
+  state = {
+    showPassword: true,
+    isChecked: false,
+    message: '',
   }
   toggleCheckBox() {
     this.setState({
@@ -34,7 +41,30 @@ export class CreatePassword extends Component {
     this.props.navigation.goBack()
   }
   componentDidMount() {
-    this.props.getUserRegisterData
+    this.props.getUserData()
+  }
+  isRegister = async (values) => {
+    const { email } = this.props.user.userData
+    await this.props.register({
+      email: email,
+      password: values.password,
+    })
+    if (this.props.auth.message !== '') {
+      showMessage({
+        message: this.props.auth.message,
+        type: 'success',
+        autoHide: true,
+        duration: 5000,
+      })
+      this.props.navigation.navigate('login')
+    } else {
+      showMessage({
+        message: this.props.auth.errorMsg,
+        type: 'danger',
+        autoHide: true,
+        duration: 5000,
+      })
+    }
   }
   render() {
     return (
@@ -44,33 +74,58 @@ export class CreatePassword extends Component {
           <TouchableOpacity onPress={() => this.goBack()}>
             <Icon name="arrow-left" size={24} />
           </TouchableOpacity>
-          <Text ml="10px">{this.props.user.dataRegist}</Text>
+          <Text ml="10px">{this.props.user.userData.email}</Text>
         </Row>
         <Text bold size="24px">
           Enter Password
         </Text>
-        <FormInput
-          placeholder="Password"
-          mt="10px"
-          mb="15px"
-          secureTextEntry={this.state.showPassword}
-          onChangeText={(password) => this.setState({ password })}
-        />
-        <CheckBox
-          checkedCheckBoxColor={`${theme.primary}`}
-          uncheckedCheckBoxColor="black"
-          onClick={() => this.toggleCheckBox()}
-          isChecked={this.state.isChecked}
-          rightText={'Show Password'}
-        />
-        <Row justify="flex-end" mt="40px">
-          <Button
-            title="Next"
-            textColor="white"
-            ml="5px"
-            onPress={() => this.gotoEnterName()}
-          />
-        </Row>
+        <Formik
+          validateOnMount={true}
+          validationSchema={Validation}
+          initialValues={{ password: '' }}
+          onSubmit={(values) => this.isRegister(values)}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            isSubmitting,
+            initialErrors,
+            initialTouched,
+            isValid,
+            errors,
+            touched,
+          }) => (
+            <>
+              {errors.password && touched.password && (
+                <ErrorText mt="10px">{errors.password}</ErrorText>
+              )}
+              <FormInput
+                placeholder="Password"
+                mt="10px"
+                mb="15px"
+                secureTextEntry={this.state.showPassword}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+              />
+              <CheckBox
+                checkedCheckBoxColor={`${theme.primary}`}
+                uncheckedCheckBoxColor="black"
+                onClick={() => this.toggleCheckBox()}
+                isChecked={this.state.isChecked}
+                rightText={'Show Password'}
+              />
+              <Row justify="flex-end" mt="40px">
+                <Button
+                  title="Next"
+                  textColor="white"
+                  ml="5px"
+                  onPress={handleSubmit}
+                />
+              </Row>
+            </>
+          )}
+        </Formik>
       </Container>
     )
   }
@@ -86,8 +141,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  auth: state.auth,
 })
 
-const mapDispatchToProps = { getUserData }
+const mapDispatchToProps = { register, getUserData }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePassword)
