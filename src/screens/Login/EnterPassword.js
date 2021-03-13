@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Image, StyleSheet } from 'react-native'
 import { ErrorText, Text } from '../../styles/Typography'
 import FormInput from '../../components/FormInput'
-import styled from 'styled-components'
 import Button from '../../components/Button'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Container, Row } from '../../styles/ComponentStyle'
@@ -45,7 +44,7 @@ export class EnterPassword extends Component {
     })
   }
   login = async (values) => {
-    const email = this.props.user.userEmail
+    const { email } = this.props.user.userData
     this.setState({ isLoading: true })
     await this.props.login(email, values.password)
     if (typeof this.props.auth.token === 'string') {
@@ -53,7 +52,10 @@ export class EnterPassword extends Component {
       showMessage({
         message: 'Success to login',
         type: 'success',
+        autoHide: true,
+        duration: 5000,
       })
+      this.setState({ isLoading: false })
       this.props.navigation.navigate('home-screen')
     } else {
       this.setState({ isLoading: false })
@@ -84,7 +86,7 @@ export class EnterPassword extends Component {
           <TouchableOpacity onPress={() => this.goBack()}>
             <Icon name="arrow-left" size={24} />
           </TouchableOpacity>
-          <Text ml="10px">{this.props.user.userEmail}</Text>
+          <Text ml="10px">{this.props.user.userData.email}</Text>
         </Row>
         <Text bold size="24px">
           Enter Password

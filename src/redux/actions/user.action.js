@@ -23,11 +23,15 @@ export const getUserDetail = (token, id) => {
     }
   }
 }
-
-export const getUserData = (email) => {
+export const getUserData = (data) => {
   return async (dispatch) => {
     const params = new URLSearchParams()
-    params.append('email', email)
+    if (data.phoneNumber) {
+      params.append('phoneNumber', data.phoneNumber)
+    }
+    if (data.email) {
+      params.append('email', data.email)
+    }
     try {
       dispatch({
         type: 'SET_USER_MESSAGE',
@@ -35,7 +39,37 @@ export const getUserData = (email) => {
       })
       dispatch({
         type: 'CREATE_DATA_USER',
-        payload: email,
+        payload: data,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}
+
+export const checkData = (data) => {
+  return async (dispatch) => {
+    const params = new URLSearchParams()
+    if (data.email) {
+      params.append('email', data.email)
+    }
+    if (data.phoneNumber) {
+      params.append('phoneNumber', data.phoneNumber)
+    }
+    try {
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: '',
+      })
+      const response = await http().post('auth', params)
+      dispatch({
+        type: 'CHECK_DATA_USER',
+        payload: response.data.message,
       })
     } catch (err) {
       console.log(err)

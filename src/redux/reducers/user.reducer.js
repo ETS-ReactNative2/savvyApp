@@ -1,6 +1,7 @@
 const initialState = {
   userDetail: {},
-  userEmail: {},
+  userData: {},
+  checkData: {},
   errorMsg: '',
   message: '',
 }
@@ -17,7 +18,13 @@ const userReducer = (state = initialState, action) => {
     case 'CREATE_DATA_USER': {
       return {
         ...state,
-        userEmail: action.payload,
+        userData: action.payload,
+      }
+    }
+    case 'CHECK_DATA_USER': {
+      return {
+        ...state,
+        message: action.payload,
       }
     }
     case 'SET_USER_MESSAGE': {

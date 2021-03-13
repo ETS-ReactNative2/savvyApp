@@ -10,6 +10,8 @@ import Logo from '../../assets/images/logos/microsoft-logo.png'
 import Icon from 'react-native-vector-icons/Feather'
 import CheckBox from 'react-native-check-box'
 import { theme } from '../../styles/ThemeColor'
+import { connect } from 'react-redux'
+import { getUserData } from '../../redux/actions/user.action'
 
 export class CreatePassword extends Component {
   constructor(props) {
@@ -31,6 +33,9 @@ export class CreatePassword extends Component {
   goBack() {
     this.props.navigation.goBack()
   }
+  componentDidMount() {
+    this.props.getUserRegisterData
+  }
   render() {
     return (
       <Container>
@@ -39,7 +44,7 @@ export class CreatePassword extends Component {
           <TouchableOpacity onPress={() => this.goBack()}>
             <Icon name="arrow-left" size={24} />
           </TouchableOpacity>
-          <Text ml="10px">082254632185</Text>
+          <Text ml="10px">{this.props.user.dataRegist}</Text>
         </Row>
         <Text bold size="24px">
           Enter Password
@@ -79,4 +84,10 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CreatePassword
+const mapStateToProps = (state) => ({
+  user: state.user,
+})
+
+const mapDispatchToProps = { getUserData }
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePassword)

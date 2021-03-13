@@ -8,10 +8,9 @@ import { Container, Row } from '../../styles/ComponentStyle'
 import Logo from '../../assets/images/logos/microsoft-logo.png'
 import { Formik } from 'formik'
 import * as yup from 'yup'
-import { ActivityIndicator } from 'react-native'
-import { theme } from '../../styles/ThemeColor'
-import { getUserData } from '../../redux/actions/user.action'
+import { getUserData, checkData } from '../../redux/actions/user.action'
 import { connect } from 'react-redux'
+import { showMessage, hideMessage } from 'react-native-flash-message'
 
 const Validation = yup.object().shape({
   email: yup
@@ -23,13 +22,20 @@ const Validation = yup.object().shape({
 export class Login extends Component {
   state = {
     message: '',
-    isLoading: false,
   }
   login = async (values) => {
-    this.setState({ isLoading: true })
-    await this.props.getUserData(values.email)
-    this.props.navigation.navigate('enter-password')
-    this.setState({ isLoading: false })
+    await this.props.checkData({ email: values.email })
+    if (this.props.user.errorMsg !== '') {
+      showMessage({
+        message: this.props.user.errorMsg,
+        type: 'danger',
+        autoHide: true,
+        duration: 5000,
+      })
+    } else {
+      await this.props.getUserData({ email: values.email })
+      this.props.navigation.navigate('enter-password')
+    }
   }
   gotoRegister() {
     this.props.navigation.navigate('register')
@@ -79,16 +85,12 @@ export class Login extends Component {
                 </TouchableOpacity>
               </Row>
               <Row justify="flex-end" mt="40px">
-                {this.state.isLoading === false ? (
-                  <Button
-                    title="Next"
-                    textColor="white"
-                    ml="5px"
-                    onPress={handleSubmit}
-                  />
-                ) : (
-                  <ActivityIndicator size="small" color={theme.primary} />
-                )}
+                <Button
+                  title="Next"
+                  textColor="white"
+                  ml="5px"
+                  onPress={handleSubmit}
+                />
               </Row>
             </>
           )}
@@ -109,6 +111,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   user: state.user,
 })
-const mapDispatchToProps = { getUserData }
+const mapDispatchToProps = { getUserData, checkData }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

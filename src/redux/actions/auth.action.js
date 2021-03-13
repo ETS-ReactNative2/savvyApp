@@ -76,11 +76,18 @@ export const updateUser = (token, id, data) => {
   }
 }
 
-export const register = (email, password) => {
+export const register = (data) => {
   return async (dispatch) => {
     const params = new URLSearchParams()
-    params.append('email', email)
-    params.append('password', password)
+    if (data.email) {
+      params.append('email', data.email)
+    }
+    if (data.phoneNumber) {
+      params.append('phoneNumber', data.phoneNumber)
+    }
+    if (data.password) {
+      params.append('password', data.password)
+    }
     try {
       dispatch({
         type: 'SET_AUTH_MESSAGE',
