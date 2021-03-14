@@ -14,17 +14,18 @@ export class HeaderHome extends Component {
     this.props.navigation.navigate('profileScreen')
   }
   componentDidMount() {
-    const { token, id } = this.props.auth
-    this.props.getUserDetail(token, id)
+    const { id } = this.props.auth
+    this.props.getUserDetail(id)
   }
   render() {
+    const { picture } = this.props.user.userDetail
     return (
       <ContainerColor>
         <Row align="center" justify="space-between">
           <IconFeather name="bell" size={24} />
           <Row align="center">
             <TouchableOpacity onPress={() => this.gotoProfile()}>
-              <Image source={avatar} style={styles.avatar} />
+              <Image source={{ uri: picture }} style={styles.avatar} />
             </TouchableOpacity>
             <IconFeather style={styles.icon} name="video" size={24} />
             <IconFeather style={styles.icon} name="search" size={24} />

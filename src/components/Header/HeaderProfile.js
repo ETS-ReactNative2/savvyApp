@@ -10,7 +10,7 @@ import { showMessage, hideMessage } from 'react-native-flash-message'
 
 export class HeaderProfile extends Component {
   goBack() {
-    this.props.goBack()
+    this.props.navigation.goBack()
   }
   async componentDidMount() {
     await this.props.getUserDetail(this.props.auth.id)

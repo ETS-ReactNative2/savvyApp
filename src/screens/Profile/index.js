@@ -15,6 +15,8 @@ import { theme } from '../../styles/ThemeColor'
 import avatar from '../../assets/images/avatar.png'
 import { Text } from '../../styles/Typography'
 import HeaderProfile from '../../components/Header/HeaderProfile'
+import { connect } from 'react-redux'
+import { getUserDetail } from '../../redux/actions/user.action'
 
 export const WrapperManage = (props) => {
   return (
@@ -71,19 +73,23 @@ export const WrapperProfile = (props) => {
 }
 
 export class ProfileScreen extends Component {
+  componentDidMount() {
+    this.props.getUserDetail(this.props.auth.id)
+  }
   render() {
+    const { fullName, email, picture } = this.props.user.userDetail
     return (
       <>
         <HeaderProfile navigation={this.props.navigation} />
         <Layout>
           <Container>
             <Row mt="10px" mb="20px">
-              <Image source={avatar} style={styles.img} />
+              <Image source={{ uri: picture }} style={styles.img} />
               <View>
                 <Text bold size="16px">
-                  Shafa Naura
+                  {fullName}
                 </Text>
-                <Text size="12px">shafanaura48@gmail.com</Text>
+                <Text size="12px">{email}</Text>
                 <Text size="12px" mt="10px" primary>
                   My Microsoft account
                 </Text>
@@ -167,4 +173,11 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ProfileScreen
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  user: state.user,
+})
+
+const mapDispatchToProps = { getUserDetail }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)
