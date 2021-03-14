@@ -94,7 +94,9 @@ export class ProfileScreen extends Component {
       visible: false,
     }
   }
-
+  componentDidMount() {
+    this.props.auth
+  }
   chooseImage = () => {
     let options = {
       title: 'Select Image',
@@ -109,16 +111,7 @@ export class ProfileScreen extends Component {
     ImagePicker.launchImageLibrary(options, (response) => {
       console.log('Response = ', response)
 
-      if (response.didCancel) {
-        console.log('User cancelled image picker')
-        this.setState({ visible: false })
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
-        this.setState({ visible: false })
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
-        this.setState({ visible: false })
-      } else {
+      try {
         const image = {
           uri: response.uri,
           type: response.type,
@@ -127,17 +120,9 @@ export class ProfileScreen extends Component {
         this.props.updateUser(this.props.auth.token, this.props.auth.id, {
           picture: image,
         })
-        if (this.props.auth.errorMsg !== '') {
+        if (this.props.user.messageUpdate !== '' && !this.props.user.errorMsg) {
           showMessage({
-            message: this.props.auth.errorMsg,
-            type: 'warning',
-            autoHide: true,
-            duration: 5000,
-          })
-          this.setState({ visible: false })
-        } else {
-          showMessage({
-            message: this.props.auth.message,
+            message: this.props.user.messageUpdate,
             type: 'success',
             autoHide: true,
             duration: 5000,
@@ -148,7 +133,17 @@ export class ProfileScreen extends Component {
             fileUri: response.uri,
           })
           this.setState({ visible: false })
+        } else {
+          showMessage({
+            message: this.props.user.errorMsg,
+            type: 'warning',
+            autoHide: true,
+            duration: 5000,
+          })
+          this.setState({ visible: false })
         }
+      } catch (err) {
+        console.log(err)
       }
     })
   }

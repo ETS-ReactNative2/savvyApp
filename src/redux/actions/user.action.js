@@ -101,14 +101,11 @@ export const updateUser = (token, id, data) => {
       params.append('password', data.password)
     }
     try {
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: '',
-      })
       const response = await http(token).patch(`user/${id}`, params)
       dispatch({
         type: 'UPDATE_USER',
-        payload: response.data.message,
+        payload: response.data.results,
+        messageUpdate: response.data.message,
       })
     } catch (err) {
       console.log(err)
