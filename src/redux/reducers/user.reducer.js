@@ -1,11 +1,9 @@
 const initialState = {
   userDetail: {},
-  userData: {},
   checkData: {},
   errorMsg: '',
   message: '',
-  messageUpdate: '',
-  data: {},
+  dataUser: {},
 }
 
 const userReducer = (state = initialState, action) => {
@@ -32,9 +30,8 @@ const userReducer = (state = initialState, action) => {
     case 'UPDATE_USER': {
       return {
         ...state,
-        data: action.payload,
-        messageUpdate: action.messageUpdate,
-        errorMsg: '',
+        dataUser: action.payload,
+        messageUpdate: action.message,
         // userData: action.payload.data,
       }
     }
@@ -42,7 +39,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         errorMsg: action.payload,
-        messageUpdate: '',
       }
     }
     default: {

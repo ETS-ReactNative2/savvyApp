@@ -37,6 +37,9 @@ export const register = (data) => {
     if (data.phoneNumber) {
       params.append('phoneNumber', data.phoneNumber)
     }
+    if (data.fullName) {
+      params.append('fullName', data.fullName)
+    }
     if (data.password) {
       params.append('password', data.password)
     }
@@ -48,7 +51,12 @@ export const register = (data) => {
       const response = await http().post('auth/register', params)
       dispatch({
         type: 'REGISTER',
-        payload: response.data.message,
+        payload: {
+          ...response.data.results,
+          message: response.data.message,
+          // errorMsg: null,
+          // userData: response.data.results,
+        },
       })
     } catch (err) {
       const { message } = err.response.data

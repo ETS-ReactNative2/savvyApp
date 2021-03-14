@@ -120,7 +120,7 @@ export class ProfileScreen extends Component {
         this.props.updateUser(this.props.auth.token, this.props.auth.id, {
           picture: image,
         })
-        if (this.props.user.messageUpdate !== '' && !this.props.user.errorMsg) {
+        if (this.props.user.messageUpdate !== '') {
           showMessage({
             message: this.props.user.messageUpdate,
             type: 'success',
@@ -230,17 +230,7 @@ export class ProfileScreen extends Component {
           visible={this.state.visible}
           onTouchOutside={() => {
             this.setState({ visible: false })
-          }}
-          footer={
-            <ModalFooter>
-              <ModalButton
-                text="CANCEL"
-                onPress={() => {
-                  this.setState({ visible: false })
-                }}
-              />
-            </ModalFooter>
-          }>
+          }}>
           <ModalContent>
             <TouchableOpacity
               style={styles.imgModal}

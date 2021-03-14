@@ -44,28 +44,11 @@ export class CreatePassword extends Component {
     this.props.getUserData()
   }
   isRegister = async (values) => {
-    const { email } = this.props.user.userData
-    await this.props.register({
-      email: email,
-      password: values.password,
+    this.props.navigation.navigate('enter-name', {
+      getPassword: values.password,
     })
-    if (this.props.auth.message !== '') {
-      showMessage({
-        message: this.props.auth.message,
-        type: 'success',
-        autoHide: true,
-        duration: 5000,
-      })
-      this.props.navigation.navigate('login')
-    } else {
-      showMessage({
-        message: this.props.auth.errorMsg,
-        type: 'danger',
-        autoHide: true,
-        duration: 5000,
-      })
-    }
   }
+
   render() {
     return (
       <Container>

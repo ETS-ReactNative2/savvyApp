@@ -104,8 +104,12 @@ export const updateUser = (token, id, data) => {
       const response = await http(token).patch(`user/${id}`, params)
       dispatch({
         type: 'UPDATE_USER',
-        payload: response.data.results,
-        messageUpdate: response.data.message,
+        payload: {
+          ...response.data.results,
+          // errorMsg: null,
+          // userData: response.data.results,
+        },
+        message: response.data.message,
       })
     } catch (err) {
       console.log(err)
