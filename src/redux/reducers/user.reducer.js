@@ -27,6 +27,14 @@ const userReducer = (state = initialState, action) => {
         message: action.payload,
       }
     }
+    case 'UPDATE_USER': {
+      return {
+        ...state,
+        message: action.payload,
+        // userData: action.payload.data,
+        // errorMsg; action.payload.message
+      }
+    }
     case 'SET_USER_MESSAGE': {
       return {
         ...state,

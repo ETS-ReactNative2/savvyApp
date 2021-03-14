@@ -81,3 +81,42 @@ export const checkData = (data) => {
     }
   }
 }
+
+export const updateUser = (token, id, data) => {
+  return async (dispatch) => {
+    const params = new FormData()
+    if (data.picture) {
+      params.append('picture', data.picture)
+    }
+    if (data.fullName) {
+      params.append('fullName', data.fullName)
+    }
+    if (data.email) {
+      params.append('email', data.email)
+    }
+    if (data.phoneNumber) {
+      params.append('phoneNumber', data.phoneNumber)
+    }
+    if (data.password) {
+      params.append('password', data.password)
+    }
+    try {
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: '',
+      })
+      const response = await http(token).patch(`user/${id}`, params)
+      dispatch({
+        type: 'UPDATE_USER',
+        payload: response.data.message,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}

@@ -29,7 +29,7 @@ const authReducer = (state = initialState, action) => {
     case 'UPDATE_USER': {
       return {
         ...state,
-        ...action.payload,
+        message: action.payload,
         // userData: action.payload.data,
         // errorMsg; action.payload.message
       }
