@@ -121,3 +121,75 @@ export const updateUser = (token, id, data) => {
     }
   }
 }
+
+export const getChatList = (sender) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: '',
+      })
+      const response = await http().get(`chat/${sender}`)
+      dispatch({
+        type: 'USER_CHAT_LIST',
+        payload: response.data.results,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}
+
+export const chatView = (recipient, sender) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: '',
+      })
+      const response = await http().get(`chat/${recipient}?from=${sender}`)
+      dispatch({
+        type: 'SENDER_CHAT_LIST',
+        payload: response.data.results,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}
+
+export const sendChat = (recipient, sender, message) => {
+  return async (dispatch) => {
+    const params = new URLSearchParams()
+    params.append('from', sender)
+    params.append('message', message)
+    try {
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: '',
+      })
+      const response = await http().post(`chat/${recipient}`, params)
+      dispatch({
+        type: 'SEND_CHAT',
+        payload: response.data.message,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}

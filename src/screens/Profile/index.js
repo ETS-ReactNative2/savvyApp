@@ -16,12 +16,7 @@ import { Text } from '../../styles/Typography'
 import HeaderProfile from '../../components/Header/HeaderProfile'
 import { connect } from 'react-redux'
 import { getUserDetail } from '../../redux/actions/user.action'
-import {
-  Modal,
-  ModalFooter,
-  ModalButton,
-  ModalContent,
-} from 'react-native-modals'
+import { Modal, ModalContent } from 'react-native-modals'
 import * as ImagePicker from 'react-native-image-picker'
 import { updateUser } from '../../redux/actions/user.action'
 import { showMessage, hideMessage } from 'react-native-flash-message'

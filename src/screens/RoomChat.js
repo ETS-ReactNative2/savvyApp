@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { ScrollView, StyleSheet, View, Image } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import Icon from 'react-native-vector-icons/Feather'
 import styled from 'styled-components'
@@ -8,10 +7,12 @@ import { Container, Row } from '../styles/ComponentStyle'
 import { theme } from '../styles/ThemeColor'
 import avatar from '../assets/images/avatar.png'
 import { Text } from '../styles/Typography'
+import { connect } from 'react-redux'
+import { sendChat } from '../redux/actions/user.action'
 
 const IconButton = (props) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity {...props}>
       <LinearGradient
         style={{ borderRadius: 25 }}
         colors={['#0279D5', '#02BBF3']}
@@ -29,52 +30,80 @@ const IconButton = (props) => {
 }
 
 export class RoomChat extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { message: '' }
+  }
+  isSendChat(recipient) {
+    this.props.sendChat(recipient, sender, this.state.message)
+    console.log(recipient, this.state.message)
+  }
   render() {
+    const { senderChatList } = this.props.user
     return (
       <Container p="0">
-        <ScrollView>
-          <Container p="10px">
-            <Row>
-              <Image source={avatar} style={styles.avatar} />
-              <View>
-                <View>
-                  <Text size="12px" label>
-                    Audi
-                  </Text>
-                  <LinearGradient
-                    style={styles.wrapSend}
-                    colors={['#0279D5', '#02BBF3']}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}>
-                    <Text white p="10px" semibold>
-                      Halo
-                    </Text>
-                  </LinearGradient>
-                </View>
-              </View>
-            </Row>
-            <Row justify="flex-end">
-              <View>
-                <View style={styles.wrapGet}>
-                  <Text>Halo Juga</Text>
-                </View>
-                <View style={styles.wrapGet}>
-                  <Text>Pa kabs?</Text>
-                </View>
-              </View>
-            </Row>
-          </Container>
-        </ScrollView>
-        <RowFooter>
-          <IconButton icon="plus" size={25} padding={5} />
-          <TextInput placeholder="Type a message" />
-          <IconButton icon="send" size={20} padding={10} />
-        </RowFooter>
+        <>
+          <ScrollView>
+            {senderChatList.map((item, index) => {
+              const self = item.from === sender
+              return (
+                <Container p="10px">
+                  {!self ? (
+                    <Row>
+                      <Image source={avatar} style={styles.avatar} />
+                      <View>
+                        <View>
+                          <Text size="12px" label>
+                            {item.from}
+                          </Text>
+                          <LinearGradient
+                            style={styles.wrapSend}
+                            colors={['#0279D5', '#02BBF3']}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 0 }}>
+                            <Text white p="10px" semibold>
+                              {item.message}
+                            </Text>
+                          </LinearGradient>
+                        </View>
+                      </View>
+                    </Row>
+                  ) : (
+                    <Row justify="flex-end">
+                      <View style={styles.wrapGet}>
+                        <Text>{item.message}</Text>
+                      </View>
+                    </Row>
+                  )}
+                </Container>
+              )
+            })}
+          </ScrollView>
+          <RowFooter>
+            <IconButton icon="plus" size={25} padding={5} />
+            <TextInput
+              placeholder="Type a message"
+              onChangeText={(message) => this.setState({ message: message })}
+            />
+            <IconButton
+              icon="send"
+              size={20}
+              padding={10}
+              onPress={() => this.isSendChat(item.from)}
+            />
+          </RowFooter>
+        </>
       </Container>
     )
   }
 }
-
+const TouchableOpacity = styled.TouchableOpacity`
+  ${(props) =>
+    props.disabled &&
+    `
+    background-color: black
+  `}
+`
 const TextInput = styled.TextInput`
   border-radius: 25px;
   flex: 1;
@@ -111,8 +140,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderBottomRightRadius: 0,
     padding: 10,
-    marginTop: 3,
+    marginTop: -12,
   },
 })
 
-export default RoomChat
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  user: state.user,
+})
+
+const mapDispatchToProps = { sendChat }
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoomChat)

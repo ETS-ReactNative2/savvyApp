@@ -7,28 +7,51 @@ import { theme } from '../../styles/ThemeColor'
 import { Row } from '../../styles/ComponentStyle'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import HeaderHome from '../../components/Header/HeaderHome'
+import { connect } from 'react-redux'
+import {
+  getUserDetail,
+  getChatList,
+  chatView,
+} from '../../redux/actions/user.action'
 
 export class HomeScreen extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      loggedAs: '',
+    }
+  }
+  async componentDidMount() {
+    const { email } = this.props.user.userDetail
+    this.props.getChatList(email)
+  }
+  getChatView = async (recipient, sender) => {
+    await this.props.chatView(recipient, sender)
+    this.props.navigation.navigate('chat-screen')
+  }
   render() {
+    const { chatList } = this.props.user
+    const { email } = this.props.user.userDetail
     return (
       <>
         <HeaderHome navigation={this.props.navigation} />
         <Container>
-          <Row mb="10px">
-            <Image source={avatar} style={styles.img} />
-            <RowChat>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('chat-screen')}>
-                <View>
-                  <Text size="20px" mb="3px">
-                    Audi
-                  </Text>
-                  <Text>Maybe Next time...</Text>
-                </View>
-              </TouchableOpacity>
-              <TextDate>2/26/2021</TextDate>
-            </RowChat>
-          </Row>
+          {chatList.map((chat, idx) => (
+            <Row mb="10px" key={String(chat)}>
+              <Image source={avatar} style={styles.img} />
+              <RowChat>
+                <TouchableOpacity onPress={() => this.getChatView(chat)}>
+                  <View>
+                    <Text size="20px" mb="3px">
+                      {chat}
+                    </Text>
+                    <Text>Maybe Next time...</Text>
+                  </View>
+                </TouchableOpacity>
+                <TextDate>2012/12/21</TextDate>
+              </RowChat>
+            </Row>
+          ))}
         </Container>
       </>
     )
@@ -66,4 +89,11 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HomeScreen
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  user: state.user,
+})
+
+const mapDispatchToProps = { getUserDetail, getChatList, chatView }
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
