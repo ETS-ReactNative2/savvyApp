@@ -36,20 +36,6 @@ export const HeaderChat = () => {
   )
 }
 
-export const HeaderProfile = () => {
-  const navigation = useNavigation()
-  return (
-    <HeaderWrapper>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <IconMaterial name="west" size={30} />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Text mr="10px">Sign out</Text>
-      </TouchableOpacity>
-    </HeaderWrapper>
-  )
-}
-
 export const HeaderAuth = () => {
   return (
     <ContainerAuth>
@@ -60,25 +46,6 @@ export const HeaderAuth = () => {
   )
 }
 
-export const HeaderHome = () => {
-  const navigation = useNavigation()
-  return (
-    <ContainerColor>
-      <Row align="center" justify="space-between">
-        <IconFeather name="bell" size={24} />
-        <Row align="center">
-          <TouchableOpacity
-            onPress={() => navigation.navigate('profileScreen')}>
-            <Image source={avatar} style={styles.avatar} />
-          </TouchableOpacity>
-          <IconFeather style={styles.icon} name="video" size={24} />
-          <IconFeather style={styles.icon} name="search" size={24} />
-          <IconFeather style={styles.icon} name="more-vertical" size={24} />
-        </Row>
-      </Row>
-    </ContainerColor>
-  )
-}
 const ContainerColor = styled.View`
   background-color: #fff;
   padding: 10px;

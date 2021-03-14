@@ -14,6 +14,7 @@ import { Row } from '../../styles/ComponentStyle'
 import { theme } from '../../styles/ThemeColor'
 import avatar from '../../assets/images/avatar.png'
 import { Text } from '../../styles/Typography'
+import HeaderProfile from '../../components/Header/HeaderProfile'
 
 export const WrapperManage = (props) => {
   return (
@@ -73,6 +74,7 @@ export class ProfileScreen extends Component {
   render() {
     return (
       <>
+        <HeaderProfile navigation={this.props.navigation} />
         <Layout>
           <Container>
             <Row mt="10px" mb="20px">

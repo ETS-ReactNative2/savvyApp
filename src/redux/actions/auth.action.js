@@ -16,6 +16,7 @@ export const login = (email, password) => {
       dispatch({
         type: 'LOGIN',
         payload: results.data.token,
+        id: results.data.id,
       })
     } catch (err) {
       const { message } = err.response.data

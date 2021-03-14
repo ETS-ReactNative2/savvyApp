@@ -6,27 +6,31 @@ import styled from 'styled-components'
 import { theme } from '../../styles/ThemeColor'
 import { Row } from '../../styles/ComponentStyle'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import HeaderHome from '../../components/Header/HeaderHome'
 
 export class HomeScreen extends Component {
   render() {
     return (
-      <Container>
-        <Row mb="10px">
-          <Image source={avatar} style={styles.img} />
-          <RowChat>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('chat-screen')}>
-              <View>
-                <Text size="20px" mb="3px">
-                  Audi
-                </Text>
-                <Text>Maybe Next time...</Text>
-              </View>
+      <>
+        <HeaderHome navigation={this.props.navigation} />
+        <Container>
+          <Row mb="10px">
+            <Image source={avatar} style={styles.img} />
+            <RowChat>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('chat-screen')}>
+                <View>
+                  <Text size="20px" mb="3px">
+                    Audi
+                  </Text>
+                  <Text>Maybe Next time...</Text>
+                </View>
+              </TouchableOpacity>
               <TextDate>2/26/2021</TextDate>
-            </TouchableOpacity>
-          </RowChat>
-        </Row>
-      </Container>
+            </RowChat>
+          </Row>
+        </Container>
+      </>
     )
   }
 }
@@ -50,6 +54,7 @@ const RowChat = styled.View`
   border-bottom-color: ${theme.line};
   border-bottom-width: 1px;
 `
+
 const styles = StyleSheet.create({
   img: {
     height: 55,
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   icon: {
-    paddingLeft: 25,
+    paddingLeft: 20,
   },
 })
 

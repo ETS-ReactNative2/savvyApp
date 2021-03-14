@@ -9,14 +9,13 @@ import CreatePassword from '../screens/Register/CreatePassword'
 import EnterName from '../screens/Register/EnterName'
 import TabNavigator from './TabNavigator'
 import ProfileScreen from '../screens/Profile'
-import {
-  HeaderProfile,
-  HeaderHome,
-  HeaderAuth,
-  HeaderChat,
-} from '../components/Header'
+import { HeaderAuth, HeaderChat } from '../components/Header'
 import ManageProfile from '../screens/Profile/ManageProfile'
 import RoomChat from '../screens/RoomChat'
+
+import { connect } from 'react-redux'
+import { login, autoLogin } from '../redux/actions/auth.action'
+import { HeaderProfile } from '../components/Header/HeaderProfile'
 
 const Stack = createStackNavigator()
 
@@ -25,85 +24,97 @@ export class AppNavigator extends Component {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          {/* Login screen */}
-          <Stack.Screen
-            name="login"
-            component={Login}
-            options={{
-              header: () => <HeaderAuth />,
-            }}
-          />
-          <Stack.Screen
-            name="enter-password"
-            component={EnterPassword}
-            options={{
-              header: () => <HeaderAuth />,
-            }}
-          />
-          {/* Register Screen */}
-          <Stack.Screen
-            name="register"
-            component={Register}
-            options={{
-              header: () => <HeaderAuth />,
-            }}
-          />
-          <Stack.Screen
-            name="enter-email"
-            component={EnterEmail}
-            options={{
-              header: () => <HeaderAuth />,
-            }}
-          />
-          <Stack.Screen
-            name="create-password"
-            component={CreatePassword}
-            options={{
-              header: () => <HeaderAuth />,
-            }}
-          />
-          <Stack.Screen
-            name="enter-name"
-            component={EnterName}
-            options={{
-              header: () => <HeaderAuth />,
-            }}
-          />
-          {/* Home Screen */}
-          <Stack.Screen
-            name="home-screen"
-            component={TabNavigator}
-            options={{
-              header: () => <HeaderHome />,
-            }}
-          />
-          {/* Profile Screen */}
-          <Stack.Screen
-            name="profileScreen"
-            component={ProfileScreen}
-            options={{
-              header: () => <HeaderProfile />,
-            }}
-          />
-          <Stack.Screen
-            name="manage-profile"
-            component={ManageProfile}
-            options={{
-              headerShown: false,
-            }}
-          />
-          {/* RoomChat screen */}
-          <Stack.Screen
-            name="chat-screen"
-            component={RoomChat}
-            options={{
-              header: () => <HeaderChat />,
-            }}
-          />
+          {typeof this.props.auth.token === 'string' ? (
+            <>
+              {/* Home Screen */}
+              <Stack.Screen
+                name="home-screen"
+                component={TabNavigator}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              {/* Profile Screen */}
+              <Stack.Screen
+                name="profileScreen"
+                component={ProfileScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="manage-profile"
+                component={ManageProfile}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              {/* RoomChat screen */}
+              <Stack.Screen
+                name="chat-screen"
+                component={RoomChat}
+                options={{
+                  header: () => <HeaderChat />,
+                }}
+              />
+            </>
+          ) : (
+            <>
+              {/* Login screen */}
+              <Stack.Screen
+                name="login"
+                component={Login}
+                options={{
+                  header: () => <HeaderAuth />,
+                }}
+              />
+              <Stack.Screen
+                name="enter-password"
+                component={EnterPassword}
+                options={{
+                  header: () => <HeaderAuth />,
+                }}
+              />
+              {/* Register Screen */}
+              <Stack.Screen
+                name="register"
+                component={Register}
+                options={{
+                  header: () => <HeaderAuth />,
+                }}
+              />
+              <Stack.Screen
+                name="enter-email"
+                component={EnterEmail}
+                options={{
+                  header: () => <HeaderAuth />,
+                }}
+              />
+              <Stack.Screen
+                name="create-password"
+                component={CreatePassword}
+                options={{
+                  header: () => <HeaderAuth />,
+                }}
+              />
+              <Stack.Screen
+                name="enter-name"
+                component={EnterName}
+                options={{
+                  header: () => <HeaderAuth />,
+                }}
+              />
+            </>
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     )
   }
 }
 
-export default AppNavigator
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+})
+const mapDispatchToProps = { login, autoLogin }
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppNavigator)
