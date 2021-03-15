@@ -37,6 +37,7 @@ export const WrapperManage = (props) => {
           </Row>
           <TextInputProfile
             keyboardType={props.keyboardType}
+            defaultValue={props.defaultValue}
             placeholder={props.placeholder}
             value={props.value}
             onBlur={props.onBlur}
@@ -54,12 +55,15 @@ export class ManageProfile extends Component {
     autoHide: false,
   }
   componentDidMount() {
-    this.props.getUserDetail()
+    this.props.getUserDetail(this.props.auth.id)
   }
   update = (values) => {
     this.props.updateUser(this.props.auth.token, this.props.auth.id, {
       fullName: values.fullName,
+      email: values.email,
+      phoneNumber: values.phoneNumber,
     })
+    this.props.getUserDetail(this.props.auth.id)
     if (this.props.user.messageUpdate !== '') {
       showMessage({
         message: this.props.user.messageUpdate,

@@ -5,20 +5,43 @@ import IconFeather from 'react-native-vector-icons/Feather'
 import { theme } from '../../styles/ThemeColor'
 import styled from 'styled-components'
 import { Row } from '../../styles/ComponentStyle'
-import avatar from '../../assets/images/avatar.png'
 import { connect } from 'react-redux'
 import { getUserDetail } from '../../redux/actions/user.action'
-
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu'
+import { Text } from '../../styles/Typography'
 export class HeaderHome extends Component {
   gotoProfile() {
     this.props.navigation.navigate('profileScreen')
   }
   componentDidMount() {
-    const { id } = this.props.auth
-    this.props.getUserDetail(id)
+    this.props.getUserDetail(this.props.auth.id)
   }
   render() {
     const { picture } = this.props.user.userDetail
+    const Popup = () => {
+      return (
+        <Menu style={styles.icon}>
+          <MenuTrigger text={<IconFeather name="more-vertical" size={24} />} />
+          <MenuOptions>
+            <MenuOption
+              style={{ padding: 10 }}
+              onSelect={() => alert(`Sort By Newest`)}
+              text="Sort By Newest"
+            />
+            <MenuOption
+              style={{ padding: 10 }}
+              onSelect={() => alert(`Sort By Name`)}
+              text="Sort By Name"
+            />
+          </MenuOptions>
+        </Menu>
+      )
+    }
     return (
       <ContainerColor>
         <Row align="center" justify="space-between">
@@ -29,7 +52,8 @@ export class HeaderHome extends Component {
             </TouchableOpacity>
             <IconFeather style={styles.icon} name="video" size={24} />
             <IconFeather style={styles.icon} name="search" size={24} />
-            <IconFeather style={styles.icon} name="more-vertical" size={24} />
+            {/* <IconFeather style={styles.icon} name="more-vertical" size={24} /> */}
+            <Popup />
           </Row>
         </Row>
       </ContainerColor>

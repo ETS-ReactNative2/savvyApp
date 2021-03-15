@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import persistedStore from './src/redux/store'
 import FlashMessage from 'react-native-flash-message'
 import { ModalPortal } from 'react-native-modals'
+import { MenuProvider } from 'react-native-popup-menu'
 
 const { store, persistor } = persistedStore()
 
@@ -15,14 +16,16 @@ export class App extends Component {
   }
   render() {
     return (
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <AppNavigator />
-          {/* added flash message & modal */}
-          <FlashMessage position="top" />
-          <ModalPortal />
-        </PersistGate>
-      </Provider>
+      <MenuProvider>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <AppNavigator />
+            {/* added flash message & modal */}
+            <FlashMessage position="top" />
+            <ModalPortal />
+          </PersistGate>
+        </Provider>
+      </MenuProvider>
     )
   }
 }

@@ -7,6 +7,7 @@ const initialState = {
   chatList: [],
   senderChatList: {},
   messageSendChat: '',
+  messageUpdate: '',
 }
 
 const userReducer = (state = initialState, action) => {

@@ -5,6 +5,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native'
 import IconAwesome from 'react-native-vector-icons/FontAwesome'
 import IconFeather from 'react-native-vector-icons/Feather'
@@ -87,10 +88,12 @@ export class ProfileScreen extends Component {
       fileUri: '',
       message: '',
       visible: false,
+      isLoading: false,
+      refreshing: false,
     }
   }
   componentDidMount() {
-    this.props.auth
+    this.props.getUserDetail(this.props.auth.id)
   }
   chooseImage = () => {
     let options = {
