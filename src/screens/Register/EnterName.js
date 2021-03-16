@@ -45,7 +45,6 @@ export class EnterName extends Component {
         message: this.props.auth.message,
         type: 'success',
         autoHide: true,
-        duration: 5000,
       })
       this.props.navigation.navigate('login')
     } else {
@@ -53,7 +52,6 @@ export class EnterName extends Component {
         message: this.props.auth.errorMsg,
         type: 'danger',
         autoHide: true,
-        duration: 5000,
       })
     }
   }

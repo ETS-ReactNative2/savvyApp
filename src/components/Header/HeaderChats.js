@@ -70,7 +70,7 @@ const ContainerColor = styled.View`
 
 const styles = StyleSheet.create({
   img: {
-    height: 50,
+    height: 40,
     width: 80,
     resizeMode: 'contain',
   },

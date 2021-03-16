@@ -21,7 +21,6 @@ export class HeaderProfile extends Component {
       message: 'Success to Logout',
       type: 'success',
       autoHide: true,
-      duration: 5000,
     })
   }
   render() {

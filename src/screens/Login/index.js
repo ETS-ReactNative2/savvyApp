@@ -33,7 +33,6 @@ export class Login extends Component {
         message: 'Email is not registered',
         type: 'danger',
         autoHide: true,
-        duration: 5000,
       })
     }
   }

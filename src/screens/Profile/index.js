@@ -123,7 +123,6 @@ export class ProfileScreen extends Component {
             message: this.props.user.messageUpdate,
             type: 'success',
             autoHide: true,
-            duration: 5000,
           })
           this.setState({
             filePath: response,
@@ -136,7 +135,6 @@ export class ProfileScreen extends Component {
             message: this.props.user.errorMsg,
             type: 'warning',
             autoHide: true,
-            duration: 5000,
           })
           this.setState({ visible: false })
         }
@@ -178,7 +176,6 @@ export class ProfileScreen extends Component {
           message: this.props.auth.message,
           type: 'success',
           autoHide: true,
-          duration: 5000,
         })
         this.setState({
           filePath: response,

@@ -69,14 +69,12 @@ export class ManageProfile extends Component {
         message: this.props.user.messageUpdate,
         type: 'success',
         autoHide: true,
-        duration: 5000,
       })
     } else {
       showMessage({
         message: this.props.user.errorMsg,
         type: 'warning',
         autoHide: true,
-        duration: 5000,
       })
     }
   }
@@ -155,7 +153,6 @@ export class ManageProfile extends Component {
                     message: errors.email,
                     type: 'warning',
                     autoHide: true,
-                    duration: 5000,
                   })}
                 <WrapperManage
                   title="Email"
@@ -171,7 +168,6 @@ export class ManageProfile extends Component {
                     message: errors.phoneNumber,
                     type: 'warning',
                     autoHide: true,
-                    duration: 5000,
                   })}
                 <WrapperManage
                   title="Phone Number"

@@ -53,7 +53,6 @@ export class EnterPassword extends Component {
         message: 'Success to login',
         type: 'success',
         autoHide: true,
-        duration: 5000,
       })
       this.setState({ isLoading: false })
       this.props.navigation.navigate('home-screen')
@@ -63,7 +62,6 @@ export class EnterPassword extends Component {
         message: 'Wrong Password',
         type: 'danger',
         autoHide: true,
-        duration: 5000,
       })
     }
   }

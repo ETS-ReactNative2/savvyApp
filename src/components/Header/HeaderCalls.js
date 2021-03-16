@@ -7,18 +7,18 @@ import { Text } from '../../styles/Typography'
 import styled from 'styled-components'
 import { Row } from '../../styles/ComponentStyle'
 
-export class HeaderContacts extends Component {
+export class HeaderCalls extends Component {
   render() {
     return (
       <ContainerColor>
         <Row align="center" justify="space-between">
           <IconFeather name="bell" size={24} />
           <Text bold size="18px">
-            Contacts
+            Calls
           </Text>
           <Row align="center">
-            <IconFeather name="search" size={24} />
-            <IconFeather style={styles.icon} name="more-vertical" size={24} />
+            <IconFeather name="video" size={24} />
+            <IconFeather style={styles.icon} name="search" size={24} />
           </Row>
         </Row>
       </ContainerColor>
@@ -28,7 +28,7 @@ export class HeaderContacts extends Component {
 
 const ContainerColor = styled.View`
   background-color: #fff;
-  padding: 20px 10px;
+  padding: 10px;
   border-bottom-width: 1px;
   border-bottom-color: ${theme.line};
 `
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HeaderContacts
+export default HeaderCalls

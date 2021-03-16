@@ -30,7 +30,6 @@ export class EnterEmail extends Component {
         message: this.props.user.errorMsg,
         type: 'danger',
         autoHide: true,
-        duration: 5000,
       })
     } else {
       await this.props.getUserData({ email: values.email })
