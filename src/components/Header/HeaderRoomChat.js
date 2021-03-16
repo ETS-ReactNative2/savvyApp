@@ -7,7 +7,7 @@ import { HeaderWrapper } from './HeaderWrapper'
 import { Text } from '../../styles/Typography'
 import { Row } from '../../styles/ComponentStyle'
 
-export class HeaderChat extends Component {
+export class HeaderRoomChat extends Component {
   render() {
     return (
       <HeaderWrapper>
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HeaderChat
+export default HeaderRoomChat
