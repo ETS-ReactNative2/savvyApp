@@ -242,64 +242,61 @@ export class ProfileScreen extends Component {
       )
     }
     return (
-      <>
-        <HeaderProfile navigation={this.props.navigation} />
-        <Layout>
-          <Container>
-            <Row mt="10px" mb="20px">
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState({ visible: true })
-                }}>
-                <View>{this.renderFileUri()}</View>
-              </TouchableOpacity>
-              <ShowModal />
-              <View>
-                <Text bold size="16px">
-                  {fullName}
-                </Text>
-                <Text size="12px">{email}</Text>
-                <Text size="12px" mt="10px" primary>
-                  My Microsoft account
-                </Text>
-              </View>
-            </Row>
-            <WrapperProfile
-              leftIcon="circle"
-              color="#00d95e"
-              rightIcon="chevron-down">
-              <Text>Active</Text>
-            </WrapperProfile>
-            <WrapperProfile leftIcon="bullhorn" rightIcon="edit-2">
-              <TextInput placeholder="Share what you're up to" />
-            </WrapperProfile>
-            <WrapperManage leftIcon="bookmark" title="Bookmarks" />
-          </Container>
-          <WrapperSpace>
-            <Text p="5px 10px" size="12px" bold label>
-              MANAGE
-            </Text>
-          </WrapperSpace>
-          <Container>
-            <WrapperManage
-              leftIcon="user"
-              title="Skype Profile"
-              onPress={() => this.props.navigation.navigate('manage-profile')}
-            />
-            <WrapperManageCol
-              leftIcon="phone"
-              title="Skype to Phone"
-              desc="Call phones at affordable rates"
-            />
-            <WrapperManageCol
-              leftIcon="dialpad"
-              title="Skype Number"
-              desc="Get a second number"
-            />
-            <WrapperManage leftIcon="settings" title="Settings" />
-          </Container>
-        </Layout>
-      </>
+      <Layout>
+        <Container>
+          <Row mt="10px" mb="20px">
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({ visible: true })
+              }}>
+              <View>{this.renderFileUri()}</View>
+            </TouchableOpacity>
+            <ShowModal />
+            <View>
+              <Text bold size="16px">
+                {fullName}
+              </Text>
+              <Text size="12px">{email}</Text>
+              <Text size="12px" mt="10px" primary>
+                My Microsoft account
+              </Text>
+            </View>
+          </Row>
+          <WrapperProfile
+            leftIcon="circle"
+            color="#00d95e"
+            rightIcon="chevron-down">
+            <Text>Active</Text>
+          </WrapperProfile>
+          <WrapperProfile leftIcon="bullhorn" rightIcon="edit-2">
+            <TextInput placeholder="Share what you're up to" />
+          </WrapperProfile>
+          <WrapperManage leftIcon="bookmark" title="Bookmarks" />
+        </Container>
+        <WrapperSpace>
+          <Text p="5px 10px" size="12px" bold label>
+            MANAGE
+          </Text>
+        </WrapperSpace>
+        <Container>
+          <WrapperManage
+            leftIcon="user"
+            title="Skype Profile"
+            onPress={() => this.props.navigation.navigate('manage-profile')}
+          />
+          <WrapperManageCol
+            leftIcon="phone"
+            title="Skype to Phone"
+            desc="Call phones at affordable rates"
+          />
+          <WrapperManageCol
+            leftIcon="dialpad"
+            title="Skype Number"
+            desc="Get a second number"
+          />
+          <WrapperManage leftIcon="settings" title="Settings" />
+        </Container>
+      </Layout>
     )
   }
 }

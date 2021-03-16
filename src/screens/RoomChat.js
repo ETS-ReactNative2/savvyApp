@@ -49,68 +49,66 @@ export class RoomChat extends Component {
     const { senderId } = this.props.user
     return (
       <Container p="0">
-        <>
-          <ScrollView style={{ marginBottom: 70 }}>
-            {senderChatList.map((item, index) => {
-              const self = item.from === senderId
-              return (
-                <Container p="10px">
-                  {self ? (
-                    <Row>
-                      <Image source={avatar} style={styles.avatar} />
-                      <View>
-                        <View>
-                          <Text size="12px" label>
-                            {item.from}
-                          </Text>
-                          <LinearGradient
-                            style={styles.wrapSend}
-                            colors={['#0279D5', '#02BBF3']}
-                            start={{ x: 0, y: 0 }}
-                            end={{ x: 1, y: 0 }}>
-                            <Text white p="10px" semibold>
-                              {item.message}
-                            </Text>
-                          </LinearGradient>
-                        </View>
-                      </View>
-                    </Row>
-                  ) : (
-                    <Row justify="flex-end">
-                      <View style={styles.wrapGet}>
-                        <Text>{item.message}</Text>
-                      </View>
-                    </Row>
-                  )}
-                </Container>
-              )
-            })}
-          </ScrollView>
-          {senderChatList.map((item) => {
+        <ScrollView style={{ marginBottom: 70 }}>
+          {senderChatList.map((item, index) => {
             const self = item.from === senderId
             return (
-              <>
-                {self && (
-                  <RowFooter>
-                    <IconButton icon="plus" size={25} padding={5} />
-                    <TextInput
-                      placeholder="Type a message"
-                      onChangeText={(message) =>
-                        this.setState({ message: message })
-                      }
-                    />
-                    <IconButton
-                      icon="send"
-                      size={20}
-                      padding={10}
-                      onPress={() => this.isSendChat(item.from)}
-                    />
-                  </RowFooter>
+              <Container p="10px">
+                {self ? (
+                  <Row>
+                    <Image source={avatar} style={styles.avatar} />
+                    <View>
+                      <View>
+                        <Text size="12px" label>
+                          {item.from}
+                        </Text>
+                        <LinearGradient
+                          style={styles.wrapSend}
+                          colors={['#0279D5', '#02BBF3']}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}>
+                          <Text white p="10px" semibold>
+                            {item.message}
+                          </Text>
+                        </LinearGradient>
+                      </View>
+                    </View>
+                  </Row>
+                ) : (
+                  <Row justify="flex-end">
+                    <View style={styles.wrapGet}>
+                      <Text>{item.message}</Text>
+                    </View>
+                  </Row>
                 )}
-              </>
+              </Container>
             )
           })}
-        </>
+        </ScrollView>
+        {senderChatList.map((item) => {
+          const self = item.from === senderId
+          return (
+            <>
+              {self && (
+                <RowFooter>
+                  <IconButton icon="plus" size={25} padding={5} />
+                  <TextInput
+                    placeholder="Type a message"
+                    onChangeText={(message) =>
+                      this.setState({ message: message })
+                    }
+                  />
+                  <IconButton
+                    icon="send"
+                    size={20}
+                    padding={10}
+                    onPress={() => this.isSendChat(item.from)}
+                  />
+                </RowFooter>
+              )}
+            </>
+          )
+        })}
       </Container>
     )
   }

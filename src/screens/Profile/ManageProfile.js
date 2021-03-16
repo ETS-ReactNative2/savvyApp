@@ -87,7 +87,7 @@ export class ManageProfile extends Component {
         end={{ x: 1, y: 0 }}>
         <ScrollView style={{}}>
           <View style={{ padding: 10 }}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <IconMaterial name="west" color="white" size={30} />
             </TouchableOpacity>
           </View>

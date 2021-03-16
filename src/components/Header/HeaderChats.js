@@ -13,7 +13,6 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu'
-import { Text } from '../../styles/Typography'
 export class HeaderChats extends Component {
   gotoProfile() {
     this.props.navigation.navigate('profileScreen')
@@ -63,7 +62,7 @@ export class HeaderChats extends Component {
 
 const ContainerColor = styled.View`
   background-color: #fff;
-  padding: 10px;
+  padding: 8px 10px;
   border-bottom-width: 1px;
   border-bottom-color: ${theme.line};
 `

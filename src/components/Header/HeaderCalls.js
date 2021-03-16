@@ -7,7 +7,7 @@ import { Text } from '../../styles/Typography'
 import styled from 'styled-components'
 import { Row } from '../../styles/ComponentStyle'
 
-export class HeaderCalls extends Component {
+export class HeaderContacts extends Component {
   render() {
     return (
       <ContainerColor>
@@ -28,7 +28,7 @@ export class HeaderCalls extends Component {
 
 const ContainerColor = styled.View`
   background-color: #fff;
-  padding: 10px;
+  padding: 20px 10px;
   border-bottom-width: 1px;
   border-bottom-color: ${theme.line};
 `
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HeaderCalls
+export default HeaderContacts

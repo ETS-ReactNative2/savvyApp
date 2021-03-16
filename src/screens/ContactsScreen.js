@@ -28,7 +28,7 @@ export class ContactsScreen extends Component {
   }
   getChatView = async (recipient, sender) => {
     await this.props.chatView(recipient, sender)
-    this.props.navigation.navigate('chat-screen')
+    this.props.navigation.navigate('room-chat-screen')
   }
   render() {
     return (

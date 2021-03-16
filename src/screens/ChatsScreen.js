@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { theme } from '../styles/ThemeColor'
 import { Row } from '../styles/ComponentStyle'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import HeaderChats from '../components/Header/HeaderChats'
 import { connect } from 'react-redux'
 import {
   getUserDetail,
@@ -13,6 +12,7 @@ import {
   chatView,
   getSenderById,
 } from '../redux/actions/user.action'
+import HeaderChats from '../components/Header/HeaderChats'
 
 export class ChatsScreen extends Component {
   constructor(props) {

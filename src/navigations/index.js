@@ -16,6 +16,8 @@ import RoomChat from '../screens/RoomChat'
 import { connect } from 'react-redux'
 import { login, autoLogin } from '../redux/actions/auth.action'
 import HeaderRoomChat from '../components/Header/HeaderRoomChat'
+import HeaderChats from '../components/Header/HeaderChats'
+import HeaderProfile from '../components/Header/HeaderProfile'
 
 const Stack = createStackNavigator()
 
@@ -39,7 +41,7 @@ export class AppNavigator extends Component {
                 name="profileScreen"
                 component={ProfileScreen}
                 options={{
-                  headerShown: false,
+                  header: (props) => <HeaderProfile {...props} />,
                 }}
               />
               <Stack.Screen
@@ -54,7 +56,7 @@ export class AppNavigator extends Component {
                 name="chat-screen"
                 component={RoomChat}
                 options={{
-                  header: () => <HeaderRoomChat />,
+                  header: (props) => <HeaderRoomChat {...props} />,
                 }}
               />
             </>
