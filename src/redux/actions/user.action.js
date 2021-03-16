@@ -145,6 +145,29 @@ export const getChatList = (sender) => {
   }
 }
 
+export const getAllUser = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: '',
+      })
+      const response = await http().get('/users')
+      dispatch({
+        type: 'USER_CHAT_LIST',
+        payload: response.data.results,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}
+
 export const chatView = (recipient, sender) => {
   return async (dispatch) => {
     try {

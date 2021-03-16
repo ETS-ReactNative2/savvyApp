@@ -9,13 +9,13 @@ import CreatePassword from '../screens/Register/CreatePassword'
 import EnterName from '../screens/Register/EnterName'
 import TabNavigator from './TabNavigator'
 import ProfileScreen from '../screens/Profile'
-import { HeaderAuth, HeaderChat } from '../components/Header'
+import { HeaderAuth } from '../components/Header/HeaderAuth'
 import ManageProfile from '../screens/Profile/ManageProfile'
 import RoomChat from '../screens/RoomChat'
 
 import { connect } from 'react-redux'
 import { login, autoLogin } from '../redux/actions/auth.action'
-import { HeaderProfile } from '../components/Header/HeaderProfile'
+import HeaderChat from '../components/Header/HeaderChat'
 
 const Stack = createStackNavigator()
 

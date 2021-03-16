@@ -14,7 +14,7 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu'
 import { Text } from '../../styles/Typography'
-export class HeaderHome extends Component {
+export class HeaderChats extends Component {
   gotoProfile() {
     this.props.navigation.navigate('profileScreen')
   }
@@ -92,4 +92,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = { getUserDetail }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderHome)
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderChats)

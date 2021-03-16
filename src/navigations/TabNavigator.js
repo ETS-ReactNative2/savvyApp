@@ -1,9 +1,9 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import HomeScreen from '../screens/Home'
-import ContactScreen from '../screens/Home/ContactScreen'
-import CallsScreen from '../screens/Home/CallsScreen'
+import HomeScreen from '../screens/ChatsScreen'
+import ContactsScreen from '../screens/ContactsScreen'
+import CallsScreen from '../screens/CallsScreen'
 
 const Tab = createBottomTabNavigator()
 
@@ -21,8 +21,8 @@ const AppNavigator = () => {
         },
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Calls" component={CallsScreen} labelName="dawddwa" />
-      <Tab.Screen name="Contacts" component={ContactScreen} />
+      <Tab.Screen name="Calls" component={CallsScreen} />
+      <Tab.Screen name="Contacts" component={ContactsScreen} />
       {/* Profile Screen */}
     </Tab.Navigator>
   )

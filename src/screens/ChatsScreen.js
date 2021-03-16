@@ -1,29 +1,30 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Image } from 'react-native'
-import avatar from '../../assets/images/avatar.png'
-import { Text } from '../../styles/Typography'
+import { Text } from '../styles/Typography'
 import styled from 'styled-components'
-import { theme } from '../../styles/ThemeColor'
-import { Row } from '../../styles/ComponentStyle'
+import { theme } from '../styles/ThemeColor'
+import { Row } from '../styles/ComponentStyle'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import HeaderHome from '../../components/Header/HeaderHome'
+import HeaderChats from '../components/Header/HeaderChats'
 import { connect } from 'react-redux'
 import {
   getUserDetail,
   getChatList,
   chatView,
-} from '../../redux/actions/user.action'
+} from '../redux/actions/user.action'
+import http from '../helpers/http'
 
-export class HomeScreen extends Component {
+export class ChatsScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
       loggedAs: '',
+      allUser: [],
     }
   }
   async componentDidMount() {
-    const { email } = this.props.user.userDetail
-    this.props.getChatList(email)
+    const response = await http().get('/users')
+    this.setState({ allUser: response.data.results })
   }
   getChatView = async (recipient, sender) => {
     await this.props.chatView(recipient, sender)
@@ -34,16 +35,16 @@ export class HomeScreen extends Component {
     const { email } = this.props.user.userDetail
     return (
       <>
-        <HeaderHome navigation={this.props.navigation} />
+        <HeaderChats navigation={this.props.navigation} />
         <Container>
-          {chatList.map((chat, idx) => (
-            <Row mb="10px" key={String(chat)}>
-              <Image source={avatar} style={styles.img} />
+          {this.state.allUser.map((recipient, idx) => (
+            <Row mb="10px" key={String(recipient)}>
+              <Image source={{ uri: recipient.picture }} style={styles.img} />
               <RowChat>
-                <TouchableOpacity onPress={() => this.getChatView(chat)}>
+                <TouchableOpacity onPress={() => this.getChatView(recipient)}>
                   <View>
                     <Text size="20px" mb="3px">
-                      {chat}
+                      {recipient.fullName}
                     </Text>
                     <Text>Maybe Next time...</Text>
                   </View>
@@ -96,4 +97,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = { getUserDetail, getChatList, chatView }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(ChatsScreen)
