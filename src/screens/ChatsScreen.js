@@ -11,48 +11,56 @@ import {
   getUserDetail,
   getChatList,
   chatView,
+  getSenderById,
 } from '../redux/actions/user.action'
-import http from '../helpers/http'
 
 export class ChatsScreen extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      loggedAs: '',
-      allUser: [],
-    }
+    this.state = {}
   }
   async componentDidMount() {
-    const response = await http().get('/users')
-    this.setState({ allUser: response.data.results })
+    this.props.getChatList(this.props.auth.id)
   }
   getChatView = async (recipient, sender) => {
+    await this.props.getSenderById(sender)
     await this.props.chatView(recipient, sender)
     this.props.navigation.navigate('chat-screen')
   }
   render() {
-    const { chatList } = this.props.user
-    const { email } = this.props.user.userDetail
+    const { chatHistory } = this.props.user
     return (
       <>
         <HeaderChats navigation={this.props.navigation} />
         <Container>
-          {this.state.allUser.map((recipient, idx) => (
-            <Row mb="10px" key={String(recipient)}>
-              <Image source={{ uri: recipient.picture }} style={styles.img} />
-              <RowChat>
-                <TouchableOpacity onPress={() => this.getChatView(recipient)}>
-                  <View>
-                    <Text size="20px" mb="3px">
-                      {recipient.fullName}
-                    </Text>
-                    <Text>Maybe Next time...</Text>
-                  </View>
-                </TouchableOpacity>
-                <TextDate>2012/12/21</TextDate>
-              </RowChat>
-            </Row>
-          ))}
+          {chatHistory.map((sender, idx) => {
+            return (
+              <Row mb="10px" key={String(sender)}>
+                {sender !== this.props.auth.id.toString() && (
+                  <>
+                    <Image
+                      source={{ uri: sender.picture }}
+                      style={styles.img}
+                    />
+                    <RowChat>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.getChatView(this.props.auth.id, sender)
+                        }>
+                        <View>
+                          <Text size="20px" mb="3px">
+                            {sender}
+                          </Text>
+                          <Text>Maybe Next time...</Text>
+                        </View>
+                      </TouchableOpacity>
+                      <TextDate>2012/12/21</TextDate>
+                    </RowChat>
+                  </>
+                )}
+              </Row>
+            )
+          })}
         </Container>
       </>
     )
@@ -95,6 +103,11 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-const mapDispatchToProps = { getUserDetail, getChatList, chatView }
+const mapDispatchToProps = {
+  getUserDetail,
+  getChatList,
+  chatView,
+  getSenderById,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatsScreen)

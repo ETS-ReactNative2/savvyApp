@@ -23,6 +23,7 @@ export const getUserDetail = (id) => {
     }
   }
 }
+
 export const getUserData = (data) => {
   return async (dispatch) => {
     const params = new URLSearchParams()
@@ -205,6 +206,26 @@ export const sendChat = (recipient, sender, message) => {
       dispatch({
         type: 'SEND_CHAT',
         payload: response.data.message,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}
+
+export const getSenderById = (id) => {
+  return async (dispatch) => {
+    const params = new URLSearchParams()
+    params.append('id', id.toString())
+    try {
+      dispatch({
+        type: 'GET_SENDER_ID',
+        payload: id,
       })
     } catch (err) {
       console.log(err)

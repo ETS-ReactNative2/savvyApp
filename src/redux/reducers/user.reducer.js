@@ -4,10 +4,11 @@ const initialState = {
   errorMsg: '',
   message: '',
   dataUser: {},
-  chatList: [],
+  chatHistory: [],
   senderChatList: {},
   messageSendChat: '',
   messageUpdate: '',
+  senderId: '',
 }
 
 const userReducer = (state = initialState, action) => {
@@ -40,7 +41,13 @@ const userReducer = (state = initialState, action) => {
     case 'USER_CHAT_LIST': {
       return {
         ...state,
-        chatList: action.payload,
+        chatHistory: action.payload,
+      }
+    }
+    case 'GET_SENDER_ID': {
+      return {
+        ...state,
+        senderId: action.payload,
       }
     }
     case 'SENDER_CHAT_LIST': {
