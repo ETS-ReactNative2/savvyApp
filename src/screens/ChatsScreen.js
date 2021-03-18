@@ -13,6 +13,7 @@ import {
   getSenderById,
 } from '../redux/actions/user.action'
 import HeaderChats from '../components/Header/HeaderChats'
+import moment from 'moment'
 
 export class ChatsScreen extends Component {
   constructor(props) {
@@ -22,9 +23,9 @@ export class ChatsScreen extends Component {
   async componentDidMount() {
     this.props.getChatList(this.props.auth.id)
   }
-  getChatView = async (recipient, sender) => {
-    await this.props.getSenderById(sender)
-    await this.props.chatView(recipient, sender)
+  getChatView = async (recipient_id, sender_id) => {
+    await this.props.getSenderById(sender_id.toString())
+    await this.props.chatView(sender_id.toString(), recipient_id)
     this.props.navigation.navigate('chat-screen')
   }
   render() {
@@ -33,28 +34,28 @@ export class ChatsScreen extends Component {
       <>
         <HeaderChats navigation={this.props.navigation} />
         <Container>
-          {chatHistory.map((sender, idx) => {
+          {chatHistory.map((item, idx) => {
+            console.log(item.sender_id) // 47
             return (
-              <Row mb="10px" key={String(sender)}>
-                {sender !== this.props.auth.id.toString() && (
+              <Row mb="10px" key={String(item)}>
+                {item.sender_id !== this.props.auth.id && (
                   <>
-                    <Image
-                      source={{ uri: sender.picture }}
-                      style={styles.img}
-                    />
+                    <Image source={{ uri: item.picture }} style={styles.img} />
                     <RowChat>
                       <TouchableOpacity
                         onPress={() =>
-                          this.getChatView(this.props.auth.id, sender)
+                          this.getChatView(this.props.auth.id, item.sender_id)
                         }>
                         <View>
                           <Text size="20px" mb="3px">
-                            {sender}
+                            {item.recipientName}
                           </Text>
-                          <Text>Maybe Next time...</Text>
+                          <Text>{item.message}</Text>
                         </View>
                       </TouchableOpacity>
-                      <TextDate>2012/12/21</TextDate>
+                      <TextDate>
+                        {moment(item.createdAt).format('HH:mm')}
+                      </TextDate>
                     </RowChat>
                   </>
                 )}

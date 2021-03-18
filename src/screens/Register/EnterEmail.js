@@ -29,7 +29,6 @@ export class EnterEmail extends Component {
       showMessage({
         message: this.props.user.errorMsg,
         type: 'danger',
-        autoHide: true,
       })
     } else {
       await this.props.getUserData({ email: values.email })

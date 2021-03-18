@@ -51,12 +51,7 @@ export const register = (data) => {
       const response = await http().post('auth/register', params)
       dispatch({
         type: 'REGISTER',
-        payload: {
-          ...response.data.results,
-          message: response.data.message,
-          // errorMsg: null,
-          // userData: response.data.results,
-        },
+        payload: response.data.message,
       })
     } catch (err) {
       const { message } = err.response.data

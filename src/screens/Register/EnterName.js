@@ -23,6 +23,9 @@ const Validation = yup.object().shape({
   fullName: yup.string().required('Name is required'),
 })
 export class EnterName extends Component {
+  state = {
+    message: '',
+  }
   gotoLogin() {
     this.props.navigation.navigate('login')
   }
@@ -44,14 +47,12 @@ export class EnterName extends Component {
       showMessage({
         message: this.props.auth.message,
         type: 'success',
-        autoHide: true,
       })
       this.props.navigation.navigate('login')
     } else {
       showMessage({
         message: this.props.auth.errorMsg,
         type: 'danger',
-        autoHide: true,
       })
     }
   }

@@ -68,13 +68,11 @@ export class ManageProfile extends Component {
       showMessage({
         message: this.props.user.messageUpdate,
         type: 'success',
-        autoHide: true,
       })
     } else {
       showMessage({
         message: this.props.user.errorMsg,
         type: 'warning',
-        autoHide: true,
       })
     }
   }
@@ -152,7 +150,6 @@ export class ManageProfile extends Component {
                   showMessage({
                     message: errors.email,
                     type: 'warning',
-                    autoHide: true,
                   })}
                 <WrapperManage
                   title="Email"
@@ -167,7 +164,6 @@ export class ManageProfile extends Component {
                   showMessage({
                     message: errors.phoneNumber,
                     type: 'warning',
-                    autoHide: true,
                   })}
                 <WrapperManage
                   title="Phone Number"

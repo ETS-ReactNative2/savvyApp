@@ -122,7 +122,6 @@ export class ProfileScreen extends Component {
           showMessage({
             message: this.props.user.messageUpdate,
             type: 'success',
-            autoHide: true,
           })
           this.setState({
             filePath: response,
@@ -134,7 +133,6 @@ export class ProfileScreen extends Component {
           showMessage({
             message: this.props.user.errorMsg,
             type: 'warning',
-            autoHide: true,
           })
           this.setState({ visible: false })
         }
@@ -175,7 +173,6 @@ export class ProfileScreen extends Component {
         showMessage({
           message: this.props.auth.message,
           type: 'success',
-          autoHide: true,
         })
         this.setState({
           filePath: response,

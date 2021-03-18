@@ -32,7 +32,6 @@ export class Login extends Component {
       showMessage({
         message: 'Email is not registered',
         type: 'danger',
-        autoHide: true,
       })
     }
   }
