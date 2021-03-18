@@ -55,26 +55,26 @@ export class ManageProfile extends Component {
     autoHide: false,
   }
   componentDidMount() {
-    this.props.getUserDetail(this.props.auth.id)
+    this.props.getUserDetail(this.props.auth.token)
   }
-  update = (values) => {
-    this.props.updateUser(this.props.auth.token, this.props.auth.id, {
+  update = async (values) => {
+    await this.props.updateUser(this.props.auth.token, {
       fullName: values.fullName,
       email: values.email,
       phoneNumber: values.phoneNumber,
     })
-    this.props.getUserDetail(this.props.auth.id)
-    if (this.props.user.messageUpdate !== '') {
-      showMessage({
-        message: this.props.user.messageUpdate,
-        type: 'success',
-      })
-    } else {
+    if (this.props.user.errorMsg !== '') {
       showMessage({
         message: this.props.user.errorMsg,
         type: 'warning',
       })
+    } else {
+      showMessage({
+        message: this.props.user.message,
+        type: 'success',
+      })
     }
+    await this.props.getUserDetail(this.props.auth.token)
   }
   render() {
     const { picture, email, fullName, phoneNumber } = this.props.user.userDetail
