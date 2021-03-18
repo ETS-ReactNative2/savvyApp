@@ -83,7 +83,7 @@ export const checkData = (data) => {
   }
 }
 
-export const updateUser = (token, id, data) => {
+export const updateUser = (token, data) => {
   return async (dispatch) => {
     const params = new FormData()
     if (data.picture) {
@@ -102,7 +102,7 @@ export const updateUser = (token, id, data) => {
       params.append('password', data.password)
     }
     try {
-      const response = await http(token).patch(`user/${id}`, params)
+      const response = await http(token).patch(`user`, params)
       dispatch({
         type: 'UPDATE_USER',
         payload: response.data.results,

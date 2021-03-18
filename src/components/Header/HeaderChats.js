@@ -18,7 +18,7 @@ export class HeaderChats extends Component {
     this.props.navigation.navigate('profileScreen')
   }
   componentDidMount() {
-    this.props.getUserDetail(this.props.auth.id)
+    this.props.getUserDetail(this.props.auth.token)
   }
   render() {
     const { picture } = this.props.user.userDetail

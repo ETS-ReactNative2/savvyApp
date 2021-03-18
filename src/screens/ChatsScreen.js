@@ -24,8 +24,8 @@ export class ChatsScreen extends Component {
     this.props.getChatList(this.props.auth.id)
   }
   getChatView = async (recipient_id, sender_id) => {
-    await this.props.getSenderById(sender_id.toString())
-    await this.props.chatView(sender_id.toString(), recipient_id)
+    await this.props.getSenderById(sender_id)
+    await this.props.chatView(sender_id, recipient_id)
     this.props.navigation.navigate('chat-screen')
   }
   render() {

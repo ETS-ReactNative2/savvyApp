@@ -5,7 +5,6 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  RefreshControl,
 } from 'react-native'
 import IconAwesome from 'react-native-vector-icons/FontAwesome'
 import IconFeather from 'react-native-vector-icons/Feather'
@@ -14,13 +13,12 @@ import styled from 'styled-components'
 import { Row } from '../../styles/ComponentStyle'
 import { theme } from '../../styles/ThemeColor'
 import { Text } from '../../styles/Typography'
-import HeaderProfile from '../../components/Header/HeaderProfile'
 import { connect } from 'react-redux'
 import { getUserDetail } from '../../redux/actions/user.action'
 import { Modal, ModalContent } from 'react-native-modals'
 import * as ImagePicker from 'react-native-image-picker'
 import { updateUser } from '../../redux/actions/user.action'
-import { showMessage, hideMessage } from 'react-native-flash-message'
+import { showMessage } from 'react-native-flash-message'
 
 export const WrapperManage = (props) => {
   return (
@@ -92,10 +90,10 @@ export class ProfileScreen extends Component {
       refreshing: false,
     }
   }
-  componentDidMount() {
-    this.props.getUserDetail(this.props.auth.id)
+  async componentDidMount() {
+    await this.props.getUserDetail(this.props.auth.token)
   }
-  chooseImage = () => {
+  chooseImage = async () => {
     let options = {
       title: 'Select Image',
       customButtons: [
@@ -106,35 +104,34 @@ export class ProfileScreen extends Component {
         path: 'images',
       },
     }
-    ImagePicker.launchImageLibrary(options, (response) => {
+    ImagePicker.launchImageLibrary(options, async (response) => {
       console.log('Response = ', response)
-
       try {
         const image = {
           uri: response.uri,
           type: response.type,
           name: response.fileName,
         }
-        this.props.updateUser(this.props.auth.token, this.props.auth.id, {
+        await this.props.updateUser(this.props.auth.token, {
           picture: image,
         })
-        if (this.props.user.messageUpdate !== '') {
+        if (this.props.user.errorMsg !== '') {
           showMessage({
-            message: this.props.user.messageUpdate,
+            message: this.props.user.errorMsg,
+            type: 'warning',
+          })
+          this.setState({ visible: false })
+        } else {
+          showMessage({
+            message: this.props.user.message,
             type: 'success',
           })
           this.setState({
             filePath: response,
             fileData: response.data,
             fileUri: response.uri,
+            visible: false,
           })
-          this.setState({ visible: false })
-        } else {
-          showMessage({
-            message: this.props.user.errorMsg,
-            type: 'warning',
-          })
-          this.setState({ visible: false })
         }
       } catch (err) {
         console.log(err)
@@ -142,14 +139,14 @@ export class ProfileScreen extends Component {
     })
   }
 
-  launchCamera = () => {
+  launchCamera = async () => {
     let options = {
       storageOptions: {
         skipBackup: true,
         path: 'images',
       },
     }
-    ImagePicker.launchCamera(options, (response) => {
+    ImagePicker.launchCamera(options, async (response) => {
       console.log('Response = ', response)
 
       if (response.didCancel) {
@@ -162,24 +159,36 @@ export class ProfileScreen extends Component {
         console.log('User tapped custom button: ', response.customButton)
         this.setState({ visible: false })
       } else {
-        const image = {
-          uri: response.uri,
-          type: response.type,
-          name: response.fileName,
+        try {
+          const image = {
+            uri: response.uri,
+            type: response.type,
+            name: response.fileName,
+          }
+          await this.props.updateUser(this.props.auth.token, {
+            picture: image,
+          })
+          if (this.props.user.errorMsg !== '') {
+            showMessage({
+              message: this.props.user.errorMsg,
+              type: 'warning',
+            })
+            this.setState({ visible: false })
+          } else {
+            showMessage({
+              message: this.props.user.message,
+              type: 'success',
+            })
+            this.setState({
+              filePath: response,
+              fileData: response.data,
+              fileUri: response.uri,
+              visible: false,
+            })
+          }
+        } catch (err) {
+          console.log(err)
         }
-        this.props.updateUser(this.props.auth.token, this.props.auth.id, {
-          picture: image,
-        })
-        showMessage({
-          message: this.props.auth.message,
-          type: 'success',
-        })
-        this.setState({
-          filePath: response,
-          fileData: response.data,
-          fileUri: response.uri,
-        })
-        this.setState({ visible: false })
       }
     })
   }
@@ -209,10 +218,6 @@ export class ProfileScreen extends Component {
     } else {
       return <Image source={{ uri: picture }} style={styles.img} />
     }
-  }
-
-  componentDidMount() {
-    this.props.getUserDetail(this.props.auth.id)
   }
   render() {
     const { fullName, email, picture } = this.props.user.userDetail
