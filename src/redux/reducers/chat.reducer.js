@@ -3,7 +3,7 @@ const initialState = {
   message: '',
   chatHistory: [],
   chatSender: [],
-  senderId: '',
+  sender: null,
 }
 
 const chatReducer = (state = initialState, action) => {
@@ -14,10 +14,10 @@ const chatReducer = (state = initialState, action) => {
         message: action.payload,
       }
     }
-    case 'GET_SENDER_ID': {
+    case 'SELECT_SENDER': {
       return {
         ...state,
-        senderId: action.payload,
+        sender: action.payload,
       }
     }
     case 'CHAT_VIEW': {

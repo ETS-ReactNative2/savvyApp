@@ -23,14 +23,14 @@ export const chatView = (token) => {
   }
 }
 
-export const chatBySender = (token, id) => {
+export const chatBySender = (token, sender_id) => {
   return async (dispatch) => {
     try {
       dispatch({
         type: 'SET_CHAT_MESSAGE',
         payload: '',
       })
-      const response = await http(token).get(`chat/${id}`)
+      const response = await http(token).get(`chat/${sender_id}`)
       dispatch({
         type: 'CHAT_SENDER',
         payload: response.data.results,
@@ -56,7 +56,7 @@ export const sendChat = (token, message, recipient_id) => {
         type: 'SET_CHAT_MESSAGE',
         payload: '',
       })
-      const response = await http(token).post('chat', params)
+      const response = await http(token).post('chats', params)
       dispatch({
         type: 'SEND_CHAT',
         payload: response.data.message,
@@ -72,22 +72,7 @@ export const sendChat = (token, message, recipient_id) => {
   }
 }
 
-export const senderById = (sender_id) => {
-  return async (dispatch) => {
-    const params = new URLSearchParams()
-    params.append('sender_id', sender_id)
-    try {
-      dispatch({
-        type: 'GET_SENDER_ID',
-        payload: sender_id,
-      })
-    } catch (err) {
-      console.log(err)
-      const { message } = err.response.data
-      dispatch({
-        type: 'SET_CHAT_MESSAGE',
-        payload: message,
-      })
-    }
-  }
-}
+export const senderId = (sender) => ({
+  type: 'SELECT_SENDER',
+  payload: sender,
+})

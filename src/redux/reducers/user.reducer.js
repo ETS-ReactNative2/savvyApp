@@ -3,7 +3,6 @@ const initialState = {
   errorMsg: '',
   message: '',
   dataUser: {},
-  senderId: '',
 }
 
 const userReducer = (state = initialState, action) => {

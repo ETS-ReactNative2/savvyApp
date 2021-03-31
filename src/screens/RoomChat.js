@@ -8,7 +8,7 @@ import { theme } from '../styles/ThemeColor'
 import avatar from '../assets/images/avatar.png'
 import { Text } from '../styles/Typography'
 import { connect } from 'react-redux'
-import { chatBySender, senderById } from '../redux/actions/chat.action'
+import { chatBySender, senderId, sendChat } from '../redux/actions/chat.action'
 
 const IconButton = (props) => {
   return (
@@ -34,34 +34,39 @@ export class RoomChat extends Component {
     super(props)
     this.state = { message: '' }
   }
-  async componentDidMount() {
-    await this.props.senderById()
-    await this.props.chatBySender(
-      this.props.auth.token,
-      this.props.user.senderId,
-    )
+  componentDidMount() {
+    this.props.chatBySender(this.props.auth.token, this.props.chat.sender)
   }
-  isSendChat(recipient) {}
+  isSendChat = (recipient) => {
+    this.props.sendChat(this.props.auth.token, this.state.message, recipient)
+    this.props.chatBySender(this.props.auth.token, this.props.chat.sender)
+  }
   render() {
-    const { senderChatList } = this.props.user
-    const { senderId } = this.props.user
+    const { sender } = this.props.chat
+    const { chatSender } = this.props.chat
     return (
       <Container p="0">
         <FlatList
-          data={this.props.chat.chatSender}
+          data={chatSender}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
-            const self = item.sender_id == senderId
+            const self = item.sender_id == sender
             return (
-              <ScrollView>
-                <Container p="10px">
+              <Container p="10px">
+                {self ? (
                   <Row>
-                    <WrapperChat self={self}>
-                      <TextChat self={self}>{item.message}</TextChat>
+                    <WrapperChat>
+                      <TextChat>{item.message}</TextChat>
                     </WrapperChat>
                   </Row>
-                </Container>
-              </ScrollView>
+                ) : (
+                  <Row>
+                    <WrapperChatSelf>
+                      <TextChat>{item.message}</TextChat>
+                    </WrapperChatSelf>
+                  </Row>
+                )}
+              </Container>
             )
           }}
         />
@@ -75,7 +80,7 @@ export class RoomChat extends Component {
             icon="send"
             size={20}
             padding={10}
-            onPress={() => this.isSendChat(item.recipient_id)}
+            onPress={() => this.isSendChat(sender)}
           />
         </RowFooter>
       </Container>
@@ -113,12 +118,16 @@ const WrapperChat = styled.View`
   border-radius: 10px;
   border-top-right-radius: 0px;
   padding: 10px;
-  ${(props) =>
-    props.self &&
-    'background-color: blue; border-radius: 10px; border-top-left-radius: 0px;border-top-right-radius: 10px; padding: 10px'};
+`
+const WrapperChatSelf = styled.View`
+  align-items: flex-end;
+  background-color: blue;
+  border-radius: 10px;
+  border-top-right-radius: 0px;
+  padding: 10px;
+  text-align: right;
 `
 const TextChat = styled.Text`
-  ${(props) => props.self && 'color: white; font-family: OpenSans-Regular'}
   font-family: OpenSans-Regular;
 `
 
@@ -142,6 +151,6 @@ const mapStateToProps = (state) => ({
   chat: state.chat,
 })
 
-const mapDispatchToProps = { chatBySender, senderById }
+const mapDispatchToProps = { chatBySender, senderId, sendChat }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomChat)

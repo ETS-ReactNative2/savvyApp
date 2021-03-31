@@ -7,7 +7,7 @@ import { Row } from '../styles/ComponentStyle'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import { userDetail } from '../redux/actions/user.action'
-import { chatView, senderById } from '../redux/actions/chat.action'
+import { chatView, senderId } from '../redux/actions/chat.action'
 import HeaderChats from '../components/Header/HeaderChats'
 import moment from 'moment'
 
@@ -20,7 +20,7 @@ export class ChatsScreen extends Component {
     this.props.chatView(this.props.auth.token)
   }
   getChatView = async (sender_id) => {
-    await this.props.senderById(sender_id)
+    await this.props.senderId(sender_id)
     this.props.navigation.navigate('chat-room')
   }
   render() {
@@ -36,18 +36,15 @@ export class ChatsScreen extends Component {
                 <Row mb="10px" key={String(item)}>
                   <Image source={{ uri: item.picture }} style={styles.img} />
                   <RowChat>
-                    <TouchableOpacity
-                      onPress={() => this.getChatView(item.sender_id)}>
+                    <TouchableOpacity onPress={() => this.getChatView(item)}>
                       <View>
                         <Text size="20px" mb="3px">
-                          {item.fullName}
+                          {item}
                         </Text>
-                        <Text>{item.message}</Text>
+                        <Text>{item}</Text>
                       </View>
                     </TouchableOpacity>
-                    <TextDate>
-                      {moment(item.createdAt).format('HH:mm')}
-                    </TextDate>
+                    <TextDate>{moment(item).format('HH:mm')}</TextDate>
                   </RowChat>
                 </Row>
               )
@@ -99,7 +96,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   userDetail,
   chatView,
-  senderById,
+  senderId,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatsScreen)
