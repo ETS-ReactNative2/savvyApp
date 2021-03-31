@@ -7,7 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Container, Row } from '../../styles/ComponentStyle'
 import Logo from '../../assets/images/logos/microsoft-logo.png'
 import { connect } from 'react-redux'
-import { checkData, getUserData } from '../../redux/actions/user.action'
+import { checkData, userData } from '../../redux/actions/user.action'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -31,7 +31,7 @@ export class EnterEmail extends Component {
         type: 'danger',
       })
     } else {
-      await this.props.getUserData({ email: values.email })
+      await this.props.userData({ email: values.email })
       this.props.navigation.navigate('create-password', {
         getItem: values.email,
       })
@@ -117,6 +117,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-const mapDispatchToProps = { checkData, getUserData }
+const mapDispatchToProps = { checkData, userData }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnterEmail)

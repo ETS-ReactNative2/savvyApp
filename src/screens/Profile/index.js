@@ -14,7 +14,7 @@ import { Row } from '../../styles/ComponentStyle'
 import { theme } from '../../styles/ThemeColor'
 import { Text } from '../../styles/Typography'
 import { connect } from 'react-redux'
-import { getUserDetail } from '../../redux/actions/user.action'
+import { userDetail } from '../../redux/actions/user.action'
 import { Modal, ModalContent } from 'react-native-modals'
 import * as ImagePicker from 'react-native-image-picker'
 import { updateUser } from '../../redux/actions/user.action'
@@ -91,7 +91,7 @@ export class ProfileScreen extends Component {
     }
   }
   async componentDidMount() {
-    await this.props.getUserDetail(this.props.auth.token)
+    await this.props.userDetail(this.props.auth.token)
   }
   chooseImage = async () => {
     let options = {
@@ -349,6 +349,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-const mapDispatchToProps = { getUserDetail, updateUser }
+const mapDispatchToProps = { userDetail, updateUser }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)

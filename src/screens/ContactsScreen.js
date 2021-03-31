@@ -6,11 +6,7 @@ import { theme } from '../styles/ThemeColor'
 import { Container, Row } from '../styles/ComponentStyle'
 import HeaderChats from '../components/Header/HeaderChats'
 import { connect } from 'react-redux'
-import {
-  getUserDetail,
-  getChatList,
-  chatView,
-} from '../redux/actions/user.action'
+import { userDetail, chatList, chatView } from '../redux/actions/user.action'
 import http from '../helpers/http'
 import HeaderContacts from '../components/Header/HeaderContacts'
 
@@ -28,7 +24,7 @@ export class ContactsScreen extends Component {
   }
   getChatView = async (recipient, sender) => {
     await this.props.chatView(recipient, sender)
-    this.props.navigation.navigate('room-chat-screen')
+    this.props.navigation.navigate('room-chat-room')
   }
   render() {
     return (
@@ -74,6 +70,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-const mapDispatchToProps = { getUserDetail, getChatList, chatView }
+const mapDispatchToProps = { userDetail, chatList, chatView }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsScreen)

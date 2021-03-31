@@ -1,11 +1,8 @@
 const initialState = {
   userDetail: {},
-  checkData: {},
   errorMsg: '',
   message: '',
   dataUser: {},
-  chatHistory: [],
-  senderChatList: {},
   senderId: '',
 }
 
@@ -30,36 +27,18 @@ const userReducer = (state = initialState, action) => {
         message: action.payload,
       }
     }
-    case 'SEND_CHAT': {
-      return {
-        ...state,
-        message: action.payload,
-      }
-    }
-    case 'USER_CHAT_LIST': {
-      return {
-        ...state,
-        chatHistory: action.payload,
-      }
-    }
-    case 'GET_SENDER_ID': {
-      return {
-        ...state,
-        senderId: action.payload,
-      }
-    }
-    case 'SENDER_CHAT_LIST': {
-      return {
-        ...state,
-        senderChatList: action.payload,
-      }
-    }
     case 'UPDATE_USER': {
       return {
         ...state,
         dataUser: action.payload,
         message: action.message,
         errorMsg: '',
+      }
+    }
+    case 'USER_CHAT_LIST': {
+      return {
+        ...state,
+        recipient: action.payload,
       }
     }
     case 'SET_USER_MESSAGE': {

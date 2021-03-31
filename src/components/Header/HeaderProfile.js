@@ -4,7 +4,7 @@ import IconMaterial from 'react-native-vector-icons/MaterialIcons'
 import { HeaderWrapper } from './HeaderWrapper'
 import { Text } from '../../styles/Typography'
 import { connect } from 'react-redux'
-import { getUserDetail } from '../../redux/actions/user.action'
+import { userDetail } from '../../redux/actions/user.action'
 import { logout } from '../../redux/actions/auth.action'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 
@@ -13,7 +13,7 @@ export class HeaderProfile extends Component {
     this.props.navigation.goBack()
   }
   async componentDidMount() {
-    await this.props.getUserDetail(this.props.auth.id)
+    await this.props.userDetail(this.props.auth.id)
   }
   logout() {
     this.props.logout()
@@ -42,6 +42,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 
-const mapDispatchToProps = { getUserDetail, logout }
+const mapDispatchToProps = { userDetail, logout }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderProfile)

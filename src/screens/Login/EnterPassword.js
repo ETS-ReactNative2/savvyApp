@@ -35,7 +35,7 @@ export class EnterPassword extends Component {
     }
   }
   componentDidMount() {
-    this.props.getUserData()
+    this.props.userData()
   }
   toggleCheckBox() {
     this.setState({

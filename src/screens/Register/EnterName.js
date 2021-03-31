@@ -11,8 +11,8 @@ import Icon from 'react-native-vector-icons/Feather'
 import { connect } from 'react-redux'
 import {
   updateUser,
-  getUserDetail,
-  getUserData,
+  userDetail,
+  userData,
 } from '../../redux/actions/user.action'
 import { register } from '../../redux/actions/auth.action'
 import { Formik } from 'formik'
@@ -33,7 +33,7 @@ export class EnterName extends Component {
     this.props.navigation.goBack()
   }
   componentDidMount() {
-    this.props.getUserData()
+    this.props.userData()
   }
   isRegister = async (values) => {
     const { email } = this.props.user.userData
@@ -128,6 +128,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-const mapDispatchToProps = { updateUser, getUserDetail, getUserData, register }
+const mapDispatchToProps = { updateUser, userDetail, userData, register }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnterName)

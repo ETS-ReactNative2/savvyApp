@@ -6,7 +6,7 @@ import { theme } from '../../styles/ThemeColor'
 import styled from 'styled-components'
 import { Row } from '../../styles/ComponentStyle'
 import { connect } from 'react-redux'
-import { getUserDetail } from '../../redux/actions/user.action'
+import { userDetail } from '../../redux/actions/user.action'
 import {
   Menu,
   MenuOptions,
@@ -18,7 +18,7 @@ export class HeaderChats extends Component {
     this.props.navigation.navigate('profileScreen')
   }
   componentDidMount() {
-    this.props.getUserDetail(this.props.auth.token)
+    this.props.userDetail(this.props.auth.token)
   }
   render() {
     const { picture } = this.props.user.userDetail
@@ -89,6 +89,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 
-const mapDispatchToProps = { getUserDetail }
+const mapDispatchToProps = { userDetail }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderChats)

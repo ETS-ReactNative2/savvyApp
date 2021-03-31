@@ -53,7 +53,7 @@ export class AppNavigator extends Component {
               />
               {/* RoomChat screen */}
               <Stack.Screen
-                name="chat-screen"
+                name="chat-room"
                 component={RoomChat}
                 options={{
                   header: (props) => <HeaderRoomChat {...props} />,

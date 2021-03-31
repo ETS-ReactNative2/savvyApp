@@ -11,7 +11,7 @@ import CheckBox from 'react-native-check-box'
 import { theme } from '../../styles/ThemeColor'
 import { connect } from 'react-redux'
 import { register } from '../../redux/actions/auth.action'
-import { getUserData } from '../../redux/actions/user.action'
+import { userData } from '../../redux/actions/user.action'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { showMessage, hideMessage } from 'react-native-flash-message'
@@ -41,7 +41,7 @@ export class CreatePassword extends Component {
     this.props.navigation.goBack()
   }
   componentDidMount() {
-    this.props.getUserData()
+    this.props.userData()
   }
   isRegister = async (values) => {
     this.props.navigation.navigate('enter-name', {
@@ -127,6 +127,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 
-const mapDispatchToProps = { register, getUserData }
+const mapDispatchToProps = { register, userData }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePassword)

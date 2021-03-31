@@ -8,7 +8,7 @@ import { Container, Row } from '../../styles/ComponentStyle'
 import Logo from '../../assets/images/logos/microsoft-logo.png'
 import { Formik } from 'formik'
 import * as yup from 'yup'
-import { getUserData, checkData } from '../../redux/actions/user.action'
+import { userData, checkData } from '../../redux/actions/user.action'
 import { connect } from 'react-redux'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 
@@ -26,7 +26,7 @@ export class Login extends Component {
   login = async (values) => {
     await this.props.checkData({ email: values.email })
     if (this.props.user.errorMsg !== '') {
-      await this.props.getUserData({ email: values.email })
+      await this.props.userData({ email: values.email })
       this.props.navigation.navigate('enter-password')
     } else {
       showMessage({
@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   user: state.user,
 })
-const mapDispatchToProps = { getUserData, checkData }
+const mapDispatchToProps = { userData, checkData }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

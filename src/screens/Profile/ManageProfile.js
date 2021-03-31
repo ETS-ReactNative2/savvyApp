@@ -10,7 +10,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import { ErrorText, Text } from '../../styles/Typography'
 import { theme } from '../../styles/ThemeColor'
 import { connect } from 'react-redux'
-import { updateUser, getUserDetail } from '../../redux/actions/user.action'
+import { updateUser, userDetail } from '../../redux/actions/user.action'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -55,7 +55,7 @@ export class ManageProfile extends Component {
     autoHide: false,
   }
   componentDidMount() {
-    this.props.getUserDetail(this.props.auth.token)
+    this.props.userDetail(this.props.auth.token)
   }
   update = async (values) => {
     await this.props.updateUser(this.props.auth.token, {
@@ -74,7 +74,7 @@ export class ManageProfile extends Component {
         type: 'success',
       })
     }
-    await this.props.getUserDetail(this.props.auth.token)
+    await this.props.userDetail(this.props.auth.token)
   }
   render() {
     const { picture, email, fullName, phoneNumber } = this.props.user.userDetail
@@ -223,6 +223,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-const mapDispatchToProps = { updateUser, getUserDetail }
+const mapDispatchToProps = { updateUser, userDetail }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageProfile)

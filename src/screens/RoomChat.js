@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, View, Image } from 'react-native'
+import { ScrollView, StyleSheet, View, Image, FlatList } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import Icon from 'react-native-vector-icons/Feather'
 import styled from 'styled-components'
@@ -8,7 +8,7 @@ import { theme } from '../styles/ThemeColor'
 import avatar from '../assets/images/avatar.png'
 import { Text } from '../styles/Typography'
 import { connect } from 'react-redux'
-import { sendChat, chatView, getSenderById } from '../redux/actions/user.action'
+import { chatBySender, senderById } from '../redux/actions/chat.action'
 
 const IconButton = (props) => {
   return (
@@ -35,24 +35,24 @@ export class RoomChat extends Component {
     this.state = { message: '' }
   }
   async componentDidMount() {
-    await this.props.getSenderById()
-    await this.props.chatView(this.props.auth.id, this.props.user.senderId)
+    await this.props.senderById()
+    await this.props.chatBySender(
+      this.props.auth.token,
+      this.props.user.senderId,
+    )
   }
-  isSendChat(recipient) {
-    this.props.sendChat(recipient, this.props.auth.id, this.state.message)
-    this.props.getSenderById()
-    this.props.chatView(this.props.auth.id, recipient)
-    console.log(recipient, this.state.message)
-  }
+  isSendChat(recipient) {}
   render() {
     const { senderChatList } = this.props.user
     const { senderId } = this.props.user
     return (
       <Container p="0">
-        {senderChatList.map((item, index) => {
-          const self = item.sender_id == senderId
-          return (
-            <>
+        <FlatList
+          data={this.props.chat.chatSender}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            const self = item.sender_id == senderId
+            return (
               <ScrollView>
                 <Container p="10px">
                   <Row>
@@ -62,25 +62,22 @@ export class RoomChat extends Component {
                   </Row>
                 </Container>
               </ScrollView>
-
-              <RowFooter>
-                <IconButton icon="plus" size={25} padding={5} />
-                <TextInput
-                  placeholder="Type a message"
-                  onChangeText={(message) =>
-                    this.setState({ message: message })
-                  }
-                />
-                <IconButton
-                  icon="send"
-                  size={20}
-                  padding={10}
-                  onPress={() => this.isSendChat(item.recipient_id)}
-                />
-              </RowFooter>
-            </>
-          )
-        })}
+            )
+          }}
+        />
+        <RowFooter>
+          <IconButton icon="plus" size={25} padding={5} />
+          <TextInput
+            placeholder="Type a message"
+            onChangeText={(message) => this.setState({ message: message })}
+          />
+          <IconButton
+            icon="send"
+            size={20}
+            padding={10}
+            onPress={() => this.isSendChat(item.recipient_id)}
+          />
+        </RowFooter>
       </Container>
     )
   }
@@ -142,8 +139,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   auth: state.auth,
   user: state.user,
+  chat: state.chat,
 })
 
-const mapDispatchToProps = { sendChat, chatView, getSenderById }
+const mapDispatchToProps = { chatBySender, senderById }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomChat)

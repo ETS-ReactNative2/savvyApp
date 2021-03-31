@@ -1,6 +1,6 @@
 import http from '../../helpers/http'
 
-export const getUserDetail = (token) => {
+export const userDetail = (token) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -119,30 +119,7 @@ export const updateUser = (token, data) => {
   }
 }
 
-export const getChatList = (token, recipient_id) => {
-  return async (dispatch) => {
-    try {
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: '',
-      })
-      const response = await http(token).get(`chat/${recipient_id}`)
-      dispatch({
-        type: 'USER_CHAT_LIST',
-        payload: response.data.results,
-      })
-    } catch (err) {
-      console.log(err)
-      const { message } = err.response.data
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: message,
-      })
-    }
-  }
-}
-
-export const getAllUser = (token) => {
+export const allUser = (token) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -153,79 +130,6 @@ export const getAllUser = (token) => {
       dispatch({
         type: 'USER_CHAT_LIST',
         payload: response.data.results,
-      })
-    } catch (err) {
-      console.log(err)
-      const { message } = err.response.data
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: message,
-      })
-    }
-  }
-}
-
-export const chatView = (token, recipient_id, sender_id) => {
-  return async (dispatch) => {
-    try {
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: '',
-      })
-      const response = await http(token).get(
-        `chat/${recipient_id}/${sender_id}`,
-      )
-      dispatch({
-        type: 'SENDER_CHAT_LIST',
-        payload: response.data.results,
-      })
-    } catch (err) {
-      console.log(err)
-      const { message } = err.response.data
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: message,
-      })
-    }
-  }
-}
-
-export const sendChat = (token, recipient_id, sender_id, message) => {
-  return async (dispatch) => {
-    const params = new URLSearchParams()
-    params.append('message', message)
-    try {
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: '',
-      })
-      const response = await http(token).post(
-        `chat/${recipient_id}/${sender_id}`,
-        params,
-      )
-      dispatch({
-        type: 'SEND_CHAT',
-        payload: response.data.message,
-      })
-    } catch (err) {
-      console.log(err)
-      const { message } = err.response.data
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: message,
-      })
-    }
-  }
-}
-
-export const getSenderById = (sender_id) => {
-  return async (dispatch) => {
-    const params = new URLSearchParams()
-    params.append('sender_id', sender_id.toString())
-    try {
-      dispatch({
-        type: 'GET_SENDER_ID',
-        payload: sender_id,
       })
     } catch (err) {
       console.log(err)
