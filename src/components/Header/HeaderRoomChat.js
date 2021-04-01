@@ -12,7 +12,7 @@ export class HeaderRoomChat extends Component {
     return (
       <HeaderWrapper>
         <Row align="center">
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <IconMaterial name="west" size={30} />
           </TouchableOpacity>
           <Text bold ml="25px" size="18px">

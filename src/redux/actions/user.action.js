@@ -24,7 +24,7 @@ export const userDetail = (token) => {
   }
 }
 
-export const getUserData = (data) => {
+export const userData = (data) => {
   return async (dispatch) => {
     const params = new URLSearchParams()
     if (data.phoneNumber) {

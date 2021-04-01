@@ -20,7 +20,6 @@ export class App extends Component {
         <Provider store={store}>
           <PersistGate persistor={persistor}>
             <AppNavigator />
-            {/* added flash message & modal */}
             <FlashMessage position="top" />
             <ModalPortal />
           </PersistGate>

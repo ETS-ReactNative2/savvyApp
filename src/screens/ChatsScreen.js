@@ -16,8 +16,9 @@ export class ChatsScreen extends Component {
     super(props)
     this.state = {}
   }
-  async componentDidMount() {
-    this.props.chatView(this.props.auth.token)
+  componentDidMount() {
+    const { token } = this.props.auth
+    this.props.chatView(token)
   }
   getChatView = async (sender_id) => {
     await this.props.senderId(sender_id)

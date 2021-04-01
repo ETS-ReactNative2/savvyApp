@@ -9,6 +9,7 @@ import avatar from '../assets/images/avatar.png'
 import { Text } from '../styles/Typography'
 import { connect } from 'react-redux'
 import { chatBySender, senderId, sendChat } from '../redux/actions/chat.action'
+import io from '../helpers/socket'
 
 const IconButton = (props) => {
   return (
@@ -33,13 +34,24 @@ export class RoomChat extends Component {
   constructor(props) {
     super(props)
     this.state = { message: '' }
+    this.chatBody = React.createRef()
   }
   componentDidMount() {
-    this.props.chatBySender(this.props.auth.token, this.props.chat.sender)
+    const { token } = this.props.auth
+    const { sender } = this.props.chat
+    this.props.chatBySender(token, sender)
+    io.onAny(() => {
+      io.once(sender, () => {
+        this.props.chatBySender(token, sender)
+      })
+    })
   }
   isSendChat = (recipient) => {
-    this.props.sendChat(this.props.auth.token, this.state.message, recipient)
-    this.props.chatBySender(this.props.auth.token, this.props.chat.sender)
+    const { token } = this.props.auth
+    const { message } = this.state
+    const { sender } = this.props.chat
+    this.props.sendChat(token, message, recipient)
+    this.props.chatBySender(token, sender)
   }
   render() {
     const { sender } = this.props.chat
@@ -47,26 +59,31 @@ export class RoomChat extends Component {
     return (
       <Container p="0">
         <FlatList
+          style={{ marginBottom: 70 }}
           data={chatSender}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
             const self = item.sender_id == sender
             return (
-              <Container p="10px">
+              <>
                 {self ? (
                   <Row>
-                    <WrapperChat>
+                    <LinearGradient
+                      style={styles.wrapperLinear}
+                      colors={['#0279D5', '#02BBF3']}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}>
                       <TextChat>{item.message}</TextChat>
-                    </WrapperChat>
+                    </LinearGradient>
                   </Row>
                 ) : (
-                  <Row>
+                  <Row justify="flex-end">
                     <WrapperChatSelf>
-                      <TextChat>{item.message}</TextChat>
+                      <TextChatSelf>{item.message}</TextChatSelf>
                     </WrapperChatSelf>
                   </Row>
                 )}
-              </Container>
+              </>
             )
           }}
         />
@@ -112,23 +129,19 @@ const RowFooter = styled.View`
   justify-content: space-between;
   align-items: center;
 `
-
-const WrapperChat = styled.View`
+const WrapperChatSelf = styled.View`
   background-color: ${theme.inputbg};
   border-radius: 10px;
   border-top-right-radius: 0px;
   padding: 10px;
+  margin: 5px;
 `
-const WrapperChatSelf = styled.View`
-  align-items: flex-end;
-  background-color: blue;
-  border-radius: 10px;
-  border-top-right-radius: 0px;
-  padding: 10px;
-  text-align: right;
+const TextChatSelf = styled.Text`
+  font-family: OpenSans-Regular;
 `
 const TextChat = styled.Text`
   font-family: OpenSans-Regular;
+  color: white;
 `
 
 const styles = StyleSheet.create({
@@ -142,6 +155,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderRadius: 10,
     borderTopLeftRadius: 0,
+  },
+  wrapperLinear: {
+    backgroundColor: 'blue',
+    borderRadius: 10,
+    borderTopLeftRadius: 0,
+    padding: 10,
+    margin: 5,
   },
 })
 
