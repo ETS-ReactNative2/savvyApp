@@ -40,12 +40,14 @@ export class ChatsScreen extends Component {
                     <TouchableOpacity onPress={() => this.getChatView(item)}>
                       <View>
                         <Text size="20px" mb="3px">
-                          {item}
+                          {item.senderName}
                         </Text>
-                        <Text>{item}</Text>
+                        <Text>{item.message}</Text>
                       </View>
                     </TouchableOpacity>
-                    <TextDate>{moment(item).format('HH:mm')}</TextDate>
+                    <TextDate>
+                      {moment(item.createdAt).format('HH:mm')}
+                    </TextDate>
                   </RowChat>
                 </Row>
               )
