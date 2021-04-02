@@ -18,6 +18,7 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         sender: action.payload,
+        chatSender: '',
       }
     }
     case 'CHAT_VIEW': {
