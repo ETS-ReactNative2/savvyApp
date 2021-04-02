@@ -35,12 +35,11 @@ export class RoomChat extends Component {
   constructor(props) {
     super(props)
     this.state = { message: '' }
-    this.chatBody = React.createRef()
   }
-  componentDidMount() {
+  async componentDidMount() {
     const { token } = this.props.auth
     const { sender } = this.props.chat
-    this.props.chatBySender(token, sender)
+    await this.props.chatBySender(token, sender)
     this.props.recipientDetail(token, sender)
     io.onAny(() => {
       io.once(sender, () => {
@@ -48,11 +47,11 @@ export class RoomChat extends Component {
       })
     })
   }
-  isSendChat = (recipient_id) => {
+  isSendChat = async (recipient_id) => {
     const { token } = this.props.auth
     const { message } = this.state
     const { sender } = this.props.chat
-    this.props.sendChat(token, message, recipient_id)
+    await this.props.sendChat(token, message, recipient_id)
     this.props.chatBySender(token, sender)
   }
   render() {
