@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Image } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import IconFeather from 'react-native-vector-icons/Feather'
 import { theme } from '../../styles/ThemeColor'
 import { Text } from '../../styles/Typography'

@@ -7,7 +7,6 @@ import { Container, Row } from '../styles/ComponentStyle'
 import { connect } from 'react-redux'
 import { userDetail, allUser } from '../redux/actions/user.action'
 import { senderId } from '../redux/actions/chat.action'
-import HeaderContacts from '../components/Header/HeaderContacts'
 
 export class ContactsScreen extends Component {
   constructor(props) {
@@ -26,36 +25,29 @@ export class ContactsScreen extends Component {
   }
   render() {
     return (
-      <>
-        <HeaderContacts navigation={this.props.navigation} />
-        <Container p="10px">
-          <FlatList
-            data={this.props.user.contact}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => {
-              const self = this.props.user.userDetail.id !== item.id
-              return (
-                <>
-                  {self && (
-                    <Row mb="20px" align="center">
-                      <Image
-                        source={{ uri: item.picture }}
-                        style={styles.img}
-                      />
-                      <TouchableOpacity
-                        onPress={() => this.getChatView(item.id)}>
-                        <Text bold mb="5px">
-                          {item.fullName}
-                        </Text>
-                      </TouchableOpacity>
-                    </Row>
-                  )}
-                </>
-              )
-            }}
-          />
-        </Container>
-      </>
+      <Container p="10px">
+        <FlatList
+          data={this.props.user.contact}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            const self = this.props.user.userDetail.id !== item.id
+            return (
+              <>
+                {self && (
+                  <Row mb="20px" align="center">
+                    <Image source={{ uri: item.picture }} style={styles.img} />
+                    <TouchableOpacity onPress={() => this.getChatView(item.id)}>
+                      <Text bold mb="5px">
+                        {item.fullName}
+                      </Text>
+                    </TouchableOpacity>
+                  </Row>
+                )}
+              </>
+            )
+          }}
+        />
+      </Container>
     )
   }
 }

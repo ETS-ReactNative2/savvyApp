@@ -8,7 +8,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import { userDetail } from '../redux/actions/user.action'
 import { chatView, senderId } from '../redux/actions/chat.action'
-import HeaderChats from '../components/Header/HeaderChats'
 import moment from 'moment'
 
 export class ChatsScreen extends Component {
@@ -26,36 +25,31 @@ export class ChatsScreen extends Component {
   }
   render() {
     return (
-      <>
-        <HeaderChats navigation={this.props.navigation} />
-        <Container>
-          <FlatList
-            data={this.props.chat.chatHistory}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => {
-              return (
-                <Row mb="10px" key={String(item)}>
-                  <Image source={{ uri: item.picture }} style={styles.img} />
-                  <RowChat>
-                    <TouchableOpacity
-                      onPress={() => this.getChatView(item.userId)}>
-                      <View>
-                        <Text size="20px" mb="3px">
-                          {item.senderName}
-                        </Text>
-                        <Text>{item.message}</Text>
-                      </View>
-                    </TouchableOpacity>
-                    <TextDate>
-                      {moment(item.createdAt).format('HH:mm')}
-                    </TextDate>
-                  </RowChat>
-                </Row>
-              )
-            }}
-          />
-        </Container>
-      </>
+      <Container>
+        <FlatList
+          data={this.props.chat.chatHistory}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            return (
+              <Row mb="10px" key={String(item)}>
+                <Image source={{ uri: item.picture }} style={styles.img} />
+                <RowChat>
+                  <TouchableOpacity
+                    onPress={() => this.getChatView(item.userId)}>
+                    <View>
+                      <Text size="20px" mb="3px">
+                        {item.senderName}
+                      </Text>
+                      <Text>{item.message}</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TextDate>{moment(item.createdAt).format('HH:mm')}</TextDate>
+                </RowChat>
+              </Row>
+            )
+          }}
+        />
+      </Container>
     )
   }
 }
