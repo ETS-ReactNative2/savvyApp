@@ -6,6 +6,9 @@ import IconFeather from 'react-native-vector-icons/Feather'
 import { HeaderWrapper } from './HeaderWrapper'
 import { Text } from '../../styles/Typography'
 import { Row } from '../../styles/ComponentStyle'
+import { connect } from 'react-redux'
+import { userDetail } from '../../redux/actions/user.action'
+import { chatView, senderId } from '../../redux/actions/chat.action'
 
 export class HeaderRoomChat extends Component {
   render() {
@@ -16,7 +19,7 @@ export class HeaderRoomChat extends Component {
             <IconMaterial name="west" size={30} />
           </TouchableOpacity>
           <Text bold ml="25px" size="18px">
-            Audi
+            {this.props.chat.sender.senderName}
           </Text>
         </Row>
         <Row>
@@ -49,4 +52,16 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HeaderRoomChat
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  user: state.user,
+  chat: state.chat,
+})
+
+const mapDispatchToProps = {
+  userDetail,
+  chatView,
+  senderId,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderRoomChat)
