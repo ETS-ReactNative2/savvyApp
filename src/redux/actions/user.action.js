@@ -141,3 +141,26 @@ export const allUser = (token) => {
     }
   }
 }
+
+export const recipientDetail = (token, id) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: '',
+      })
+      const response = await http(token).get(`user/${id}`)
+      dispatch({
+        type: 'RECIPIENT_DETAIL',
+        payload: response.data.results,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}

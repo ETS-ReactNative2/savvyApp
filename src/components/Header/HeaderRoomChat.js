@@ -7,10 +7,13 @@ import { HeaderWrapper } from './HeaderWrapper'
 import { Text } from '../../styles/Typography'
 import { Row } from '../../styles/ComponentStyle'
 import { connect } from 'react-redux'
-import { userDetail } from '../../redux/actions/user.action'
-import { chatView, senderId } from '../../redux/actions/chat.action'
+import { recipientDetail } from '../../redux/actions/user.action'
+import { senderId } from '../../redux/actions/chat.action'
 
 export class HeaderRoomChat extends Component {
+  componentDidMount() {
+    this.props.recipientDetail(this.props.auth.token, this.props.chat.sender)
+  }
   render() {
     return (
       <HeaderWrapper>
@@ -19,7 +22,7 @@ export class HeaderRoomChat extends Component {
             <IconMaterial name="west" size={30} />
           </TouchableOpacity>
           <Text bold ml="25px" size="18px">
-            {this.props.chat.sender.senderName}
+            {this.props.user.recipient.fullName}
           </Text>
         </Row>
         <Row>
@@ -59,9 +62,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  userDetail,
-  chatView,
   senderId,
+  recipientDetail,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderRoomChat)

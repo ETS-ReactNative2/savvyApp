@@ -8,6 +8,7 @@ import { theme } from '../styles/ThemeColor'
 import { Text } from '../styles/Typography'
 import { connect } from 'react-redux'
 import { chatBySender, sendChat } from '../redux/actions/chat.action'
+import { recipientDetail } from '../redux/actions/user.action'
 import io from '../helpers/socket'
 import moment from 'moment'
 
@@ -39,24 +40,26 @@ export class RoomChat extends Component {
   componentDidMount() {
     const { token } = this.props.auth
     const { sender } = this.props.chat
-    this.props.chatBySender(token, sender.userId)
+    this.props.chatBySender(token, sender)
+    this.props.recipientDetail(token, sender)
     io.onAny(() => {
       io.once(sender, () => {
-        this.props.chatBySender(token, sender.userId)
+        this.props.chatBySender(token, sender)
       })
     })
   }
-  isSendChat = (recipient) => {
+  isSendChat = (recipient_id) => {
     const { token } = this.props.auth
     const { message } = this.state
     const { sender } = this.props.chat
-    this.props.sendChat(token, message, recipient)
-    this.props.chatBySender(token, sender.userId)
+    this.props.sendChat(token, message, recipient_id)
+    this.props.chatBySender(token, sender)
   }
   render() {
     const { sender } = this.props.chat
     const { chatSender } = this.props.chat
-    const { senderName } = this.props.chat.sender
+
+    const { recipient } = this.props.user
     return (
       <Container p="0">
         <FlatList
@@ -65,19 +68,19 @@ export class RoomChat extends Component {
           data={chatSender}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
-            const self = item.sender_id == sender.userId
+            const self = item.sender_id == sender
             return (
               <>
                 {self ? (
                   <Row mt="5px">
                     <Image
                       style={styles.avatar}
-                      source={{ uri: sender.picture }}
+                      source={{ uri: recipient.picture }}
                     />
                     <View>
                       <Row>
                         <Text ml="5px" label size="12px">
-                          {senderName},
+                          {recipient.fullName},
                         </Text>
                         <Text ml="5px" label size="12px">
                           {moment(item.createdAt).format('HH:mm')}
@@ -195,6 +198,6 @@ const mapStateToProps = (state) => ({
   chat: state.chat,
 })
 
-const mapDispatchToProps = { chatBySender, sendChat }
+const mapDispatchToProps = { chatBySender, sendChat, recipientDetail }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomChat)

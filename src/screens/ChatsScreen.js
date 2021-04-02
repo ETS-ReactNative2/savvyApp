@@ -38,7 +38,8 @@ export class ChatsScreen extends Component {
                 <Row mb="10px" key={String(item)}>
                   <Image source={{ uri: item.picture }} style={styles.img} />
                   <RowChat>
-                    <TouchableOpacity onPress={() => this.getChatView(item)}>
+                    <TouchableOpacity
+                      onPress={() => this.getChatView(item.userId)}>
                       <View>
                         <Text size="20px" mb="3px">
                           {item.senderName}

@@ -4,6 +4,7 @@ const initialState = {
   message: '',
   dataUser: {},
   contact: [],
+  recipient: {},
 }
 
 const userReducer = (state = initialState, action) => {
@@ -39,6 +40,12 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         contact: action.payload,
+      }
+    }
+    case 'RECIPIENT_DETAIL': {
+      return {
+        ...state,
+        recipient: action.payload,
       }
     }
     case 'SET_USER_MESSAGE': {

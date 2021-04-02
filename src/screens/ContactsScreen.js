@@ -4,9 +4,9 @@ import { Text } from '../styles/Typography'
 import styled from 'styled-components'
 import { theme } from '../styles/ThemeColor'
 import { Container, Row } from '../styles/ComponentStyle'
-import HeaderChats from '../components/Header/HeaderChats'
 import { connect } from 'react-redux'
 import { userDetail, allUser } from '../redux/actions/user.action'
+import { senderId } from '../redux/actions/chat.action'
 import HeaderContacts from '../components/Header/HeaderContacts'
 
 export class ContactsScreen extends Component {
@@ -20,7 +20,8 @@ export class ContactsScreen extends Component {
   async componentDidMount() {
     this.props.allUser(this.props.auth.token)
   }
-  getChatView = async () => {
+  getChatView = async (sender) => {
+    await this.props.senderId(sender)
     this.props.navigation.navigate('chat-room')
   }
   render() {
@@ -33,15 +34,24 @@ export class ContactsScreen extends Component {
             data={this.props.user.contact}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
+              const self = this.props.user.userDetail.id !== item.id
               return (
-                <Row mb="20px" align="center">
-                  <Image source={{ uri: item.picture }} style={styles.img} />
-                  <TouchableOpacity onPress={() => this.getChatView(item.id)}>
-                    <Text bold mb="5px">
-                      {item.fullName}
-                    </Text>
-                  </TouchableOpacity>
-                </Row>
+                <>
+                  {self && (
+                    <Row mb="20px" align="center">
+                      <Image
+                        source={{ uri: item.picture }}
+                        style={styles.img}
+                      />
+                      <TouchableOpacity
+                        onPress={() => this.getChatView(item.id)}>
+                        <Text bold mb="5px">
+                          {item.fullName}
+                        </Text>
+                      </TouchableOpacity>
+                    </Row>
+                  )}
+                </>
               )
             }}
           />
@@ -76,6 +86,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-const mapDispatchToProps = { userDetail, allUser }
+const mapDispatchToProps = { userDetail, allUser, senderId }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsScreen)
