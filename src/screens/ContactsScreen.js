@@ -9,13 +9,6 @@ import { userDetail, allUser } from '../redux/actions/user.action'
 import { senderId } from '../redux/actions/chat.action'
 
 export class ContactsScreen extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loggedAs: '',
-      allUser: [],
-    }
-  }
   async componentDidMount() {
     this.props.allUser(this.props.auth.token)
   }

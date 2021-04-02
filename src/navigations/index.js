@@ -18,6 +18,7 @@ import { login, autoLogin } from '../redux/actions/auth.action'
 import HeaderRoomChat from '../components/Header/HeaderRoomChat'
 import HeaderChats from '../components/Header/HeaderChats'
 import HeaderProfile from '../components/Header/HeaderProfile'
+import SearchScreen from '../screens/SearchScreen'
 
 const Stack = createStackNavigator()
 
@@ -32,6 +33,13 @@ export class AppNavigator extends Component {
               <Stack.Screen
                 name="home-screen"
                 component={TabNavigator}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="search-screen"
+                component={SearchScreen}
                 options={{
                   headerShown: false,
                 }}

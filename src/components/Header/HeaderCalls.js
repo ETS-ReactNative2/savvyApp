@@ -1,29 +1,29 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import IconFeather from 'react-native-vector-icons/Feather'
 import { theme } from '../../styles/ThemeColor'
 import { Text } from '../../styles/Typography'
 import styled from 'styled-components'
 import { Row } from '../../styles/ComponentStyle'
 
-export class HeaderContacts extends Component {
-  render() {
-    return (
-      <ContainerColor>
-        <Row align="center" justify="space-between">
-          <IconFeather name="bell" size={24} />
-          <Text bold size="18px">
-            Calls
-          </Text>
-          <Row align="center">
-            <IconFeather name="video" size={24} />
+const HeaderContacts = ({ navigation }) => {
+  return (
+    <ContainerColor>
+      <Row align="center" justify="space-between">
+        <IconFeather name="bell" size={24} />
+        <Text bold size="18px">
+          Calls
+        </Text>
+        <Row align="center">
+          <IconFeather name="video" size={24} />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('search-screen')}>
             <IconFeather style={styles.icon} name="search" size={24} />
-          </Row>
+          </TouchableOpacity>
         </Row>
-      </ContainerColor>
-    )
-  }
+      </Row>
+    </ContainerColor>
+  )
 }
 
 const ContainerColor = styled.View`

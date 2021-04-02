@@ -14,8 +14,11 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu'
 export class HeaderChats extends Component {
-  gotoProfile() {
+  gotoProfile = () => {
     this.props.navigation.navigate('profileScreen')
+  }
+  gotoSearch = () => {
+    this.props.navigation.navigate('search-screen')
   }
   componentDidMount() {
     this.props.userDetail(this.props.auth.token)
@@ -46,12 +49,13 @@ export class HeaderChats extends Component {
         <Row align="center" justify="space-between">
           <IconFeather name="bell" size={24} />
           <Row align="center">
-            <TouchableOpacity onPress={() => this.gotoProfile()}>
+            <TouchableOpacity onPress={this.gotoProfile}>
               <Image source={{ uri: picture }} style={styles.avatar} />
             </TouchableOpacity>
             <IconFeather style={styles.icon} name="video" size={24} />
-            <IconFeather style={styles.icon} name="search" size={24} />
-            {/* <IconFeather style={styles.icon} name="more-vertical" size={24} /> */}
+            <TouchableOpacity onPress={this.gotoSearch}>
+              <IconFeather style={styles.icon} name="search" size={24} />
+            </TouchableOpacity>
             <Popup />
           </Row>
         </Row>

@@ -1,28 +1,29 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import IconFeather from 'react-native-vector-icons/Feather'
 import { theme } from '../../styles/ThemeColor'
 import { Text } from '../../styles/Typography'
 import styled from 'styled-components'
 import { Row } from '../../styles/ComponentStyle'
 
-export class HeaderContacts extends Component {
-  render() {
-    return (
-      <ContainerColor>
-        <Row align="center" justify="space-between">
-          <IconFeather name="bell" size={24} />
-          <Text bold size="18px">
-            Contacts
-          </Text>
-          <Row align="center">
+const HeaderContacts = ({ navigation }) => {
+  return (
+    <ContainerColor>
+      <Row align="center" justify="space-between">
+        <IconFeather name="bell" size={24} />
+        <Text bold size="18px">
+          Contacts
+        </Text>
+        <Row align="center">
+          <TouchableOpacity
+            onPress={() => navigation.navigate('search-screen')}>
             <IconFeather name="search" size={24} />
-            <IconFeather style={styles.icon} name="more-vertical" size={24} />
-          </Row>
+          </TouchableOpacity>
+          <IconFeather style={styles.icon} name="more-vertical" size={24} />
         </Row>
-      </ContainerColor>
-    )
-  }
+      </Row>
+    </ContainerColor>
+  )
 }
 
 const ContainerColor = styled.View`
