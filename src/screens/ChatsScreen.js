@@ -30,7 +30,6 @@ export class ChatsScreen extends Component {
         <HeaderChats navigation={this.props.navigation} />
         <Container>
           <FlatList
-            showsVerticalScrollIndicator={false}
             data={this.props.chat.chatHistory}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {

@@ -58,12 +58,10 @@ export class RoomChat extends Component {
   render() {
     const { sender } = this.props.chat
     const { chatSender } = this.props.chat
-
     const { recipient } = this.props.user
     return (
       <Container p="0">
         <FlatList
-          showsVerticalScrollIndicator={false}
           style={{ marginBottom: 70 }}
           data={chatSender}
           keyExtractor={(item) => item.id}
@@ -123,7 +121,7 @@ export class RoomChat extends Component {
             icon="send"
             size={20}
             padding={10}
-            onPress={() => this.isSendChat(sender.userId)}
+            onPress={() => this.isSendChat(sender)}
           />
         </RowFooter>
       </Container>

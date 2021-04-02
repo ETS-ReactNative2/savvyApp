@@ -30,7 +30,6 @@ export class ContactsScreen extends Component {
         <HeaderContacts navigation={this.props.navigation} />
         <Container p="10px">
           <FlatList
-            showsVerticalScrollIndicator={false}
             data={this.props.user.contact}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
