@@ -3,6 +3,7 @@ const initialState = {
   errorMsg: '',
   message: '',
   dataUser: {},
+  contact: [],
 }
 
 const userReducer = (state = initialState, action) => {
@@ -34,10 +35,10 @@ const userReducer = (state = initialState, action) => {
         errorMsg: '',
       }
     }
-    case 'USER_CHAT_LIST': {
+    case 'ALL_CONTACT': {
       return {
         ...state,
-        recipient: action.payload,
+        contact: action.payload,
       }
     }
     case 'SET_USER_MESSAGE': {

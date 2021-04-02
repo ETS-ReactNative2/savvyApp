@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet, Image, FlatList } from 'react-native'
 import { Text } from '../styles/Typography'
 import styled from 'styled-components'
 import { theme } from '../styles/ThemeColor'
 import { Container, Row } from '../styles/ComponentStyle'
 import HeaderChats from '../components/Header/HeaderChats'
 import { connect } from 'react-redux'
-import { userDetail, chatList, chatView } from '../redux/actions/user.action'
-import http from '../helpers/http'
+import { userDetail, allUser } from '../redux/actions/user.action'
 import HeaderContacts from '../components/Header/HeaderContacts'
 
 export class ContactsScreen extends Component {
@@ -19,26 +18,33 @@ export class ContactsScreen extends Component {
     }
   }
   async componentDidMount() {
-    const response = await http().get('/users')
-    this.setState({ allUser: response.data.results })
+    this.props.allUser(this.props.auth.token)
   }
-  getChatView = async (recipient, sender) => {
-    await this.props.chatView(recipient, sender)
-    this.props.navigation.navigate('room-chat-room')
+  getChatView = async () => {
+    this.props.navigation.navigate('chat-room')
   }
   render() {
     return (
       <>
         <HeaderContacts navigation={this.props.navigation} />
         <Container p="10px">
-          {this.state.allUser.map((recipient, idx) => (
-            <Row mb="20px" key={String(recipient)} align="center">
-              <Image source={{ uri: recipient.picture }} style={styles.img} />
-              <TouchableOpacity onPress={() => this.getChatView(recipient)}>
-                <Text bold>{recipient.fullName}</Text>
-              </TouchableOpacity>
-            </Row>
-          ))}
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={this.props.user.contact}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => {
+              return (
+                <Row mb="20px" align="center">
+                  <Image source={{ uri: item.picture }} style={styles.img} />
+                  <TouchableOpacity onPress={() => this.getChatView(item.id)}>
+                    <Text bold mb="5px">
+                      {item.fullName}
+                    </Text>
+                  </TouchableOpacity>
+                </Row>
+              )
+            }}
+          />
         </Container>
       </>
     )
@@ -70,6 +76,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-const mapDispatchToProps = { userDetail, chatList, chatView }
+const mapDispatchToProps = { userDetail, allUser }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsScreen)

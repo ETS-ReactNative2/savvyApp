@@ -126,9 +126,9 @@ export const allUser = (token) => {
         type: 'SET_USER_MESSAGE',
         payload: '',
       })
-      const response = await http(token).get('/users')
+      const response = await http(token).get('users')
       dispatch({
-        type: 'USER_CHAT_LIST',
+        type: 'ALL_CONTACT',
         payload: response.data.results,
       })
     } catch (err) {
