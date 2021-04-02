@@ -23,7 +23,6 @@ export class HeaderProfile extends Component {
     })
   }
   render() {
-    console.log(this.props.auth.id)
     return (
       <HeaderWrapper>
         <TouchableOpacity onPress={() => this.goBack()}>
