@@ -5,11 +5,11 @@ import Icon from 'react-native-vector-icons/Feather'
 import styled from 'styled-components'
 import { Container, Row } from '../styles/ComponentStyle'
 import { theme } from '../styles/ThemeColor'
-import avatar from '../assets/images/avatar.png'
 import { Text } from '../styles/Typography'
 import { connect } from 'react-redux'
-import { chatBySender, senderId, sendChat } from '../redux/actions/chat.action'
+import { chatBySender, sendChat } from '../redux/actions/chat.action'
 import io from '../helpers/socket'
+import moment from 'moment'
 
 const IconButton = (props) => {
   return (
@@ -39,10 +39,10 @@ export class RoomChat extends Component {
   componentDidMount() {
     const { token } = this.props.auth
     const { sender } = this.props.chat
-    this.props.chatBySender(token, sender)
+    this.props.chatBySender(token, sender.userId)
     io.onAny(() => {
       io.once(sender, () => {
-        this.props.chatBySender(token, sender)
+        this.props.chatBySender(token, sender.userId)
       })
     })
   }
@@ -51,37 +51,60 @@ export class RoomChat extends Component {
     const { message } = this.state
     const { sender } = this.props.chat
     this.props.sendChat(token, message, recipient)
-    this.props.chatBySender(token, sender)
+    this.props.chatBySender(token, sender.userId)
   }
   render() {
     const { sender } = this.props.chat
     const { chatSender } = this.props.chat
+    const { senderName } = this.props.chat.sender
     return (
       <Container p="0">
         <FlatList
+          showsVerticalScrollIndicator={false}
           style={{ marginBottom: 70 }}
           data={chatSender}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
-            const self = item.sender_id == sender
+            const self = item.sender_id == sender.userId
             return (
               <>
                 {self ? (
-                  <Row>
-                    <LinearGradient
-                      style={styles.wrapperLinear}
-                      colors={['#0279D5', '#02BBF3']}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}>
-                      <TextChat>{item.message}</TextChat>
-                    </LinearGradient>
+                  <Row mt="5px">
+                    <Image
+                      style={styles.avatar}
+                      source={{ uri: sender.picture }}
+                    />
+                    <View>
+                      <Row>
+                        <Text ml="5px" label size="12px">
+                          {senderName},
+                        </Text>
+                        <Text ml="5px" label size="12px">
+                          {moment(item.createdAt).format('HH:mm')}
+                        </Text>
+                      </Row>
+                      <Row>
+                        <LinearGradient
+                          style={styles.wrapperLinear}
+                          colors={['#0279D5', '#02BBF3']}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}>
+                          <TextChat>{item.message}</TextChat>
+                        </LinearGradient>
+                      </Row>
+                    </View>
                   </Row>
                 ) : (
-                  <Row justify="flex-end">
-                    <WrapperChatSelf>
-                      <TextChatSelf>{item.message}</TextChatSelf>
-                    </WrapperChatSelf>
-                  </Row>
+                  <>
+                    <Text align="right" mr="5px" label size="12px">
+                      {moment(item.createdAt).format('HH:mm')}
+                    </Text>
+                    <Row justify="flex-end">
+                      <WrapperChatSelf>
+                        <TextChatSelf>{item.message}</TextChatSelf>
+                      </WrapperChatSelf>
+                    </Row>
+                  </>
                 )}
               </>
             )
@@ -97,7 +120,7 @@ export class RoomChat extends Component {
             icon="send"
             size={20}
             padding={10}
-            onPress={() => this.isSendChat(sender)}
+            onPress={() => this.isSendChat(sender.userId)}
           />
         </RowFooter>
       </Container>
@@ -146,10 +169,11 @@ const TextChat = styled.Text`
 
 const styles = StyleSheet.create({
   avatar: {
-    height: 50,
-    width: 50,
+    height: 45,
+    width: 45,
+    resizeMode: 'cover',
     borderRadius: 25,
-    marginRight: 5,
+    marginHorizontal: 5,
   },
   wrapSend: {
     marginTop: 5,
@@ -171,6 +195,6 @@ const mapStateToProps = (state) => ({
   chat: state.chat,
 })
 
-const mapDispatchToProps = { chatBySender, senderId, sendChat }
+const mapDispatchToProps = { chatBySender, sendChat }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomChat)

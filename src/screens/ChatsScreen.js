@@ -20,8 +20,8 @@ export class ChatsScreen extends Component {
     const { token } = this.props.auth
     this.props.chatView(token)
   }
-  getChatView = async (sender_id) => {
-    await this.props.senderId(sender_id)
+  getChatView = async (sender) => {
+    await this.props.senderId(sender)
     this.props.navigation.navigate('chat-room')
   }
   render() {
@@ -30,6 +30,7 @@ export class ChatsScreen extends Component {
         <HeaderChats navigation={this.props.navigation} />
         <Container>
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={this.props.chat.chatHistory}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
