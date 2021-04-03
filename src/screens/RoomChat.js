@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, View, Image, FlatList } from 'react-native'
+import { StyleSheet, View, Image, FlatList } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import Icon from 'react-native-vector-icons/Feather'
 import styled from 'styled-components'
@@ -7,7 +7,11 @@ import { Container, Row } from '../styles/ComponentStyle'
 import { theme } from '../styles/ThemeColor'
 import { Text } from '../styles/Typography'
 import { connect } from 'react-redux'
-import { chatBySender, sendChat } from '../redux/actions/chat.action'
+import {
+  chatBySender,
+  sendChat,
+  pagingChat,
+} from '../redux/actions/chat.action'
 import { recipientDetail } from '../redux/actions/user.action'
 import io from '../helpers/socket'
 import moment from 'moment'
@@ -53,6 +57,17 @@ export class RoomChat extends Component {
     const { sender } = this.props.chat
     await this.props.sendChat(token, message, recipient_id)
     this.props.chatBySender(token, sender)
+  }
+  _next = async () => {
+    const { currentPage, totalPage } = this.props.chat.pageInfoChat
+    const { sender } = this.props.chat
+    if (currentPage < totalPage) {
+      await this.props.pagingChat(
+        this.props.auth.token,
+        sender,
+        currentPage + 1,
+      )
+    }
   }
   render() {
     const { sender } = this.props.chat
@@ -109,6 +124,8 @@ export class RoomChat extends Component {
               </>
             )
           }}
+          onEndReached={this._next}
+          onEndReachedThreshold={0.5}
         />
         <RowFooter>
           <IconButton icon="plus" size={25} padding={5} />
@@ -195,6 +212,11 @@ const mapStateToProps = (state) => ({
   chat: state.chat,
 })
 
-const mapDispatchToProps = { chatBySender, sendChat, recipientDetail }
+const mapDispatchToProps = {
+  chatBySender,
+  sendChat,
+  pagingChat,
+  recipientDetail,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomChat)

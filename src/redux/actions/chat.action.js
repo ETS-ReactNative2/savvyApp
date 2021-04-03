@@ -23,17 +23,46 @@ export const chatView = (token) => {
   }
 }
 
-export const chatBySender = (token, sender_id) => {
+export const chatBySender = (token, sender_id, page) => {
   return async (dispatch) => {
     try {
       dispatch({
         type: 'SET_CHAT_MESSAGE',
         payload: '',
       })
-      const response = await http(token).get(`chat/${sender_id}`)
+      const response = await http(token).get(
+        `chat/${sender_id}?page=${page ? page : 1}`,
+      )
       dispatch({
         type: 'CHAT_SENDER',
         payload: response.data.results,
+        pageInfo: response.data.pageInfo,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_CHAT_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}
+
+export const pagingChat = (token, sender_id, page) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: 'SET_CHAT_MESSAGE',
+        payload: '',
+      })
+      const response = await http(token).get(
+        `chat/${sender_id}?page=${page ? page : 1}`,
+      )
+      dispatch({
+        type: 'PAGING_CHAT',
+        payload: response.data.results,
+        pageInfo: response.data.pageInfo,
       })
     } catch (err) {
       console.log(err)

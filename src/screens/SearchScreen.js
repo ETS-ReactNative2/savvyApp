@@ -35,18 +35,19 @@ export class SearchScreen extends Component {
     await this.props.senderId(sender)
     this.props.navigation.navigate('chat-room')
   }
-  nextContact = async () => {
-    if (
-      this.props.user.pageInfoContact.currentPage <
-      this.props.user.pageInfoContact.totalPage
-    ) {
-      const { search } = this.state
-      await this.props.pagingContact(
-        this.props.auth.token,
-        search,
-        this.props.user.pageInfoContact.currentPage + 1,
-      )
+  _next = async () => {
+    const { currentPage, totalPage, nextLink } = this.props.user.pageInfoContact
+    if (currentPage < totalPage) {
+      if (nextLink !== null) {
+        const { search } = this.state
+        await this.props.pagingContact(
+          this.props.auth.token,
+          search,
+          currentPage + 1,
+        )
+      }
     }
+    console.log(this.props.user.pageInfoContact)
   }
   search = async (value) => {
     this.setState({ loading: true, search: value })
@@ -96,24 +97,16 @@ export class SearchScreen extends Component {
             <Text align="center">{this.state.message}</Text>
           ) : contact.length > 0 ? (
             <FlatList
-              data={this.props.user.contact}
+              data={contact}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => {
                 return (
-                  <WrapContact onPress={() => this.getChatView(item.id)}>
-                    <Row mb="5px" align="center">
-                      <Image
-                        source={{ uri: item.picture }}
-                        style={styles.img}
-                      />
-                      <Text ml="10px" bold>
-                        {item.fullName}
-                      </Text>
-                    </Row>
-                  </WrapContact>
+                  <Text ml="10px" bold>
+                    {item.fullName}
+                  </Text>
                 )
               }}
-              onEndReached={this.nextContact}
+              onEndReached={this._next}
               onEndReachedThreshold={0.5}
             />
           ) : null}
@@ -122,13 +115,6 @@ export class SearchScreen extends Component {
     )
   }
 }
-
-const WrapContact = styled.TouchableOpacity`
-  flex-direction: row;
-  flex: 1;
-  border-bottom-color: ${theme.line};
-  border-bottom-width: 1px;
-`
 
 const styles = StyleSheet.create({
   container: {

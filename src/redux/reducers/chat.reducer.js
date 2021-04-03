@@ -4,6 +4,7 @@ const initialState = {
   chatHistory: [],
   chatSender: [],
   sender: null,
+  pageInfoChat: [],
 }
 
 const chatReducer = (state = initialState, action) => {
@@ -31,6 +32,16 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         chatSender: action.payload,
+        pageInfoChat: action.pageInfo,
+      }
+    }
+    case 'PAGING_CHAT': {
+      const oldData = state.chatSender
+      const newData = [...oldData, ...action.payload]
+      return {
+        ...state,
+        chatSender: newData,
+        pageInfoChat: action.pageInfo,
       }
     }
     case 'SET_CHAT_MESSAGE': {

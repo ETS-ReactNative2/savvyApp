@@ -5,16 +5,37 @@ import styled from 'styled-components'
 import { theme } from '../styles/ThemeColor'
 import { Container, Row } from '../styles/ComponentStyle'
 import { connect } from 'react-redux'
-import { userDetail, allUser } from '../redux/actions/user.action'
+import {
+  userDetail,
+  allUser,
+  pagingContact,
+} from '../redux/actions/user.action'
 import { senderId } from '../redux/actions/chat.action'
 
 export class ContactsScreen extends Component {
+  state = {
+    loading: false,
+    message: '',
+  }
   async componentDidMount() {
     this.props.allUser(this.props.auth.token)
   }
   getChatView = async (sender) => {
     await this.props.senderId(sender)
     this.props.navigation.navigate('chat-room')
+  }
+  nextContact = async () => {
+    if (
+      this.props.user.pageInfoContact.currentPage <
+      this.props.user.pageInfoContact.totalPage
+    ) {
+      const { search } = this.state
+      await this.props.pagingContact(
+        this.props.auth.token,
+        search,
+        this.props.user.pageInfoContact.currentPage + 1,
+      )
+    }
   }
   render() {
     return (
@@ -39,6 +60,8 @@ export class ContactsScreen extends Component {
               </>
             )
           }}
+          onEndReached={this.nextContact}
+          onEndReachedThreshold={0.5}
         />
       </Container>
     )
@@ -70,6 +93,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-const mapDispatchToProps = { userDetail, allUser, senderId }
+const mapDispatchToProps = { userDetail, allUser, senderId, pagingContact }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsScreen)
