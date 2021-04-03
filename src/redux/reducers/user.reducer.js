@@ -5,6 +5,7 @@ const initialState = {
   dataUser: {},
   contact: [],
   recipient: {},
+  pageInfoContact: null,
 }
 
 const userReducer = (state = initialState, action) => {
@@ -40,6 +41,16 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         contact: action.payload,
+        pageInfoContact: action.pageInfo,
+      }
+    }
+    case 'PAGING_CONTACT': {
+      const oldData = state.contact
+      const newData = [...oldData, ...action.payload]
+      return {
+        ...state,
+        contact: newData,
+        pageInfoContact: action.pageInfo,
       }
     }
     case 'RECIPIENT_DETAIL': {

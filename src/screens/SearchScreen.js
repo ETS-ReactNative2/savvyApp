@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -13,28 +14,34 @@ import styled from 'styled-components'
 import { Container, Row } from '../styles/ComponentStyle'
 import { Text } from '../styles/Typography'
 import { connect } from 'react-redux'
-import { userDetail, allUser } from '../redux/actions/user.action'
+import {
+  userDetail,
+  allUser,
+  pagingContact,
+} from '../redux/actions/user.action'
 import { senderId } from '../redux/actions/chat.action'
 import { theme } from '../styles/ThemeColor'
 
 export class SearchScreen extends Component {
   state = {
     search: '',
+    loading: false,
+    message: '',
   }
   async componentDidMount() {
-    this.props.allUser(this.props.auth.token)
+    await this.props.allUser(this.props.auth.token)
   }
   getChatView = async (sender) => {
     await this.props.senderId(sender)
     this.props.navigation.navigate('chat-room')
   }
-  next = async () => {
+  nextContact = async () => {
     if (
       this.props.user.pageInfoContact.currentPage <
       this.props.user.pageInfoContact.totalPage
     ) {
       const { search } = this.state
-      await this.props.pagingGetContact(
+      await this.props.pagingContact(
         this.props.auth.token,
         search,
         this.props.user.pageInfoContact.currentPage + 1,
@@ -43,20 +50,21 @@ export class SearchScreen extends Component {
   }
   search = async (value) => {
     this.setState({ loading: true, search: value })
-    await this.props.getContact(this.props.auth.token, value)
-    if (this.props.user.allContact.length > 0) {
+    await this.props.allUser(this.props.auth.token, value)
+    if (this.props.user.contact.length > 0) {
       this.setState({
         message: '',
         loading: false,
       })
     } else {
       this.setState({
-        message: `${value} Not Found`,
+        message: `${value} isn't Not Found`,
         loading: false,
       })
     }
   }
   render() {
+    const { contact } = this.props.user
     return (
       <>
         <LinearGradient
@@ -72,6 +80,7 @@ export class SearchScreen extends Component {
               placeholderTextColor="#b8dfff"
               placeholder="Search"
               style={styles.input}
+              onChangeText={(value) => this.search(value)}
             />
           </View>
         </LinearGradient>
@@ -81,34 +90,33 @@ export class SearchScreen extends Component {
           </Text>
         </WrapperSpace>
         <Container p="10px">
-          <FlatList
-            data={this.props.user.contact}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => {
-              const self = this.props.user.userDetail.id !== item.id
-              return (
-                <>
-                  {self && (
-                    <View style={{ paddingBottom: 10 }}>
-                      <WrapContact onPress={() => this.getChatView(item.id)}>
-                        <Row mb="5px" align="center">
-                          <Image
-                            source={{ uri: item.picture }}
-                            style={styles.img}
-                          />
-                          <Text ml="10px" bold>
-                            {item.fullName}
-                          </Text>
-                        </Row>
-                      </WrapContact>
-                    </View>
-                  )}
-                </>
-              )
-            }}
-            onEndReached={this.next}
-            onEndReachedThreshold={0.5}
-          />
+          {this.state.loading ? (
+            <ActivityIndicator size="large" color="#0279D5" />
+          ) : this.state.message !== '' ? (
+            <Text align="center">{this.state.message}</Text>
+          ) : contact.length > 0 ? (
+            <FlatList
+              data={this.props.user.contact}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+                return (
+                  <WrapContact onPress={() => this.getChatView(item.id)}>
+                    <Row mb="5px" align="center">
+                      <Image
+                        source={{ uri: item.picture }}
+                        style={styles.img}
+                      />
+                      <Text ml="10px" bold>
+                        {item.fullName}
+                      </Text>
+                    </Row>
+                  </WrapContact>
+                )
+              }}
+              onEndReached={this.nextContact}
+              onEndReachedThreshold={0.5}
+            />
+          ) : null}
         </Container>
       </>
     )
@@ -147,8 +155,9 @@ const WrapperSpace = styled.View`
 const mapStateToProps = (state) => ({
   auth: state.auth,
   user: state.user,
+  chat: state.chat,
 })
 
-const mapDispatchToProps = { userDetail, allUser, senderId }
+const mapDispatchToProps = { userDetail, allUser, pagingContact, senderId }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchScreen)

@@ -119,17 +119,46 @@ export const updateUser = (token, data) => {
   }
 }
 
-export const allUser = (token) => {
+export const allUser = (token, search, page) => {
   return async (dispatch) => {
     try {
       dispatch({
         type: 'SET_USER_MESSAGE',
         payload: '',
       })
-      const response = await http(token).get('users')
+      const response = await http(token).get(
+        `users?search=${search ? search : ''}&page=${page ? page : 1}`,
+      )
       dispatch({
         type: 'ALL_CONTACT',
         payload: response.data.results,
+        pageInfo: response.data.pageInfo,
+      })
+    } catch (err) {
+      console.log(err)
+      const { message } = err.response.data
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: message,
+      })
+    }
+  }
+}
+
+export const pagingContact = (token, search, page) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: '',
+      })
+      const response = await http(token).get(
+        `users?search=${search ? search : ''}&page=${page ? page : 1}`,
+      )
+      dispatch({
+        type: 'PAGING_CONTACT',
+        payload: response.data.results,
+        pageInfo: response.data.pageInfo,
       })
     } catch (err) {
       console.log(err)

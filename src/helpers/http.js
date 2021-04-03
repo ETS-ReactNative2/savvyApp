@@ -10,6 +10,5 @@ const http = (token = null) => {
     headers,
   })
 }
-console.log(API_URL)
 
 export default http
