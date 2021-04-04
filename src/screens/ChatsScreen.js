@@ -24,6 +24,11 @@ export class ChatsScreen extends Component {
     this.props.navigation.navigate('chat-room')
   }
   render() {
+    // if (navigator.onLine) {
+    //   console.log('You are online')
+    // } else {
+    //   console.log('You are offline')
+    // }
     return (
       <Container>
         <FlatList

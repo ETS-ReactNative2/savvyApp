@@ -124,8 +124,6 @@ export class RoomChat extends Component {
               </>
             )
           }}
-          onEndReached={this._next}
-          onEndReachedThreshold={0.5}
         />
         <RowFooter>
           <IconButton icon="plus" size={25} padding={5} />
