@@ -13,7 +13,7 @@ export class HeaderProfile extends Component {
     this.props.navigation.goBack()
   }
   async componentDidMount() {
-    await this.props.userDetail(this.props.auth.id)
+    await this.props.userDetail(this.props.auth.token)
   }
   logout() {
     this.props.logout()

@@ -14,10 +14,9 @@ import { Row } from '../../styles/ComponentStyle'
 import { theme } from '../../styles/ThemeColor'
 import { Text } from '../../styles/Typography'
 import { connect } from 'react-redux'
-import { userDetail } from '../../redux/actions/user.action'
 import { Modal, ModalContent } from 'react-native-modals'
 import * as ImagePicker from 'react-native-image-picker'
-import { updateUser } from '../../redux/actions/user.action'
+import { updateUser, userDetail } from '../../redux/actions/user.action'
 import { showMessage } from 'react-native-flash-message'
 
 export const WrapperManage = (props) => {
@@ -90,8 +89,8 @@ export class ProfileScreen extends Component {
       refreshing: false,
     }
   }
-  async componentDidMount() {
-    await this.props.userDetail(this.props.auth.token)
+  componentDidMount() {
+    this.props.userDetail(this.props.auth.token)
   }
   chooseImage = async () => {
     let options = {
@@ -197,14 +196,14 @@ export class ProfileScreen extends Component {
     if (this.state.fileData) {
       return (
         <Image
-          source={{ uri: this.props.user.userDetail.picture }}
+          source={{ uri: this.props.user.detail.picture }}
           style={styles.images}
         />
       )
     } else {
       return (
         <Image
-          source={{ uri: this.props.user.userDetail.picture }}
+          source={{ uri: this.props.user.detail.picture }}
           style={styles.images}
         />
       )
@@ -212,7 +211,7 @@ export class ProfileScreen extends Component {
   }
 
   renderFileUri() {
-    const { picture } = this.props.user.userDetail
+    const { picture } = this.props.user.detail
     if (this.state.fileUri) {
       return <Image source={{ uri: this.state.fileUri }} style={styles.img} />
     } else {
@@ -220,7 +219,7 @@ export class ProfileScreen extends Component {
     }
   }
   render() {
-    const { fullName, email, picture } = this.props.user.userDetail
+    const { fullName, email, picture } = this.props.user.detail
     const ShowModal = () => {
       return (
         <Modal

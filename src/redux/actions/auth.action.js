@@ -7,10 +7,6 @@ export const login = (email, password) => {
     params.append('email', email)
     params.append('password', password)
     try {
-      dispatch({
-        type: 'SET_AUTH_MESSAGE',
-        payload: '',
-      })
       const results = await http().post('auth/login', params)
       AsyncStorage.setItem('token', results.data.token)
       dispatch({
@@ -43,10 +39,6 @@ export const register = (data) => {
       params.append('password', data.password)
     }
     try {
-      dispatch({
-        type: 'SET_AUTH_MESSAGE',
-        payload: '',
-      })
       const response = await http().post('auth/register', params)
       dispatch({
         type: 'REGISTER',

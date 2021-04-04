@@ -3,10 +3,6 @@ import http from '../../helpers/http'
 export const chatView = (token) => {
   return async (dispatch) => {
     try {
-      dispatch({
-        type: 'SET_CHAT_MESSAGE',
-        payload: '',
-      })
       const response = await http(token).get('chats')
       dispatch({
         type: 'CHAT_VIEW',
@@ -26,10 +22,6 @@ export const chatView = (token) => {
 export const chatBySender = (token, sender_id, page) => {
   return async (dispatch) => {
     try {
-      dispatch({
-        type: 'SET_CHAT_MESSAGE',
-        payload: '',
-      })
       const response = await http(token).get(
         `chat/${sender_id}?page=${page ? page : 1}`,
       )
@@ -52,10 +44,6 @@ export const chatBySender = (token, sender_id, page) => {
 export const pagingChat = (token, sender_id, page) => {
   return async (dispatch) => {
     try {
-      dispatch({
-        type: 'SET_CHAT_MESSAGE',
-        payload: '',
-      })
       const response = await http(token).get(
         `chat/${sender_id}?page=${page ? page : 1}`,
       )
@@ -81,10 +69,6 @@ export const sendChat = (token, message, recipient_id) => {
     params.append('message', message)
     params.append('recipient_id', recipient_id)
     try {
-      dispatch({
-        type: 'SET_CHAT_MESSAGE',
-        payload: '',
-      })
       const response = await http(token).post('chats', params)
       dispatch({
         type: 'SEND_CHAT',

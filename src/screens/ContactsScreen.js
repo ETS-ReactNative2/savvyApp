@@ -44,7 +44,7 @@ export class ContactsScreen extends Component {
           data={this.props.user.contact}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
-            const self = this.props.user.userDetail.id !== item.id
+            const self = this.props.user.detail.id !== item.id
             return (
               <>
                 {self && (

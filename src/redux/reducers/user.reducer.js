@@ -1,5 +1,5 @@
 const initialState = {
-  userDetail: {},
+  detail: {},
   errorMsg: '',
   message: '',
   dataUser: {},
@@ -13,7 +13,7 @@ const userReducer = (state = initialState, action) => {
     case 'DETAIL_USER': {
       return {
         ...state,
-        userDetail: action.payload,
+        detail: action.payload,
         message: action.message,
       }
     }
@@ -60,6 +60,27 @@ const userReducer = (state = initialState, action) => {
       }
     }
     case 'SET_USER_MESSAGE': {
+      return {
+        ...state,
+        errorMsg: action.payload,
+        message: '',
+      }
+    }
+    case 'SET_UPDATE_MESSAGE': {
+      return {
+        ...state,
+        errorMsg: action.payload,
+        message: '',
+      }
+    }
+    case 'SET_USER_DATA_MESSAGE': {
+      return {
+        ...state,
+        errorMsg: action.payload,
+        message: '',
+      }
+    }
+    case 'SET_USER_DETAIL_MESSAGE': {
       return {
         ...state,
         errorMsg: action.payload,

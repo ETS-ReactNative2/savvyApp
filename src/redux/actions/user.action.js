@@ -3,10 +3,6 @@ import http from '../../helpers/http'
 export const userDetail = (token) => {
   return async (dispatch) => {
     try {
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: '',
-      })
       const response = await http(token).get(`user`)
       dispatch({
         type: 'DETAIL_USER',
@@ -17,7 +13,7 @@ export const userDetail = (token) => {
       console.log(err)
       const { message } = err.response.data
       dispatch({
-        type: 'SET_USER_MESSAGE',
+        type: 'SET_USER_DETAIL_MESSAGE',
         payload: message,
       })
     }
@@ -35,10 +31,6 @@ export const userData = (data) => {
     }
     try {
       dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: '',
-      })
-      dispatch({
         type: 'CREATE_DATA_USER',
         payload: data,
       })
@@ -46,7 +38,7 @@ export const userData = (data) => {
       console.log(err)
       const { message } = err.response.data
       dispatch({
-        type: 'SET_USER_MESSAGE',
+        type: 'SET_USER_DATA_MESSAGE',
         payload: message,
       })
     }
@@ -63,10 +55,6 @@ export const checkData = (data) => {
       params.append('phoneNumber', data.phoneNumber)
     }
     try {
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: '',
-      })
       const response = await http().post('auth', params)
       dispatch({
         type: 'CHECK_DATA_USER',
@@ -76,7 +64,7 @@ export const checkData = (data) => {
       console.log(err)
       const { message } = err.response.data
       dispatch({
-        type: 'SET_USER_MESSAGE',
+        type: 'SET_UPDATE_MESSAGE',
         payload: message,
       })
     }
@@ -122,10 +110,6 @@ export const updateUser = (token, data) => {
 export const allUser = (token, search, page) => {
   return async (dispatch) => {
     try {
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: '',
-      })
       const response = await http(token).get(
         `users?search=${search ? search : ''}&page=${page ? page : 1}`,
       )
@@ -148,10 +132,6 @@ export const allUser = (token, search, page) => {
 export const pagingContact = (token, search, page) => {
   return async (dispatch) => {
     try {
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: '',
-      })
       const response = await http(token).get(
         `users?search=${search ? search : ''}&page=${page ? page : 1}`,
       )
@@ -174,10 +154,6 @@ export const pagingContact = (token, search, page) => {
 export const recipientDetail = (token, id) => {
   return async (dispatch) => {
     try {
-      dispatch({
-        type: 'SET_USER_MESSAGE',
-        payload: '',
-      })
       const response = await http(token).get(`user/${id}`)
       dispatch({
         type: 'RECIPIENT_DETAIL',

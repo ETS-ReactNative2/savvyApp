@@ -77,7 +77,7 @@ export class ManageProfile extends Component {
     await this.props.userDetail(this.props.auth.token)
   }
   render() {
-    const { picture, email, fullName, phoneNumber } = this.props.user.userDetail
+    const { picture, email, fullName, phoneNumber } = this.props.user.detail
     return (
       <LinearGradient
         colors={['#0279D5', '#02BBF3']}

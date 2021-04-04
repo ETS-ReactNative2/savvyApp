@@ -14,17 +14,17 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu'
 export class HeaderChats extends Component {
+  componentDidMount() {
+    this.props.userDetail(this.props.auth.token)
+  }
   gotoProfile = () => {
     this.props.navigation.navigate('profileScreen')
   }
   gotoSearch = () => {
     this.props.navigation.navigate('search-screen')
   }
-  componentDidMount() {
-    this.props.userDetail(this.props.auth.token)
-  }
   render() {
-    const { picture } = this.props.user.userDetail
+    const { picture } = this.props.user.detail
     const Popup = () => {
       return (
         <Menu style={styles.icon}>

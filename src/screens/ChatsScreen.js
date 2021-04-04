@@ -36,7 +36,7 @@ export class ChatsScreen extends Component {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
             return (
-              <Row mb="10px" key={String(item)}>
+              <Row mb="10px">
                 <Image source={{ uri: item.picture }} style={styles.img} />
                 <RowChat>
                   <TouchableOpacity
