@@ -76,6 +76,7 @@ export class RoomChat extends Component {
     return (
       <Container p="0">
         <FlatList
+          inverted={true}
           style={{ marginBottom: 70 }}
           data={chatSender}
           keyExtractor={(item) => item.id}
