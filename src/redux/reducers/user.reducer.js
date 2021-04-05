@@ -6,6 +6,7 @@ const initialState = {
   contact: [],
   recipient: {},
   pageInfoContact: null,
+  updateMessage: null,
 }
 
 const userReducer = (state = initialState, action) => {
@@ -33,7 +34,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         dataUser: action.payload,
-        message: action.message,
+        updateMessage: action.message,
         errorMsg: '',
       }
     }
@@ -63,7 +64,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         errorMsg: action.payload,
-        message: '',
+        updateMessage: '',
       }
     }
     case 'SET_UPDATE_MESSAGE': {

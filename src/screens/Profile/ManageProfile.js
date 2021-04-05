@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, ScrollView } from 'react-native'
+import { View, StyleSheet, ScrollView, Modal } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import IconMaterial from 'react-native-vector-icons/MaterialIcons'
 import IconFeather from 'react-native-vector-icons/Feather'
@@ -14,6 +14,7 @@ import { updateUser, userDetail } from '../../redux/actions/user.action'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import { Formik } from 'formik'
 import * as yup from 'yup'
+import Button from '../../components/Button'
 
 const Validation = yup.object().shape({
   fullName: yup.string(),
@@ -26,7 +27,7 @@ const Validation = yup.object().shape({
 
 export const WrapperManage = (props) => {
   return (
-    <TouchableOpacity>
+    <View>
       <Wrapper>
         <Row align="center" justify="space-between">
           <Row align="center">
@@ -35,17 +36,12 @@ export const WrapperManage = (props) => {
               {props.title}
             </Text>
           </Row>
-          <TextInputProfile
-            keyboardType={props.keyboardType}
-            defaultValue={props.defaultValue}
-            placeholder={props.placeholder}
-            value={props.value}
-            onBlur={props.onBlur}
-            onChangeText={props.onChangeText}
-          />
+          <TouchableOpacity onPress={props.onPress}>
+            <Text label>{props.value}</Text>
+          </TouchableOpacity>
         </Row>
       </Wrapper>
-    </TouchableOpacity>
+    </View>
   )
 }
 
@@ -53,9 +49,17 @@ export class ManageProfile extends Component {
   state = {
     message: '',
     autoHide: false,
+    modalVisible: false,
   }
   componentDidMount() {
     this.props.userDetail(this.props.auth.token)
+  }
+  setModalVisible = (visible) => {
+    this.setState({ modalVisible: visible })
+  }
+  gotoEdit = () => {
+    this.props.navigation.navigate('edit-screen')
+    this.setState({ modalVisible: false })
   }
   update = async (values) => {
     await this.props.updateUser(this.props.auth.token, {
@@ -78,6 +82,7 @@ export class ManageProfile extends Component {
   }
   render() {
     const { picture, email, fullName, phoneNumber } = this.props.user.detail
+    const { modalVisible } = this.state
     return (
       <LinearGradient
         colors={['#0279D5', '#02BBF3']}
@@ -92,100 +97,82 @@ export class ManageProfile extends Component {
           <Row justify="center">
             <Image source={{ uri: picture }} style={styles.img} />
           </Row>
-          <Formik
-            validateOnMount={true}
-            validationSchema={Validation}
-            initialValues={{
-              fullName: fullName,
-              email: email,
-              phoneNumber: phoneNumber,
-            }}
-            onSubmit={(values) => this.update(values)}>
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              isSubmitting,
-              initialErrors,
-              initialTouched,
-              isValid,
-              errors,
-              touched,
-            }) => (
-              <Container p="10px" style={{ marginTop: -20 }}>
-                <Row align="center" justify="center" mt="10px">
-                  {errors.fullName && touched.fullName && (
-                    <ErrorText mt="10px">{errors.fullName}</ErrorText>
-                  )}
-                  <TextInputName
-                    placeholder="Your Name"
-                    onChangeText={handleChange('fullName')}
-                    onBlur={handleSubmit}
-                    value={values.fullName}
-                  />
-                  <TouchableOpacity onPress={handleSubmit}>
-                    <IconFeather
-                      name="edit-2"
-                      size={25}
-                      color={theme.placeholder}
-                    />
-                  </TouchableOpacity>
-                </Row>
-                <WrapperManage title="Share profile">
-                  <IconFeather name="share-2" size={25} />
-                </WrapperManage>
-                {/* Profile */}
-                <Text mt="20px" bold label size="12px">
-                  PROFILE
+          <Container p="10px" style={{ marginTop: -20 }}>
+            <TouchableOpacity onPress={() => this.setModalVisible(true)}>
+              <Row align="center" justify="center">
+                <Text align="center" bold size="24px" mt="30px" mr="10px">
+                  {fullName}
                 </Text>
-                <WrapperManage
-                  title="Skype Name"
-                  defaultValue="live:cid:6484894fawf48">
-                  <IconAnt name="contacts" size={25} />
-                </WrapperManage>
-
-                {errors.email &&
-                  touched.email &&
-                  showMessage({
-                    message: errors.email,
-                    type: 'warning',
-                  })}
-                <WrapperManage
-                  title="Email"
-                  placeholder="Enter your e-mail"
-                  onChangeText={handleChange('email')}
-                  onBlur={handleSubmit}
-                  value={values.email}>
-                  <IconFeather name="mail" size={25} />
-                </WrapperManage>
-                {errors.phoneNumber &&
-                  touched.phoneNumber &&
-                  showMessage({
-                    message: errors.phoneNumber,
-                    type: 'warning',
-                  })}
-                <WrapperManage
-                  title="Phone Number"
-                  onChangeText={handleChange('phoneNumber')}
-                  onBlur={handleSubmit}
-                  value={values.phoneNumber}
-                  keyboardType="number-pad">
-                  <IconFeather name="phone" size={25} />
-                </WrapperManage>
-                {/* Other */}
-                <Text mt="20px" bold label size="12px">
-                  OTHER
-                </Text>
-                <WrapperManage title="Other ways people can find you">
-                  <IconFeather name="users" size={25} />
-                </WrapperManage>
-                <WrapperManage title="Help & Feedback">
-                  <IconFeather name="alert-circle" size={25} />
-                </WrapperManage>
-              </Container>
-            )}
-          </Formik>
+                <IconFeather
+                  name="edit-2"
+                  size={24}
+                  color={theme.placeholder}
+                />
+              </Row>
+            </TouchableOpacity>
+            <WrapperManage title="Share profile">
+              <IconFeather name="share-2" size={25} />
+            </WrapperManage>
+            {/* Profile */}
+            <Text mt="20px" bold label size="12px">
+              PROFILE
+            </Text>
+            <WrapperManage
+              onPress={() => this.setModalVisible(true)}
+              title="Skype Name"
+              value="live:cid:6484894fawf48">
+              <IconAnt name="contacts" size={25} />
+            </WrapperManage>
+            <WrapperManage
+              onPress={() => this.setModalVisible(true)}
+              title="Email Address"
+              value={email}>
+              <IconFeather name="mail" size={25} />
+            </WrapperManage>
+            <WrapperManage
+              title="Phone Number"
+              onPress={() => this.setModalVisible(true)}
+              title="Phone Number"
+              value={phoneNumber ? phoneNumber : 'Add phone number'}
+              keyboardType="number-pad">
+              <IconFeather name="phone" size={25} />
+            </WrapperManage>
+            {/* Other */}
+            <Text mt="20px" bold label size="12px">
+              OTHER
+            </Text>
+            <WrapperManage title="Other ways people can find you">
+              <IconFeather name="users" size={25} />
+            </WrapperManage>
+            <WrapperManage title="Help & Feedback">
+              <IconFeather name="alert-circle" size={25} />
+            </WrapperManage>
+          </Container>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              this.setModalVisible(!modalVisible)
+            }}>
+            <View style={styles.modalContainer}>
+              <View style={styles.rowModal}>
+                <Button title="Edit" variant="white" onPress={this.gotoEdit} />
+                <View style={styles.gapModal} />
+                <Button
+                  variant="white"
+                  title="Copy"
+                  onPress={() => this.setModalVisible(false)}
+                />
+                <View style={styles.gapModal} />
+                <Button
+                  textColor="white"
+                  title="Close"
+                  onPress={() => this.setModalVisible(false)}
+                />
+              </View>
+            </View>
+          </Modal>
         </ScrollView>
       </LinearGradient>
     )
@@ -215,6 +202,64 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 100,
     marginTop: 40,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 16,
+  },
+  column: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  text: {
+    fontSize: 16,
+    fontFamily: 'NunitoSans-Regular',
+    color: '#7A7886',
+    marginLeft: 8,
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 10,
+    resizeMode: 'cover',
+  },
+  name: {
+    fontSize: 24,
+    fontFamily: 'NunitoSans-Bold',
+    color: '#4D4B57',
+  },
+  phone: {
+    fontSize: 16,
+    fontFamily: 'NunitoSans-Regular',
+    color: '#7A7886',
+    marginBottom: 45,
+  },
+  gap: {
+    height: 25,
+  },
+  gapModal: {
+    height: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  rowModal: {
+    width: '100%',
+    backgroundColor: '#ffffff',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
   },
 })
 

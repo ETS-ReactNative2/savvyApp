@@ -11,12 +11,14 @@ import ProfileScreen from '../screens/Profile'
 import { HeaderAuth } from '../components/Header/HeaderAuth'
 import ManageProfile from '../screens/Profile/ManageProfile'
 import RoomChat from '../screens/RoomChat'
+import EditProfile from '../screens/Profile/EditProfile'
 
 import { connect } from 'react-redux'
 import { login, autoLogin } from '../redux/actions/auth.action'
 import HeaderRoomChat from '../components/Header/HeaderRoomChat'
 import HeaderProfile from '../components/Header/HeaderProfile'
 import SearchScreen from '../screens/SearchScreen'
+import HeaderEdit from '../components/Header/HeaderEdit'
 
 const Stack = createStackNavigator()
 
@@ -62,6 +64,13 @@ export class AppNavigator extends Component {
               component={RoomChat}
               options={{
                 header: (props) => <HeaderRoomChat {...props} />,
+              }}
+            />
+            <Stack.Screen
+              name="edit-screen"
+              component={EditProfile}
+              options={{
+                header: (props) => <HeaderEdit {...props} />,
               }}
             />
           </>
