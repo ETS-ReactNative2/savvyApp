@@ -15,6 +15,7 @@ import {
 import { recipientDetail } from '../redux/actions/user.action'
 import io from '../helpers/socket'
 import moment from 'moment'
+import { showMessage } from '../helpers/showMessage'
 
 const IconButton = (props) => {
   return (
@@ -41,15 +42,10 @@ export class RoomChat extends Component {
     this.state = { message: '' }
   }
   async componentDidMount() {
-    const { token } = this.props.auth
     const { sender } = this.props.chat
+    const { token } = this.props.auth
     await this.props.chatBySender(token, sender)
     this.props.recipientDetail(token, sender)
-    io.onAny(() => {
-      io.once(sender, () => {
-        this.props.chatBySender(token, sender)
-      })
-    })
   }
   isSendChat = async (recipient_id) => {
     const { token } = this.props.auth

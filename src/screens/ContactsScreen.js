@@ -24,16 +24,14 @@ export class ContactsScreen extends Component {
     await this.props.senderId(sender)
     this.props.navigation.navigate('chat-room')
   }
-  nextContact = async () => {
-    if (
-      this.props.user.pageInfoContact.currentPage <
-      this.props.user.pageInfoContact.totalPage
-    ) {
+  _next = async () => {
+    const { currentPage, totalPage, nextLink } = this.props.user.pageInfoContact
+    if (currentPage < totalPage) {
       const { search } = this.state
       await this.props.pagingContact(
         this.props.auth.token,
         search,
-        this.props.user.pageInfoContact.currentPage + 1,
+        currentPage + 1,
       )
     }
   }
@@ -44,23 +42,18 @@ export class ContactsScreen extends Component {
           data={this.props.user.contact}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
-            const self = this.props.user.detail.id !== item.id
             return (
-              <>
-                {self && (
-                  <Row mb="20px" align="center">
-                    <Image source={{ uri: item.picture }} style={styles.img} />
-                    <TouchableOpacity onPress={() => this.getChatView(item.id)}>
-                      <Text bold mb="5px">
-                        {item.fullName}
-                      </Text>
-                    </TouchableOpacity>
-                  </Row>
-                )}
-              </>
+              <Row mb="20px" align="center">
+                <Image source={{ uri: item.picture }} style={styles.img} />
+                <TouchableOpacity onPress={() => this.getChatView(item.id)}>
+                  <Text bold mb="5px">
+                    {item.fullName}
+                  </Text>
+                </TouchableOpacity>
+              </Row>
             )
           }}
-          onEndReached={this.nextContact}
+          onEndReached={this._next}
           onEndReachedThreshold={0.5}
         />
       </Container>

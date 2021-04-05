@@ -38,17 +38,13 @@ export class SearchScreen extends Component {
   _next = async () => {
     const { currentPage, totalPage, nextLink } = this.props.user.pageInfoContact
     if (currentPage < totalPage) {
-      if (nextLink !== null) {
-        console.log(nextLink.replace('&undefined=', ''))
-        const { search } = this.state
-        await this.props.pagingContact(
-          this.props.auth.token,
-          search,
-          currentPage + 1,
-        )
-      }
+      const { search } = this.state
+      await this.props.pagingContact(
+        this.props.auth.token,
+        search,
+        currentPage + 1,
+      )
     }
-    console.log(this.props.user.pageInfoContact)
   }
   search = async (value) => {
     this.setState({ loading: true, search: value })
@@ -107,7 +103,7 @@ export class SearchScreen extends Component {
                   </Text>
                 )
               }}
-              onEndReached={() => this._next()}
+              onEndReached={this._next}
               onEndReachedThreshold={0.5}
             />
           ) : null}

@@ -7,6 +7,8 @@ import persistedStore from './src/redux/store'
 import FlashMessage from 'react-native-flash-message'
 import { ModalPortal } from 'react-native-modals'
 import { MenuProvider } from 'react-native-popup-menu'
+import Root from './src/navigations/Root'
+import { NavigationContainer } from '@react-navigation/native'
 
 const { store, persistor } = persistedStore()
 
@@ -19,9 +21,13 @@ export class App extends Component {
       <MenuProvider>
         <Provider store={store}>
           <PersistGate persistor={persistor}>
-            <AppNavigator />
-            <FlashMessage position="top" />
-            <ModalPortal />
+            <NavigationContainer>
+              <Root>
+                <AppNavigator />
+                <FlashMessage position="top" duration={3000} />
+                <ModalPortal />
+              </Root>
+            </NavigationContainer>
           </PersistGate>
         </Provider>
       </MenuProvider>

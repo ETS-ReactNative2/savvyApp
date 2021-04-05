@@ -9,15 +9,12 @@ import { connect } from 'react-redux'
 import { userDetail } from '../redux/actions/user.action'
 import { chatView, senderId } from '../redux/actions/chat.action'
 import moment from 'moment'
+import io from '../helpers/socket'
 
 export class ChatsScreen extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-  componentDidMount() {
+  async componentDidMount() {
     const { token } = this.props.auth
-    this.props.chatView(token)
+    await this.props.chatView(token)
   }
   getChatView = async (sender) => {
     await this.props.senderId(sender)
