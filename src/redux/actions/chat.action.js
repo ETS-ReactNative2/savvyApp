@@ -1,9 +1,11 @@
 import http from '../../helpers/http'
 
-export const chatView = (token) => {
+export const chatView = (token, order) => {
   return async (dispatch) => {
     try {
-      const response = await http(token).get('chats')
+      const response = await http(token).get(
+        `chats?order=${order ? order : 'DESC'}`,
+      )
       dispatch({
         type: 'CHAT_VIEW',
         payload: response.data.results,

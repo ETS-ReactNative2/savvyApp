@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 import { userDetail } from '../redux/actions/user.action'
 import { chatView, senderId } from '../redux/actions/chat.action'
 import moment from 'moment'
-import io from '../helpers/socket'
 
 export class ChatsScreen extends Component {
   async componentDidMount() {

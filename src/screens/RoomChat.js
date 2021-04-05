@@ -46,6 +46,12 @@ export class RoomChat extends Component {
     const { token } = this.props.auth
     await this.props.chatBySender(token, sender)
     this.props.recipientDetail(token, sender)
+    io.onAny(() => {
+      const { id } = this.props.user.detail
+      io.once(id, () => {
+        this.props.chatBySender(token, sender)
+      })
+    })
   }
   isSendChat = async (recipient_id) => {
     const { token } = this.props.auth
@@ -121,6 +127,8 @@ export class RoomChat extends Component {
               </>
             )
           }}
+          onEndReached={this._next}
+          onEndReachedThreshold={0.5}
         />
         <RowFooter>
           <IconButton icon="plus" size={25} padding={5} />

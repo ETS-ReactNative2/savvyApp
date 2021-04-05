@@ -18,7 +18,7 @@ export class ContactsScreen extends Component {
     message: '',
   }
   async componentDidMount() {
-    this.props.allUser(this.props.auth.token)
+    await this.props.allUser(this.props.auth.token)
   }
   getChatView = async (sender) => {
     await this.props.senderId(sender)
@@ -42,6 +42,7 @@ export class ContactsScreen extends Component {
           data={this.props.user.contact}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
+            const self = this.props.user.detail.id !== item.id
             return (
               <Row mb="20px" align="center">
                 <Image source={{ uri: item.picture }} style={styles.img} />

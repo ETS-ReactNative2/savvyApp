@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { Row } from '../../styles/ComponentStyle'
 import { connect } from 'react-redux'
 import { userDetail } from '../../redux/actions/user.action'
+import { chatView } from '../../redux/actions/chat.action'
 import {
   Menu,
   MenuOptions,
@@ -14,6 +15,9 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu'
 export class HeaderChats extends Component {
+  state = {
+    sort: 'DESC',
+  }
   componentDidMount() {
     this.props.userDetail(this.props.auth.token)
   }
@@ -22,6 +26,9 @@ export class HeaderChats extends Component {
   }
   gotoSearch = () => {
     this.props.navigation.navigate('search-screen')
+  }
+  _sort = (sort) => {
+    this.props.chatView(this.props.auth.token, sort)
   }
   render() {
     const { picture } = this.props.user.detail
@@ -32,13 +39,14 @@ export class HeaderChats extends Component {
           <MenuOptions>
             <MenuOption
               style={{ padding: 10 }}
-              onSelect={() => alert(`Sort By Newest`)}
-              text="Sort By Newest"
+              value="ASC"
+              onSelect={(value) => this._sort(value)}
+              text="Sort By Old"
             />
             <MenuOption
               style={{ padding: 10 }}
-              onSelect={() => alert(`Sort By Name`)}
-              text="Sort By Name"
+              onSelect={this._sort}
+              text="Sort By Newest"
             />
           </MenuOptions>
         </Menu>
@@ -93,6 +101,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 
-const mapDispatchToProps = { userDetail }
+const mapDispatchToProps = { userDetail, chatView }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderChats)

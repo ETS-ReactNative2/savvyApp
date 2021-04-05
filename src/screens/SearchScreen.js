@@ -4,8 +4,8 @@ import {
   View,
   TextInput,
   FlatList,
-  Image,
   TouchableOpacity,
+  Image,
   ActivityIndicator,
 } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
@@ -98,9 +98,14 @@ export class SearchScreen extends Component {
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => {
                 return (
-                  <Text ml="10px" bold>
-                    {item.fullName}
-                  </Text>
+                  <Row mb="20px" align="center">
+                    <Image source={{ uri: item.picture }} style={styles.img} />
+                    <WrapperContact onPress={() => this.getChatView(item.id)}>
+                      <Text bold mb="5px">
+                        {item.fullName}
+                      </Text>
+                    </WrapperContact>
+                  </Row>
                 )
               }}
               onEndReached={this._next}
@@ -133,6 +138,14 @@ const styles = StyleSheet.create({
 
 const WrapperSpace = styled.View`
   background-color: #e8e8e8;
+`
+const WrapperContact = styled.TouchableOpacity`
+  flex-direction: row;
+  margin-left: 10px;
+  flex: 1;
+  padding-bottom: 10px;
+  border-bottom-color: ${theme.line};
+  border-bottom-width: 1px;
 `
 
 const mapStateToProps = (state) => ({
