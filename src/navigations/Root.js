@@ -12,11 +12,11 @@ class Root extends Component {
   chatView = async (token) => {
     await this.props.chatView(token)
   }
-  async componentDidMount() {
+  componentDidMount() {
     const { token } = this.props.auth
     const { sender } = this.props.chat
+    const { id } = this.props.user.detail
     io.onAny(() => {
-      const { id } = this.props.user.detail
       io.once(id, () => {
         this.props.chatView(token)
         this.props.chatBySender(token, sender)

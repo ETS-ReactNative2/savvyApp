@@ -44,21 +44,19 @@ export class RoomChat extends Component {
   async componentDidMount() {
     const { sender } = this.props.chat
     const { token } = this.props.auth
-    await this.props.chatBySender(token, sender)
-    this.props.recipientDetail(token, sender)
-    io.onAny(() => {
-      const { id } = this.props.user.detail
-      io.once(id, () => {
-        this.props.chatBySender(token, sender)
-      })
+    const { id } = this.props.user.detail
+    io.on(sender, () => {
+      this.props.chatBySender(token, sender)
     })
+    this.props.chatBySender(token, sender)
+    this.props.recipientDetail(token, sender)
   }
   isSendChat = async (recipient_id) => {
     const { token } = this.props.auth
     const { message } = this.state
     const { sender } = this.props.chat
-    await this.props.sendChat(token, message, recipient_id)
-    this.props.chatBySender(token, sender)
+    const { id } = this.props.user.detail
+    this.props.sendChat(token, message, recipient_id)
   }
   _next = async () => {
     const { currentPage, totalPage } = this.props.chat.pageInfoChat

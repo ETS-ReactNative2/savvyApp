@@ -11,12 +11,12 @@ import { chatView, senderId } from '../redux/actions/chat.action'
 import moment from 'moment'
 import avatar from '../assets/images/avatar.jpg'
 export class ChatsScreen extends Component {
-  async componentDidMount() {
+  componentDidMount() {
     const { token } = this.props.auth
-    await this.props.chatView(token)
+    this.props.chatView(token)
   }
-  getChatView = async (sender) => {
-    await this.props.senderId(sender)
+  getChatView = (sender) => {
+    this.props.senderId(sender)
     this.props.navigation.navigate('chat-room')
   }
   render() {
