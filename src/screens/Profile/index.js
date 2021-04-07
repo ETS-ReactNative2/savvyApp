@@ -114,16 +114,16 @@ export class ProfileScreen extends Component {
         await this.props.updateUser(this.props.auth.token, {
           picture: image,
         })
-        if (this.props.user.errorMsg !== '') {
+        if (this.props.user.updateMessage !== '') {
           showMessage({
-            message: this.props.user.errorMsg,
-            type: 'warning',
+            message: this.props.user.updateMessage,
+            type: 'success',
           })
           this.setState({ visible: false })
         } else {
           showMessage({
-            message: this.props.user.message,
-            type: 'success',
+            message: this.props.user.errorMsg,
+            type: 'warning',
           })
           this.setState({
             filePath: response,
