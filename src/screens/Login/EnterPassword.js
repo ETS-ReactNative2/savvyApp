@@ -99,10 +99,6 @@ export class EnterPassword extends Component {
             handleBlur,
             handleSubmit,
             values,
-            isSubmitting,
-            initialErrors,
-            initialTouched,
-            isValid,
             errors,
             touched,
           }) => (

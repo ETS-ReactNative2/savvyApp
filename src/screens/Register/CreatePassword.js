@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, ActivityIndicator } from 'react-native'
 import { Text, ErrorText } from '../../styles/Typography'
 import FormInput from '../../components/FormInput'
 import Button from '../../components/Button'
@@ -14,7 +14,6 @@ import { register } from '../../redux/actions/auth.action'
 import { userData } from '../../redux/actions/user.action'
 import { Formik } from 'formik'
 import * as yup from 'yup'
-import { showMessage, hideMessage } from 'react-native-flash-message'
 
 const Validation = yup.object().shape({
   password: yup
@@ -27,15 +26,13 @@ export class CreatePassword extends Component {
     showPassword: true,
     isChecked: false,
     message: '',
+    loading: false,
   }
   toggleCheckBox() {
     this.setState({
       isChecked: !this.state.isChecked,
       showPassword: !this.state.showPassword,
     })
-  }
-  gotoEnterName() {
-    this.props.navigation.navigate('enter-name')
   }
   goBack() {
     this.props.navigation.goBack()
@@ -44,9 +41,11 @@ export class CreatePassword extends Component {
     this.props.userData()
   }
   isRegister = async (values) => {
+    this.setState({ loading: true })
     this.props.navigation.navigate('enter-name', {
       getPassword: values.password,
     })
+    this.setState({ loading: false })
   }
 
   render() {
@@ -99,12 +98,16 @@ export class CreatePassword extends Component {
                 rightText={'Show Password'}
               />
               <Row justify="flex-end" mt="40px">
-                <Button
-                  title="Next"
-                  textColor="white"
-                  ml="5px"
-                  onPress={handleSubmit}
-                />
+                {this.state.loading === false ? (
+                  <Button
+                    title="Next"
+                    textColor="white"
+                    ml="5px"
+                    onPress={handleSubmit}
+                  />
+                ) : (
+                  <ActivityIndicator size="small" color={theme.primary} />
+                )}
               </Row>
             </>
           )}

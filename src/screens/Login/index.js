@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, ActivityIndicator } from 'react-native'
 import { Text, ErrorText } from '../../styles/Typography'
 import FormInput from '../../components/FormInput'
 import Button from '../../components/Button'
@@ -11,6 +11,7 @@ import * as yup from 'yup'
 import { userData, checkData } from '../../redux/actions/user.action'
 import { connect } from 'react-redux'
 import { showMessage, hideMessage } from 'react-native-flash-message'
+import { theme } from '../../styles/ThemeColor'
 
 const Validation = yup.object().shape({
   email: yup
@@ -22,17 +23,21 @@ const Validation = yup.object().shape({
 export class Login extends Component {
   state = {
     message: '',
+    loading: false,
   }
   login = async (values) => {
+    this.setState({ loading: true })
     await this.props.checkData({ email: values.email })
     if (this.props.user.errorMsg !== '') {
       await this.props.userData({ email: values.email })
       this.props.navigation.navigate('enter-password')
+      this.setState({ loading: false })
     } else {
       showMessage({
         message: 'Email is not registered',
         type: 'danger',
       })
+      this.setState({ loading: false })
     }
   }
   gotoRegister() {
@@ -56,10 +61,6 @@ export class Login extends Component {
             handleBlur,
             handleSubmit,
             values,
-            isSubmitting,
-            initialErrors,
-            initialTouched,
-            isValid,
             errors,
             touched,
           }) => (
@@ -83,12 +84,16 @@ export class Login extends Component {
                 </TouchableOpacity>
               </Row>
               <Row justify="flex-end" mt="40px">
-                <Button
-                  title="Next"
-                  textColor="white"
-                  ml="5px"
-                  onPress={handleSubmit}
-                />
+                {this.state.loading === false ? (
+                  <Button
+                    title="Sign in"
+                    textColor="white"
+                    ml="5px"
+                    onPress={handleSubmit}
+                  />
+                ) : (
+                  <ActivityIndicator size="small" color={theme.primary} />
+                )}
               </Row>
             </>
           )}

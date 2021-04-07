@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, ActivityIndicator } from 'react-native'
 import { ErrorText, Text } from '../../styles/Typography'
 import FormInput from '../../components/FormInput'
-import styled from 'styled-components'
+import { theme } from '../../styles/ThemeColor'
 import Button from '../../components/Button'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Container, Row } from '../../styles/ComponentStyle'
@@ -25,6 +25,7 @@ const Validation = yup.object().shape({
 export class EnterName extends Component {
   state = {
     message: '',
+    loading: false,
   }
   gotoLogin() {
     this.props.navigation.navigate('login')
@@ -36,6 +37,7 @@ export class EnterName extends Component {
     this.props.userData()
   }
   isRegister = async (values) => {
+    this.setState({ loading: true })
     const { email } = this.props.user.userData
     const { getPassword } = this.props.route.params
     await this.props.register({
@@ -44,16 +46,20 @@ export class EnterName extends Component {
       fullName: values.fullName,
     })
     if (this.props.auth.message !== '') {
+      this.setState({ loading: true })
       showMessage({
         message: this.props.auth.message,
         type: 'success',
       })
       this.props.navigation.navigate('login')
+      this.setState({ loading: false })
     } else {
+      this.setState({ loading: true })
       showMessage({
         message: this.props.auth.errorMsg,
         type: 'danger',
       })
+      this.setState({ loading: false })
     }
   }
   render() {
@@ -100,12 +106,16 @@ export class EnterName extends Component {
                 mt="10px"
               />
               <Row justify="flex-end" mt="40px">
-                <Button
-                  title="Next"
-                  textColor="white"
-                  ml="5px"
-                  onPress={handleSubmit}
-                />
+                {this.state.loading === false ? (
+                  <Button
+                    title="Next"
+                    textColor="white"
+                    ml="5px"
+                    onPress={handleSubmit}
+                  />
+                ) : (
+                  <ActivityIndicator size="small" color={theme.primary} />
+                )}
               </Row>
             </>
           )}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, ActivityIndicator } from 'react-native'
 import { Text, ErrorText } from '../../styles/Typography'
 import FormInput from '../../components/FormInput'
 import Button from '../../components/Button'
@@ -11,6 +11,7 @@ import { checkData, userData } from '../../redux/actions/user.action'
 import { showMessage, hideMessage } from 'react-native-flash-message'
 import { Formik } from 'formik'
 import * as yup from 'yup'
+import { theme } from '../../styles/ThemeColor'
 
 const Validation = yup.object().shape({
   email: yup
@@ -22,19 +23,23 @@ const Validation = yup.object().shape({
 export class EnterEmail extends Component {
   state = {
     message: '',
+    loading: false,
   }
   save = async (values) => {
+    this.setState({ loading: true })
     await this.props.checkData({ email: values.email })
     if (this.props.user.errorMsg !== '') {
       showMessage({
         message: this.props.user.errorMsg,
         type: 'danger',
       })
+      this.setState({ loading: false })
     } else {
       await this.props.userData({ email: values.email })
       this.props.navigation.navigate('create-password', {
         getItem: values.email,
       })
+      this.setState({ loading: false })
     }
   }
   goBack() {
@@ -90,12 +95,16 @@ export class EnterEmail extends Component {
                   variant="secondary"
                   onPress={() => this.goBack()}
                 />
-                <Button
-                  title="Next"
-                  textColor="white"
-                  ml="5px"
-                  onPress={handleSubmit}
-                />
+                {this.state.loading === false ? (
+                  <Button
+                    title="Next"
+                    textColor="white"
+                    ml="5px"
+                    onPress={handleSubmit}
+                  />
+                ) : (
+                  <ActivityIndicator size="small" color={theme.primary} />
+                )}
               </Row>
             </>
           )}
