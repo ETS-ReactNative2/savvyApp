@@ -18,6 +18,7 @@ import { Modal, ModalContent } from 'react-native-modals'
 import * as ImagePicker from 'react-native-image-picker'
 import { updateUser, userDetail } from '../../redux/actions/user.action'
 import { showMessage } from 'react-native-flash-message'
+import avatar from '../../assets/images/avatar.jpg'
 
 export const WrapperManage = (props) => {
   return (
@@ -193,17 +194,18 @@ export class ProfileScreen extends Component {
   }
 
   renderFileData() {
+    const { picture } = this.props.user.detail
     if (this.state.fileData) {
       return (
         <Image
-          source={{ uri: this.props.user.detail.picture }}
+          source={picture === null ? avatar : { uri: picture }}
           style={styles.images}
         />
       )
     } else {
       return (
         <Image
-          source={{ uri: this.props.user.detail.picture }}
+          source={picture === null ? avatar : { uri: picture }}
           style={styles.images}
         />
       )
@@ -215,7 +217,12 @@ export class ProfileScreen extends Component {
     if (this.state.fileUri) {
       return <Image source={{ uri: this.state.fileUri }} style={styles.img} />
     } else {
-      return <Image source={{ uri: picture }} style={styles.img} />
+      return (
+        <Image
+          source={picture === null ? avatar : { uri: picture }}
+          style={styles.img}
+        />
+      )
     }
   }
   render() {

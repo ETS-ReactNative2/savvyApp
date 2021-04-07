@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { userDetail } from '../redux/actions/user.action'
 import { chatView, senderId } from '../redux/actions/chat.action'
 import moment from 'moment'
-
+import avatar from '../assets/images/avatar.jpg'
 export class ChatsScreen extends Component {
   async componentDidMount() {
     const { token } = this.props.auth
@@ -33,7 +33,12 @@ export class ChatsScreen extends Component {
           renderItem={({ item }) => {
             return (
               <Row mb="10px">
-                <Image source={{ uri: item.picture }} style={styles.img} />
+                <Image
+                  source={
+                    item.picture === null ? avatar : { uri: item.picture }
+                  }
+                  style={styles.img}
+                />
                 <RowChat>
                   <TouchableOpacity
                     onPress={() => this.getChatView(item.userId)}>

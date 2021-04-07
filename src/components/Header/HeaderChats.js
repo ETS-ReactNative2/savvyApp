@@ -14,6 +14,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu'
+import avatar from '../../assets/images/avatar.jpg'
 export class HeaderChats extends Component {
   state = {
     sort: 'DESC',
@@ -58,7 +59,10 @@ export class HeaderChats extends Component {
           <IconFeather name="bell" size={24} />
           <Row align="center">
             <TouchableOpacity onPress={this.gotoProfile}>
-              <Image source={{ uri: picture }} style={styles.avatar} />
+              <Image
+                source={picture === null ? avatar : { uri: picture }}
+                style={styles.avatar}
+              />
             </TouchableOpacity>
             <IconFeather style={styles.icon} name="video" size={24} />
             <TouchableOpacity onPress={this.gotoSearch}>

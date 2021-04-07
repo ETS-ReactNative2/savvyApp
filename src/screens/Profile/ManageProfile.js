@@ -12,18 +12,8 @@ import { theme } from '../../styles/ThemeColor'
 import { connect } from 'react-redux'
 import { updateUser, userDetail } from '../../redux/actions/user.action'
 import { showMessage, hideMessage } from 'react-native-flash-message'
-import { Formik } from 'formik'
-import * as yup from 'yup'
+import avatar from '../../assets/images/avatar.jpg'
 import Button from '../../components/Button'
-
-const Validation = yup.object().shape({
-  fullName: yup.string(),
-  phoneNumber: yup.string(),
-  email: yup
-    .string()
-    .email('Please enter valid email')
-    .required('Email is required'),
-})
 
 export const WrapperManage = (props) => {
   return (
@@ -95,7 +85,10 @@ export class ManageProfile extends Component {
             </TouchableOpacity>
           </View>
           <Row justify="center">
-            <Image source={{ uri: picture }} style={styles.img} />
+            <Image
+              source={picture === null ? avatar : { uri: picture }}
+              style={styles.img}
+            />
           </Row>
           <Container p="10px" style={{ marginTop: -20 }}>
             <TouchableOpacity onPress={() => this.setModalVisible(true)}>
