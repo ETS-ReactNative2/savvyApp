@@ -11,6 +11,7 @@ import {
   pagingContact,
 } from '../redux/actions/user.action'
 import { senderId } from '../redux/actions/chat.action'
+import avatar from '../assets/images/avatar.jpg'
 
 export class ContactsScreen extends Component {
   state = {
@@ -44,7 +45,12 @@ export class ContactsScreen extends Component {
           renderItem={({ item }) => {
             return (
               <Row mb="20px" align="center">
-                <Image source={{ uri: item.picture }} style={styles.img} />
+                <Image
+                  source={
+                    item.picture === null ? avatar : { uri: item.picture }
+                  }
+                  style={styles.img}
+                />
                 <TouchableOpacity onPress={() => this.getChatView(item.id)}>
                   <Text bold mb="5px">
                     {item.fullName}

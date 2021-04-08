@@ -16,6 +16,7 @@ import { recipientDetail } from '../redux/actions/user.action'
 import io from '../helpers/socket'
 import moment from 'moment'
 import { showMessage } from '../helpers/showMessage'
+import avatar from '../assets/images/avatar.jpg'
 
 const IconButton = (props) => {
   return (
@@ -45,17 +46,12 @@ export class RoomChat extends Component {
     const { sender } = this.props.chat
     const { token } = this.props.auth
     const { id } = this.props.user.detail
-    io.on(sender, () => {
-      this.props.chatBySender(token, sender)
-    })
     this.props.chatBySender(token, sender)
     this.props.recipientDetail(token, sender)
   }
   isSendChat = async (recipient_id) => {
     const { token } = this.props.auth
     const { message } = this.state
-    const { sender } = this.props.chat
-    const { id } = this.props.user.detail
     this.props.sendChat(token, message, recipient_id)
   }
   _next = async () => {
@@ -88,7 +84,11 @@ export class RoomChat extends Component {
                   <Row mt="5px">
                     <Image
                       style={styles.avatar}
-                      source={{ uri: recipient.picture }}
+                      source={
+                        recipient.picture === null
+                          ? avatar
+                          : { uri: recipient.picture }
+                      }
                     />
                     <View>
                       <Row>

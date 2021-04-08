@@ -22,7 +22,9 @@ export class App extends Component {
         <Provider store={store}>
           <PersistGate persistor={persistor}>
             <NavigationContainer>
-              <AppNavigator />
+              <Root>
+                <AppNavigator />
+              </Root>
               <FlashMessage position="top" duration={3000} />
               <ModalPortal />
             </NavigationContainer>

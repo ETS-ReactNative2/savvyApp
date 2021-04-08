@@ -13,18 +13,18 @@ class Root extends Component {
     await this.props.chatView(token)
   }
   componentDidMount() {
-    const { token } = this.props.auth
-    const { sender } = this.props.chat
-    const { id } = this.props.user.detail
     io.onAny(() => {
+      const { token } = this.props.auth
+      const { sender } = this.props.chat
+      const { id } = this.props.user.detail
       io.once(id, () => {
-        this.props.chatView(token)
-        this.props.chatBySender(token, sender)
+        this.chatBySender(token, sender)
+        this.chatView(token)
       })
     })
   }
   render() {
-    return <>{this.props.children}</>
+    return <React.Fragment>{this.props.children}</React.Fragment>
   }
 }
 

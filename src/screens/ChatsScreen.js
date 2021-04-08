@@ -10,6 +10,8 @@ import { userDetail } from '../redux/actions/user.action'
 import { chatView, senderId } from '../redux/actions/chat.action'
 import moment from 'moment'
 import avatar from '../assets/images/avatar.jpg'
+import io from '../helpers/socket'
+
 export class ChatsScreen extends Component {
   componentDidMount() {
     const { token } = this.props.auth
@@ -32,26 +34,27 @@ export class ChatsScreen extends Component {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
             return (
-              <Row mb="10px">
-                <Image
-                  source={
-                    item.picture === null ? avatar : { uri: item.picture }
-                  }
-                  style={styles.img}
-                />
-                <RowChat>
-                  <TouchableOpacity
-                    onPress={() => this.getChatView(item.userId)}>
+              <TouchableOpacity onPress={() => this.getChatView(item.userId)}>
+                <Row mb="10px">
+                  <Image
+                    source={
+                      item.picture === null ? avatar : { uri: item.picture }
+                    }
+                    style={styles.img}
+                  />
+                  <RowChat>
                     <View>
                       <Text size="20px" mb="3px">
                         {item.senderName}
                       </Text>
                       <Text>{item.message}</Text>
                     </View>
-                  </TouchableOpacity>
-                  <TextDate>{moment(item.createdAt).format('HH:mm')}</TextDate>
-                </RowChat>
-              </Row>
+                    <TextDate>
+                      {moment(item.createdAt).format('HH:mm')}
+                    </TextDate>
+                  </RowChat>
+                </Row>
+              </TouchableOpacity>
             )
           }}
         />
