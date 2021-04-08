@@ -17,9 +17,8 @@ class Root extends Component {
       const { token } = this.props.auth
       const { sender } = this.props.chat
       const { id } = this.props.user.detail
-      io.once(id, () => {
+      io.once(`MESSAGE_BY_${id}`, () => {
         this.chatBySender(token, sender)
-        this.chatView(token)
       })
     })
   }

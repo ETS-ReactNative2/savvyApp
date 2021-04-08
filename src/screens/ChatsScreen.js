@@ -27,37 +27,42 @@ export class ChatsScreen extends Component {
     // } else {
     //   console.log('You are offline')
     // }
+    const { chatHistory } = this.props.chat
     return (
       <Container>
-        <FlatList
-          data={this.props.chat.chatHistory}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity onPress={() => this.getChatView(item.userId)}>
-                <Row mb="10px">
-                  <Image
-                    source={
-                      item.picture === null ? avatar : { uri: item.picture }
-                    }
-                    style={styles.img}
-                  />
-                  <RowChat>
-                    <View>
-                      <Text size="20px" mb="3px">
-                        {item.senderName}
-                      </Text>
-                      <Text>{item.message}</Text>
-                    </View>
-                    <TextDate>
-                      {moment(item.createdAt).format('HH:mm')}
-                    </TextDate>
-                  </RowChat>
-                </Row>
-              </TouchableOpacity>
-            )
-          }}
-        />
+        {chatHistory.length > 0 ? (
+          <FlatList
+            data={chatHistory}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity onPress={() => this.getChatView(item.userId)}>
+                  <Row mb="10px">
+                    <Image
+                      source={
+                        item.picture === null ? avatar : { uri: item.picture }
+                      }
+                      style={styles.img}
+                    />
+                    <RowChat>
+                      <View>
+                        <Text size="20px" mb="3px">
+                          {item.senderName}
+                        </Text>
+                        <Text>{item.message}</Text>
+                      </View>
+                      <TextDate>
+                        {moment(item.createdAt).format('HH:mm')}
+                      </TextDate>
+                    </RowChat>
+                  </Row>
+                </TouchableOpacity>
+              )
+            }}
+          />
+        ) : (
+          <Text>You don't have chat history</Text>
+        )}
       </Container>
     )
   }

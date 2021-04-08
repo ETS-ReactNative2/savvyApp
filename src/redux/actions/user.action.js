@@ -64,7 +64,7 @@ export const checkData = (data) => {
       console.log(err)
       const { message } = err.response.data
       dispatch({
-        type: 'SET_UPDATE_MESSAGE',
+        type: 'SET_USER_MESSAGE',
         payload: message,
       })
     }
@@ -90,18 +90,23 @@ export const updateUser = (token, data) => {
       params.append('password', data.password)
     }
     try {
-      const response = await http(token).patch(`user`, params)
+      dispatch({
+        type: 'SET_USER_MESSAGE',
+        payload: '',
+        message: '',
+      })
+      const response = await http(token).patch('user', params)
       dispatch({
         type: 'UPDATE_USER',
         payload: response.data.results,
         message: response.data.message,
       })
     } catch (err) {
-      console.log(err)
       const { message } = err.response.data
       dispatch({
         type: 'SET_USER_MESSAGE',
         payload: message,
+        message: '',
       })
     }
   }

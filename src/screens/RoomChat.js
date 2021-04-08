@@ -45,7 +45,6 @@ export class RoomChat extends Component {
   async componentDidMount() {
     const { sender } = this.props.chat
     const { token } = this.props.auth
-    const { id } = this.props.user.detail
     this.props.chatBySender(token, sender)
     this.props.recipientDetail(token, sender)
   }
@@ -183,6 +182,7 @@ const TextChatSelf = styled.Text`
 const TextChat = styled.Text`
   font-family: OpenSans-Regular;
   color: white;
+  flex: 1;
 `
 
 const styles = StyleSheet.create({

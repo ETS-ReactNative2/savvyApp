@@ -10,6 +10,7 @@ const CallsScreen = () => {
   return (
     <Container p="10px">
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={listContact}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {

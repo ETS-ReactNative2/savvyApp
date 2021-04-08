@@ -21,6 +21,8 @@ import {
 } from '../redux/actions/user.action'
 import { senderId } from '../redux/actions/chat.action'
 import { theme } from '../styles/ThemeColor'
+import { showMessage } from '../helpers/showMessage'
+import avatar from '../assets/images/avatar.jpg'
 
 export class SearchScreen extends Component {
   state = {
@@ -99,7 +101,12 @@ export class SearchScreen extends Component {
               renderItem={({ item }) => {
                 return (
                   <Row mb="20px" align="center">
-                    <Image source={{ uri: item.picture }} style={styles.img} />
+                    <Image
+                      source={
+                        item.picture === null ? avatar : { uri: item.picture }
+                      }
+                      style={styles.img}
+                    />
                     <WrapperContact onPress={() => this.getChatView(item.id)}>
                       <Text bold mb="5px">
                         {item.fullName}

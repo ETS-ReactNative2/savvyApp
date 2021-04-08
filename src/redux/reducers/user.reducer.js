@@ -6,7 +6,7 @@ const initialState = {
   contact: [],
   recipient: {},
   pageInfoContact: null,
-  updateMessage: null,
+  updateMessage: '',
 }
 
 const userReducer = (state = initialState, action) => {
@@ -33,9 +33,11 @@ const userReducer = (state = initialState, action) => {
     case 'UPDATE_USER': {
       return {
         ...state,
-        dataUser: action.payload,
-        updateMessage: action.message,
-        errorMsg: '',
+        results: {
+          ...state.results,
+          ...action.payload,
+        },
+        message: action.message,
       }
     }
     case 'ALL_CONTACT': {
@@ -64,14 +66,13 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         errorMsg: action.payload,
-        updateMessage: '',
+        message: '',
       }
     }
     case 'SET_UPDATE_MESSAGE': {
       return {
         ...state,
-        errorMsg: action.payload,
-        message: '',
+        updateMessage: action.message,
       }
     }
     case 'SET_USER_DATA_MESSAGE': {
