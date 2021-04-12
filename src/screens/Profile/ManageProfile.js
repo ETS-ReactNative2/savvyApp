@@ -74,100 +74,106 @@ export class ManageProfile extends Component {
     const { picture, email, fullName, phoneNumber } = this.props.user.detail
     const { modalVisible } = this.state
     return (
-      <LinearGradient
-        colors={['#0279D5', '#02BBF3']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}>
-        <ScrollView style={{}}>
-          <View style={{ padding: 10 }}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <IconMaterial name="west" color="white" size={30} />
-            </TouchableOpacity>
-          </View>
-          <Row justify="center">
-            <Image
-              source={picture === null ? avatar : { uri: picture }}
-              style={styles.img}
-            />
-          </Row>
-          <Container p="10px" style={{ marginTop: -20 }}>
-            <TouchableOpacity onPress={() => this.setModalVisible(true)}>
-              <Row align="center" justify="center">
-                <Text align="center" bold size="24px" mt="30px" mr="10px">
-                  {fullName}
-                </Text>
-                <IconFeather
-                  name="edit-2"
-                  size={24}
-                  color={theme.placeholder}
-                />
-              </Row>
-            </TouchableOpacity>
-            <WrapperManage title="Share profile">
-              <IconFeather name="share-2" size={25} />
-            </WrapperManage>
-            {/* Profile */}
-            <Text mt="20px" bold label size="12px">
-              PROFILE
-            </Text>
-            <WrapperManage
-              onPress={() => this.setModalVisible(true)}
-              title="Skype Name"
-              value="live:cid:6484894fawf48">
-              <IconAnt name="contacts" size={25} />
-            </WrapperManage>
-            <WrapperManage
-              onPress={() => this.setModalVisible(true)}
-              title="Email Address"
-              value={email}>
-              <IconFeather name="mail" size={25} />
-            </WrapperManage>
-            <WrapperManage
-              title="Phone Number"
-              onPress={() => this.setModalVisible(true)}
-              title="Phone Number"
-              value={phoneNumber ? phoneNumber : 'Add phone number'}
-              keyboardType="number-pad">
-              <IconFeather name="phone" size={25} />
-            </WrapperManage>
-            {/* Other */}
-            <Text mt="20px" bold label size="12px">
-              OTHER
-            </Text>
-            <WrapperManage title="Other ways people can find you">
-              <IconFeather name="users" size={25} />
-            </WrapperManage>
-            <WrapperManage title="Help & Feedback">
-              <IconFeather name="alert-circle" size={25} />
-            </WrapperManage>
-          </Container>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              this.setModalVisible(!modalVisible)
-            }}>
-            <View style={styles.modalContainer}>
-              <View style={styles.rowModal}>
-                <Button title="Edit" variant="white" onPress={this.gotoEdit} />
-                <View style={styles.gapModal} />
-                <Button
-                  variant="white"
-                  title="Copy"
-                  onPress={() => this.setModalVisible(false)}
-                />
-                <View style={styles.gapModal} />
-                <Button
-                  textColor="white"
-                  title="Close"
-                  onPress={() => this.setModalVisible(false)}
-                />
-              </View>
+      <Container p="0">
+        <LinearGradient
+          colors={['#0279D5', '#02BBF3']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}>
+          <ScrollView style={{}}>
+            <View style={{ padding: 10 }}>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <IconMaterial name="west" color="white" size={30} />
+              </TouchableOpacity>
             </View>
-          </Modal>
-        </ScrollView>
-      </LinearGradient>
+            <Row justify="center">
+              <Image
+                source={picture === null ? avatar : { uri: picture }}
+                style={styles.img}
+              />
+            </Row>
+            <Container p="10px" style={{ marginTop: -20 }}>
+              <TouchableOpacity onPress={() => this.setModalVisible(true)}>
+                <Row align="center" justify="center">
+                  <Text align="center" bold size="24px" mt="30px" mr="10px">
+                    {fullName}
+                  </Text>
+                  <IconFeather
+                    name="edit-2"
+                    size={24}
+                    color={theme.placeholder}
+                  />
+                </Row>
+              </TouchableOpacity>
+              <WrapperManage title="Share profile">
+                <IconFeather name="share-2" size={25} />
+              </WrapperManage>
+              {/* Profile */}
+              <Text mt="20px" bold label size="12px">
+                PROFILE
+              </Text>
+              <WrapperManage
+                onPress={() => this.setModalVisible(true)}
+                title="Skype Name"
+                value="live:cid:6484894fawf48">
+                <IconAnt name="contacts" size={25} />
+              </WrapperManage>
+              <WrapperManage
+                onPress={() => this.setModalVisible(true)}
+                title="Email Address"
+                value={email}>
+                <IconFeather name="mail" size={25} />
+              </WrapperManage>
+              <WrapperManage
+                title="Phone Number"
+                onPress={() => this.setModalVisible(true)}
+                title="Phone Number"
+                value={phoneNumber ? phoneNumber : 'Add phone number'}
+                keyboardType="number-pad">
+                <IconFeather name="phone" size={25} />
+              </WrapperManage>
+              {/* Other */}
+              <Text mt="20px" bold label size="12px">
+                OTHER
+              </Text>
+              <WrapperManage title="Other ways people can find you">
+                <IconFeather name="users" size={25} />
+              </WrapperManage>
+              <WrapperManage title="Help & Feedback">
+                <IconFeather name="alert-circle" size={25} />
+              </WrapperManage>
+            </Container>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                this.setModalVisible(!modalVisible)
+              }}>
+              <View style={styles.modalContainer}>
+                <View style={styles.rowModal}>
+                  <Button
+                    title="Edit"
+                    variant="white"
+                    onPress={this.gotoEdit}
+                  />
+                  <View style={styles.gapModal} />
+                  <Button
+                    variant="white"
+                    title="Copy"
+                    onPress={() => this.setModalVisible(false)}
+                  />
+                  <View style={styles.gapModal} />
+                  <Button
+                    textColor="white"
+                    title="Close"
+                    onPress={() => this.setModalVisible(false)}
+                  />
+                </View>
+              </View>
+            </Modal>
+          </ScrollView>
+        </LinearGradient>
+      </Container>
     )
   }
 }
