@@ -51,6 +51,7 @@ export class RoomChat extends Component {
   isSendChat = async (recipient_id) => {
     const { token } = this.props.auth
     const { message } = this.state
+    const { sender } = this.props.chat
     this.props.sendChat(token, message, recipient_id)
   }
   _next = async () => {

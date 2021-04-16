@@ -37,7 +37,7 @@ const userReducer = (state = initialState, action) => {
           ...state.results,
           ...action.payload,
         },
-        message: action.message,
+        updateMsg: action.message,
       }
     }
     case 'ALL_CONTACT': {
@@ -66,7 +66,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         errorMsg: action.payload,
-        message: '',
       }
     }
     case 'SET_UPDATE_MESSAGE': {
@@ -86,7 +85,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         errorMsg: action.payload,
-        message: '',
       }
     }
     default: {

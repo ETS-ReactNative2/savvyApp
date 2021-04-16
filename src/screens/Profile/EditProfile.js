@@ -56,18 +56,18 @@ export class EditProfile extends Component {
       phoneNumber: phoneNumber,
       password: password,
     })
-    if (this.props.user.message !== '') {
-      this.setState({ loading: false })
+    if (this.props.user.errorMsg === '') {
+      await this.setState({ loading: false })
       showMessage({
-        message: this.props.user.message,
+        message: this.props.user.updateMsg,
         type: 'success',
       })
-      this.props.userDetail(this.props.auth.token)
+      await this.props.userDetail(this.props.auth.token)
     } else {
       this.setState({ loading: false })
       showMessage({
         message: this.props.user.errorMsg,
-        type: 'success',
+        type: 'warning',
       })
     }
   }

@@ -6,10 +6,8 @@ import { connect } from 'react-redux'
 import { showMessage } from '../helpers/showMessage'
 
 class Root extends Component {
-  chatBySender = async (token, sender) => {
+  getChat = async (token, sender) => {
     await this.props.chatBySender(token, sender)
-  }
-  chatView = async (token) => {
     await this.props.chatView(token)
   }
   componentDidMount() {
@@ -17,8 +15,8 @@ class Root extends Component {
       const { token } = this.props.auth
       const { sender } = this.props.chat
       const { id } = this.props.user.detail
-      io.once(`MESSAGE_BY_${id}`, () => {
-        this.chatBySender(token, sender)
+      io.once(id, () => {
+        this.getChat(token, sender)
       })
     })
   }

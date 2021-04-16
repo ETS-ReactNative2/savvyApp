@@ -4,7 +4,9 @@ const initialState = {
   chatHistory: [],
   chatSender: [],
   sender: null,
+  sort: 'DESC',
   pageInfoChat: [],
+  pageInfoChatView: [],
 }
 
 const chatReducer = (state = initialState, action) => {
@@ -22,10 +24,27 @@ const chatReducer = (state = initialState, action) => {
         chatSender: '',
       }
     }
+    case 'SELECT_SORT': {
+      return {
+        ...state,
+        sender: action.payload,
+        sort: '',
+      }
+    }
     case 'CHAT_VIEW': {
       return {
         ...state,
         chatHistory: action.payload,
+        pageInfoChatView: action.pageInfo,
+      }
+    }
+    case 'PAGING_CHAT_VIEW': {
+      const oldData = state.chatHistory
+      const newData = [...oldData, ...action.payload]
+      return {
+        ...state,
+        chatHistory: newData,
+        pageInfoChatView: action.pageInfo,
       }
     }
     case 'CHAT_SENDER': {
@@ -48,7 +67,6 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         errorMsg: action.payload,
-        message: '',
       }
     }
     default: {

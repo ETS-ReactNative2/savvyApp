@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { Row } from '../../styles/ComponentStyle'
 import { connect } from 'react-redux'
 import { userDetail } from '../../redux/actions/user.action'
-import { chatView } from '../../redux/actions/chat.action'
+import { chatView, sortChat } from '../../redux/actions/chat.action'
 import {
   Menu,
   MenuOptions,
@@ -28,8 +28,9 @@ export class HeaderChats extends Component {
   gotoSearch = () => {
     this.props.navigation.navigate('search-screen')
   }
-  _sort = (sort) => {
-    this.props.chatView(this.props.auth.token, sort)
+  _sort = async (sort) => {
+    await this.props.sortChat(sort)
+    this.props.chatView(this.props.auth.token, '', sort)
   }
   render() {
     const { picture } = this.props.user.detail
@@ -46,7 +47,8 @@ export class HeaderChats extends Component {
             />
             <MenuOption
               style={{ padding: 10 }}
-              onSelect={this._sort}
+              value="DESC"
+              onSelect={(value) => this._sort(value)}
               text="Sort By Newest"
             />
           </MenuOptions>
@@ -103,8 +105,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   user: state.user,
   auth: state.auth,
+  chat: state.chat,
 })
 
-const mapDispatchToProps = { userDetail, chatView }
+const mapDispatchToProps = { userDetail, chatView, sortChat }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderChats)

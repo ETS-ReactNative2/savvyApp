@@ -7,7 +7,12 @@ import { Row } from '../styles/ComponentStyle'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import { userDetail } from '../redux/actions/user.action'
-import { chatView, senderId } from '../redux/actions/chat.action'
+import {
+  chatView,
+  senderId,
+  pagingChatView,
+  sortChat,
+} from '../redux/actions/chat.action'
 import moment from 'moment'
 import avatar from '../assets/images/avatar.jpg'
 import io from '../helpers/socket'
@@ -20,6 +25,12 @@ export class ChatsScreen extends Component {
   getChatView = (sender) => {
     this.props.senderId(sender)
     this.props.navigation.navigate('chat-room')
+  }
+  _next = async () => {
+    const { currentPage, totalPage } = this.props.chat.pageInfoChatView
+    if (currentPage < totalPage) {
+      await this.props.pagingChatView(this.props.auth.token, currentPage + 1)
+    }
   }
   render() {
     // if (navigator.onLine) {
@@ -59,6 +70,8 @@ export class ChatsScreen extends Component {
                 </TouchableOpacity>
               )
             }}
+            onEndReached={this._next}
+            onEndReachedThreshold={0.5}
           />
         ) : (
           <Text>You don't have chat history</Text>
@@ -109,6 +122,8 @@ const mapDispatchToProps = {
   userDetail,
   chatView,
   senderId,
+  pagingChatView,
+  sortChat,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatsScreen)

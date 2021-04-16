@@ -112,26 +112,36 @@ export class ProfileScreen extends Component {
           type: response.type,
           name: response.fileName,
         }
-        await this.props.updateUser(this.props.auth.token, {
-          picture: image,
-        })
-        if (this.props.user.message !== '') {
-          showMessage({
-            message: this.props.user.message,
-            type: 'success',
-          })
-          this.setState({ visible: false })
-        } else {
-          showMessage({
-            message: this.props.user.errorMsg,
-            type: 'warning',
-          })
-          this.setState({
-            filePath: response,
-            fileData: response.data,
-            fileUri: response.uri,
+        if (response.fileSize >= 1 * 1024 * 1024) {
+          await this.setState({
             visible: false,
           })
+          await showMessage({
+            message: 'Image to large, max size is 1MB',
+            type: 'warning',
+          })
+        } else {
+          await this.props.updateUser(this.props.auth.token, {
+            picture: image,
+          })
+          if (this.props.user.errorMsg === '') {
+            await this.setState({
+              visible: false,
+            })
+            await this.props.userDetail(this.props.auth.token)
+            await showMessage({
+              message: this.props.user.updateMsg,
+              type: 'success',
+            })
+          } else {
+            await this.setState({
+              visible: false,
+            })
+            await showMessage({
+              message: this.props.user.errorMsg,
+              type: 'warning',
+            })
+          }
         }
       } catch (err) {
         console.log(err)
@@ -146,51 +156,54 @@ export class ProfileScreen extends Component {
         path: 'images',
       },
     }
-    ImagePicker.launchCamera(options, async (response) => {
-      console.log('Response = ', response)
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker')
-        this.setState({ visible: false })
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
-        this.setState({ visible: false })
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
-        this.setState({ visible: false })
-      } else {
+    ImagePicker.launchCamera(
+      {
+        quality: 0.3,
+      },
+      async (response) => {
+        console.log('Response = ', response)
         try {
           const image = {
             uri: response.uri,
             type: response.type,
             name: response.fileName,
           }
-          await this.props.updateUser(this.props.auth.token, {
-            picture: image,
-          })
-          if (this.props.user.errorMsg !== '') {
-            showMessage({
-              message: this.props.user.errorMsg,
-              type: 'warning',
-            })
-            this.setState({ visible: false })
-          } else {
-            showMessage({
-              message: this.props.user.message,
-              type: 'success',
-            })
-            this.setState({
-              filePath: response,
-              fileData: response.data,
-              fileUri: response.uri,
+          if (response.fileSize >= 1 * 1024 * 1024) {
+            await this.setState({
               visible: false,
             })
+            await showMessage({
+              message: 'Image to large, max size is 1MB',
+              type: 'warning',
+            })
+          } else {
+            await this.props.updateUser(this.props.auth.token, {
+              picture: image,
+            })
+            if (this.props.user.errorMsg === '') {
+              await this.setState({
+                visible: false,
+              })
+              await this.props.userDetail(this.props.auth.token)
+              await showMessage({
+                message: this.props.user.updateMsg,
+                type: 'success',
+              })
+            } else {
+              await this.setState({
+                visible: false,
+              })
+              await showMessage({
+                message: this.props.user.errorMsg,
+                type: 'warning',
+              })
+            }
           }
         } catch (err) {
           console.log(err)
         }
-      }
-    })
+      },
+    )
   }
 
   renderFileData() {

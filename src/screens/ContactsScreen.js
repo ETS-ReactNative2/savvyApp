@@ -25,15 +25,11 @@ export class ContactsScreen extends Component {
     await this.props.senderId(sender)
     this.props.navigation.navigate('chat-room')
   }
-  _next = async () => {
+  _next = () => {
     const { currentPage, totalPage, nextLink } = this.props.user.pageInfoContact
     if (currentPage < totalPage) {
       const { search } = this.state
-      await this.props.pagingContact(
-        this.props.auth.token,
-        search,
-        currentPage + 1,
-      )
+      this.props.pagingContact(this.props.auth.token, nextLink)
     }
   }
   render() {
